@@ -1,0 +1,3 @@
+rootProject.name='FTAuth'
+include ':app'
+include ':ftauth'
