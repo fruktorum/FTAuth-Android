@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="email_hint">Email</string>
+    <string name="email_error">Invalid email format</string>
+    <string name="password_hint">Password</string>
+    <string name="password_error">Password must be at least 8 characters long</string>
 </resources>

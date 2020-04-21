@@ -1,6 +1,8 @@
 package com.fruktorum.ftauth
 
 import android.content.Context
+import com.fruktorum.ftauth.custom.FTEmailInputField
+import com.fruktorum.ftauth.custom.FTPasswordInputField
 
 class FTAuth {
 
@@ -18,8 +20,7 @@ class FTAuth {
             )
         }
 
-
-        class Builder(
+        public class Builder(
             private var context: Context
         ) {
             private var serverUrl: String? = null
@@ -38,6 +39,11 @@ class FTAuth {
                 return this
             }
         }
+
+    }
+
+
+    fun login(emailField: FTEmailInputField, passwordField: FTPasswordInputField) {
 
     }
 }
