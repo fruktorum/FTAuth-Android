@@ -10,7 +10,7 @@ import com.fruktorum.ftauth.data.base.SuccessResponseModel
 import io.reactivex.Observable
 import retrofit2.http.*
 
-interface AuthGlobalDataProvider {
+internal interface AuthGlobalDataProvider {
 
     @POST("/email/register")
     fun register(@Body registerUserDataModel: RegisterUserDataModel): Observable<RegisterUserResponseModel>

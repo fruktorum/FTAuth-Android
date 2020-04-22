@@ -10,7 +10,7 @@ import com.fruktorum.ftauth.network.AuthLocalDataProvider
 import com.fruktorum.ftauth.network.provider.AuthGlobalDataProvider
 import io.reactivex.Observable
 
-class AuthRepository(
+internal class AuthRepository(
     private val authGlobalDataProvider: AuthGlobalDataProvider,
     private val localDataProvider: AuthLocalDataProvider
 ) {

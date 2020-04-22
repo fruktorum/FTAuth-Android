@@ -5,7 +5,7 @@ import com.fruktorum.ftauth.data.auth.dataModel.LoginUserDataModel
 import com.fruktorum.ftauth.network.repository.AuthRepository
 import io.reactivex.Observable
 
-class LoginUserUseCase
+internal class LoginUserUseCase
 constructor(private val repository: AuthRepository) {
 
     fun createObservable(email: String, password: String): Observable<Boolean> {

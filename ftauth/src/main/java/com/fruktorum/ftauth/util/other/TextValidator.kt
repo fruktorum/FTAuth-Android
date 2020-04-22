@@ -5,7 +5,7 @@ import android.text.TextWatcher
 import android.widget.TextView
 
 
-abstract class TextValidator(private val textView: TextView) : TextWatcher {
+internal abstract class TextValidator(private val textView: TextView) : TextWatcher {
 
     abstract fun validate(textView: TextView, text: String)
 

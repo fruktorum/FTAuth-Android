@@ -5,18 +5,18 @@ import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
-fun <T : Any> Observable<T>.async(): Observable<T> {
+internal fun <T : Any> Observable<T>.async(): Observable<T> {
     return this.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
 }
 
-fun <T : Any> Single<T>.async(): Single<T> {
+internal fun <T : Any> Single<T>.async(): Single<T> {
     return this.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
 }
 
-fun <T> T.just(): Observable<T> {
+internal fun <T> T.just(): Observable<T> {
     return Observable.just(this)
 }
 
-fun <T> Observable<T>.item(): T {
+internal fun <T> Observable<T>.item(): T {
     return this.blockingFirst()
 }

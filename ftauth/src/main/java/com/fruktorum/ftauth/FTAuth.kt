@@ -13,9 +13,9 @@ import io.reactivex.disposables.CompositeDisposable
 
 class FTAuth {
 
+    private var authRepository: AuthRepository? = null
 
     var onLoginSuccess: (() -> Unit?)? = null
-    var authRepository: AuthRepository? = null
     var serverUrl: String? = null
 
     var disposables = CompositeDisposable()
@@ -32,7 +32,7 @@ class FTAuth {
             )
         }
 
-        public class Builder(
+        class Builder(
             private var context: Context
         ) {
 

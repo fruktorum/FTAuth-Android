@@ -8,19 +8,19 @@ import androidx.core.content.ContextCompat
 import com.fruktorum.ftauth.R
 
 
-fun String.isEmailValid(): Boolean = Patterns.EMAIL_ADDRESS.matcher(this).matches()
+internal fun String.isEmailValid(): Boolean = Patterns.EMAIL_ADDRESS.matcher(this).matches()
 
 
-fun TextView.setInputError(textViewError: TextView, errorMsg: String, context: Context) {
+internal fun TextView.setInputError(textViewError: TextView, errorMsg: String, context: Context) {
     this.setTextColor(ContextCompat.getColor(context, R.color.colorError))
     textViewError.text = errorMsg
 }
 
-fun TextView.setInputSuccess(textViewError: TextView, context: Context) {
+internal fun TextView.setInputSuccess(textViewError: TextView, context: Context) {
     this.setTextColor(ContextCompat.getColor(context, R.color.colorSuccess))
     textViewError.text = ""
 }
 
-fun TextView.isFieldEmpty(): Boolean = this.text.toString().isEmpty()
-fun EditText.isFieldEmpty(): Boolean = this.text.toString().isEmpty()
+internal fun TextView.isFieldEmpty(): Boolean = this.text.toString().isEmpty()
+internal fun EditText.isFieldEmpty(): Boolean = this.text.toString().isEmpty()
 

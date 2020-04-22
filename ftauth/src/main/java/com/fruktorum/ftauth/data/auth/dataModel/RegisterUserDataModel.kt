@@ -3,7 +3,7 @@ package com.fruktorum.ftauth.data.auth.dataModel
 
 import com.google.gson.annotations.SerializedName
 
-data class RegisterUserDataModel(
+internal data class RegisterUserDataModel(
     @SerializedName("email")
     val email: String,
     @SerializedName("password")

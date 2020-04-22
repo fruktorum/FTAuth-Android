@@ -3,7 +3,7 @@ package com.fruktorum.ftauth.data.auth.responseModel
 
 import com.google.gson.annotations.SerializedName
 
-data class RegisterUserResponseModel(
+internal data class RegisterUserResponseModel(
     @SerializedName("provider_token")
     val providerToken: String,
     @SerializedName("session_token")

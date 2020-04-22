@@ -1,8 +1,8 @@
-package com.fruktorum.cbdmobile.data.auth.responseModel
+package com.fruktorum.ftauth.data.auth.responseModel
 
 import com.google.gson.annotations.SerializedName
 
-class AuthErrorResponseModel(
+internal class AuthErrorResponseModel(
     @SerializedName("success") val success: Boolean,
     @SerializedName("errors") val errors: List<Errors>
 ) {

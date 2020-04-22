@@ -6,7 +6,7 @@ import com.fruktorum.ftauth.util.extensions.get
 import com.fruktorum.ftauth.util.extensions.set
 import io.reactivex.Observable
 
-class AuthLocalDataProvider
+internal class AuthLocalDataProvider
 constructor(private val prefs: SharedPreferences) {
 
     fun saveToken(token: String): Observable<Boolean> {

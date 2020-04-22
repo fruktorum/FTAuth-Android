@@ -1,9 +1,9 @@
-package com.fruktorum.cbdmobile.data.base
+package com.fruktorum.ftauth.data.base
 
 
 import com.google.gson.annotations.SerializedName
 
-data class ErrorResponseModel(
+internal data class ErrorResponseModel(
     @SerializedName("errors")
     val errors: List<Errors>,
     @SerializedName("success")

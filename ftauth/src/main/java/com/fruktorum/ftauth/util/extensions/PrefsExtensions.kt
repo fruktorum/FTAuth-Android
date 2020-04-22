@@ -2,14 +2,14 @@ package com.fruktorum.ftauth.util.extensions
 
 import android.content.SharedPreferences
 
-inline fun SharedPreferences.edit(operation: (SharedPreferences.Editor) -> Unit) {
+internal inline fun SharedPreferences.edit(operation: (SharedPreferences.Editor) -> Unit) {
     val editor = this.edit()
     operation(editor)
     editor.apply()
 }
 
 
-operator fun SharedPreferences.set(key: String, value: Any?) {
+internal operator fun SharedPreferences.set(key: String, value: Any?) {
     when (value) {
         is String? -> edit { it.putString(key, value) }
         is Int -> edit { it.putInt(key, value) }
@@ -21,7 +21,7 @@ operator fun SharedPreferences.set(key: String, value: Any?) {
 }
 
 
-inline operator fun <reified T : Any> SharedPreferences.get(
+internal inline operator fun <reified T : Any> SharedPreferences.get(
     key: String,
     defaultValue: T? = null
 ): T? {
