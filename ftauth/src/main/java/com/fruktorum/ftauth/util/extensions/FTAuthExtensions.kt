@@ -1,4 +1,4 @@
-package com.fruktorum.ftauth.util
+package com.fruktorum.ftauth.util.extensions
 
 import android.content.Context
 import android.util.Patterns

@@ -6,9 +6,9 @@ import android.view.View
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.fruktorum.ftauth.R
-import com.fruktorum.ftauth.util.TextValidator
-import com.fruktorum.ftauth.util.setInputError
-import com.fruktorum.ftauth.util.setInputSuccess
+import com.fruktorum.ftauth.util.extensions.setInputError
+import com.fruktorum.ftauth.util.extensions.setInputSuccess
+import com.fruktorum.ftauth.util.other.TextValidator
 import kotlinx.android.synthetic.main.layout_password_input_field.view.*
 
 class FTPasswordInputField @JvmOverloads constructor(
@@ -23,6 +23,11 @@ class FTPasswordInputField @JvmOverloads constructor(
     }
 
     var isPasswordValid = false
+
+    val value: String
+        get() {
+            return edt_input_password.text.toString()
+        }
 
     private fun init(attrs: AttributeSet?) {
         View.inflate(context, R.layout.layout_password_input_field, this)

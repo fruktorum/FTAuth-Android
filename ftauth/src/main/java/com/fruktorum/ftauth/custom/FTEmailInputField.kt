@@ -6,10 +6,10 @@ import android.view.View
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.fruktorum.ftauth.R
-import com.fruktorum.ftauth.util.TextValidator
-import com.fruktorum.ftauth.util.isEmailValid
-import com.fruktorum.ftauth.util.setInputError
-import com.fruktorum.ftauth.util.setInputSuccess
+import com.fruktorum.ftauth.util.extensions.isEmailValid
+import com.fruktorum.ftauth.util.extensions.setInputError
+import com.fruktorum.ftauth.util.extensions.setInputSuccess
+import com.fruktorum.ftauth.util.other.TextValidator
 import kotlinx.android.synthetic.main.layout_email_input_field.view.*
 
 class FTEmailInputField @JvmOverloads constructor(
@@ -24,6 +24,11 @@ class FTEmailInputField @JvmOverloads constructor(
     }
 
     var isEmailValid = false
+
+    val value: String
+        get() {
+            return edt_input_email.text.toString()
+        }
 
     private fun init(attrs: AttributeSet?) {
         View.inflate(context, R.layout.layout_email_input_field, this)

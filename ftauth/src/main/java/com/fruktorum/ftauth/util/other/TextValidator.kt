@@ -1,4 +1,4 @@
-package com.fruktorum.ftauth.util
+package com.fruktorum.ftauth.util.other
 
 import android.text.Editable
 import android.text.TextWatcher
