@@ -1,8 +1,8 @@
 package com.fruktorum.ftauth
 
 import android.content.Context
-import com.fruktorum.ftauth.custom.FTEmailInputField
-import com.fruktorum.ftauth.custom.FTPasswordInputField
+import com.fruktorum.ftauth.customUI.auth.FTEmailInputField
+import com.fruktorum.ftauth.customUI.auth.FTPasswordInputField
 import com.fruktorum.ftauth.network.AuthLocalDataProvider
 import com.fruktorum.ftauth.network.RetrofitHelper
 import com.fruktorum.ftauth.network.repository.AuthRepository
@@ -16,6 +16,15 @@ class FTAuth {
     private var authRepository: AuthRepository? = null
 
     var onLoginSuccess: (() -> Unit?)? = null
+    var onLoginFailure: ((Throwable) -> Unit?)? = null
+
+    var onRegistrationSuccess: (() -> Unit?)? = null
+
+    //Custom UI fields
+    var authEmailInputField: FTEmailInputField? = null
+    var authPasswordInputField: FTPasswordInputField? = null
+
+
     var serverUrl: String? = null
 
     var disposables = CompositeDisposable()
@@ -68,20 +77,31 @@ class FTAuth {
 
     }
 
+    @Throws(IllegalStateException::class)
+    fun login() {
+        if (authEmailInputField == null || authPasswordInputField == null)
+            throw IllegalStateException(
+                "FTAuth email input field and password input field can't be null"
+            )
 
-    fun login(emailField: FTEmailInputField, passwordField: FTPasswordInputField) {
-        if (!emailField.isEmailValid || !passwordField.isPasswordValid) return
         val uc = LoginUserUseCase(instance!!.authRepository!!)
         disposables.add(
-            uc.createObservable(emailField.value, passwordField.value)
+            uc.createObservable(authEmailInputField!!.value, authPasswordInputField!!.value)
                 .flatMap {
                     authRepository!!.getToken()
                 }
                 .async()
                 .subscribe({
                     onLoginSuccess?.invoke()
-                }, {})
+                }, {
+                    onLoginFailure?.invoke(it)
+                })
         )
+
+    }
+
+    @Throws(IllegalStateException::class)
+    fun register() {
 
     }
 

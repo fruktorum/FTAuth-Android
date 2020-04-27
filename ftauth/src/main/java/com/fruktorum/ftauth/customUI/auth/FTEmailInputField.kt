@@ -1,10 +1,12 @@
-package com.fruktorum.ftauth.custom
+package com.fruktorum.ftauth.customUI.auth
 
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
+import android.widget.EditText
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import com.fruktorum.ftauth.FTAuth
 import com.fruktorum.ftauth.R
 import com.fruktorum.ftauth.util.extensions.isEmailValid
 import com.fruktorum.ftauth.util.extensions.setInputError
@@ -30,12 +32,14 @@ class FTEmailInputField @JvmOverloads constructor(
             return edt_input_email.text.toString()
         }
 
+    lateinit var description: TextView
+    lateinit var inputField: EditText
+
     private fun init(attrs: AttributeSet?) {
         View.inflate(context, R.layout.layout_email_input_field, this)
-        val ta = context.obtainStyledAttributes(attrs, R.styleable.FTEmailInputField)
-        val emailHint = ta.getString(R.styleable.FTEmailInputField_android_hint)
-        if (emailHint != null) edt_input_email.hint = emailHint
-        edt_input_email.addTextChangedListener(object : TextValidator(edt_input_email) {
+        description = text_error_email_login
+        inputField = edt_input_email
+        inputField.addTextChangedListener(object : TextValidator(inputField) {
             override fun validate(
                 textView: TextView,
                 text: String
@@ -43,8 +47,7 @@ class FTEmailInputField @JvmOverloads constructor(
                 isEmailValid = validateEmail(textView, text)
             }
         })
-
-        ta.recycle()
+        FTAuth.getInstance().authEmailInputField = this
     }
 
     fun validateEmail(emailField: TextView, email: String): Boolean {

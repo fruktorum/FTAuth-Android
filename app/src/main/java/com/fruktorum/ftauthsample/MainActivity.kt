@@ -14,8 +14,11 @@ class MainActivity : AppCompatActivity() {
         FTAuth.getInstance().onLoginSuccess = {
             Toast.makeText(this, "Login successful", Toast.LENGTH_LONG).show()
         }
+        FTAuth.getInstance().onLoginFailure = {
+            Toast.makeText(this, it.localizedMessage!!, Toast.LENGTH_LONG).show()
+        }
         btn_login.setOnClickListener {
-            FTAuth.getInstance().login(email_input_field, password_input_field)
+            FTAuth.getInstance().login()
         }
 
     }
