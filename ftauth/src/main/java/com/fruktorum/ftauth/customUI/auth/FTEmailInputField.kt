@@ -35,11 +35,12 @@ class FTEmailInputField @JvmOverloads constructor(
     lateinit var description: TextView
     lateinit var inputField: EditText
 
+
     private fun init(attrs: AttributeSet?) {
         View.inflate(context, R.layout.layout_email_input_field, this)
         description = text_error_email_login
         inputField = edt_input_email
-        inputField.addTextChangedListener(object : TextValidator(inputField) {
+        edt_input_email.addTextChangedListener(object : TextValidator(edt_input_email) {
             override fun validate(
                 textView: TextView,
                 text: String
@@ -47,7 +48,7 @@ class FTEmailInputField @JvmOverloads constructor(
                 isEmailValid = validateEmail(textView, text)
             }
         })
-        FTAuth.getInstance().authEmailInputField = this
+        FTAuth.authEmailInputField = this
     }
 
     fun validateEmail(emailField: TextView, email: String): Boolean {

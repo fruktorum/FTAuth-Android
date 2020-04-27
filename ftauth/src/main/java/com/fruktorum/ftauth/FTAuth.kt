@@ -21,8 +21,6 @@ class FTAuth {
     var onRegistrationSuccess: (() -> Unit?)? = null
 
     //Custom UI fields
-    var authEmailInputField: FTEmailInputField? = null
-    var authPasswordInputField: FTPasswordInputField? = null
 
 
     var serverUrl: String? = null
@@ -31,9 +29,11 @@ class FTAuth {
 
     companion object {
         private var instance: FTAuth? = null
+        var authEmailInputField: FTEmailInputField? = null
+        var authPasswordInputField: FTPasswordInputField? = null
+
 
         @Synchronized
-        @Throws(IllegalStateException::class)
         @JvmStatic
         fun getInstance(): FTAuth {
             return if (instance != null) instance!! else throw IllegalStateException(

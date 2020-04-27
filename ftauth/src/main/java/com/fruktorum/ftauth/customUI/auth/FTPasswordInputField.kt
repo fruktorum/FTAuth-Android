@@ -46,7 +46,7 @@ class FTPasswordInputField @JvmOverloads constructor(
                 isPasswordValid = validatePassword(textView, text)
             }
         })
-        FTAuth.getInstance().authPasswordInputField = this
+        FTAuth.authPasswordInputField = this
     }
 
     fun validatePassword(passwordField: TextView, password: String): Boolean {
