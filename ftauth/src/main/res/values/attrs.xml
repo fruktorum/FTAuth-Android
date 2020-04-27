@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <declare-styleable name="FTEmailInputField">
+    <declare-styleable name="FTAuthEmailInputField">
         <attr name="email_input_hint" format="string" />
         <attr name="android:hint" format="string" />
     </declare-styleable>
-    <declare-styleable name="FTPasswordInputField">
+    <declare-styleable name="FTAuthPasswordInputField">
         <attr name="password_input_hint" format="string" />
         <attr name="backgroundInputField" format="string" />
 

@@ -8,13 +8,12 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.fruktorum.ftauth.FTAuth
 import com.fruktorum.ftauth.R
-import com.fruktorum.ftauth.util.extensions.isEmailValid
 import com.fruktorum.ftauth.util.extensions.setInputError
 import com.fruktorum.ftauth.util.extensions.setInputSuccess
 import com.fruktorum.ftauth.util.other.TextValidator
-import kotlinx.android.synthetic.main.layout_email_input_field.view.*
+import kotlinx.android.synthetic.main.layout_password_input_field.view.*
 
-class FTEmailInputField @JvmOverloads constructor(
+class FTAuthPasswordInputField @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
@@ -25,42 +24,41 @@ class FTEmailInputField @JvmOverloads constructor(
         init(attrs)
     }
 
-    var isEmailValid = false
+    var isPasswordValid = false
 
     val value: String
         get() {
-            return edt_input_email.text.toString()
+            return edt_input_password.text.toString()
         }
 
     lateinit var description: TextView
     lateinit var inputField: EditText
 
-
     private fun init(attrs: AttributeSet?) {
-        View.inflate(context, R.layout.layout_email_input_field, this)
-        description = text_error_email_login
-        inputField = edt_input_email
-        edt_input_email.addTextChangedListener(object : TextValidator(edt_input_email) {
+        View.inflate(context, R.layout.layout_password_input_field, this)
+        description = text_error_password_login
+        inputField = edt_input_password
+        inputField.addTextChangedListener(object : TextValidator(inputField) {
             override fun validate(
                 textView: TextView,
                 text: String
             ) {
-                isEmailValid = validateEmail(textView, text)
+                isPasswordValid = validatePassword(textView, text)
             }
         })
-        FTAuth.authEmailInputField = this
+        FTAuth.authPasswordInputField = this
     }
 
-    fun validateEmail(emailField: TextView, email: String): Boolean {
-        return if (!email.isEmailValid() or email.isEmpty()) {
-            emailField.setInputError(
-                text_error_email_login,
-                context!!.getString(R.string.email_error),
+    fun validatePassword(passwordField: TextView, password: String): Boolean {
+        return if (password.length < 8) {
+            passwordField.setInputError(
+                text_error_password_login,
+                context!!.getString(R.string.password_error),
                 context!!
             )
             false
         } else {
-            emailField.setInputSuccess(text_error_email_login, context!!)
+            passwordField.setInputSuccess(text_error_password_login, context!!)
             true
         }
     }

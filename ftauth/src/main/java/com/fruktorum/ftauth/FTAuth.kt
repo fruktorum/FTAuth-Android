@@ -1,8 +1,11 @@
 package com.fruktorum.ftauth
 
 import android.content.Context
-import com.fruktorum.ftauth.customUI.auth.FTEmailInputField
-import com.fruktorum.ftauth.customUI.auth.FTPasswordInputField
+import com.fruktorum.ftauth.customUI.auth.FTAuthEmailInputField
+import com.fruktorum.ftauth.customUI.auth.FTAuthPasswordInputField
+import com.fruktorum.ftauth.customUI.registration.FTRegistrationConfirmPasswordInputField
+import com.fruktorum.ftauth.customUI.registration.FTRegistrationEmailInputField
+import com.fruktorum.ftauth.customUI.registration.FTRegistrationPasswordInputField
 import com.fruktorum.ftauth.network.AuthLocalDataProvider
 import com.fruktorum.ftauth.network.RetrofitHelper
 import com.fruktorum.ftauth.network.repository.AuthRepository
@@ -19,9 +22,7 @@ class FTAuth {
     var onLoginFailure: ((Throwable) -> Unit?)? = null
 
     var onRegistrationSuccess: (() -> Unit?)? = null
-
-    //Custom UI fields
-
+    var onRegistrationFailure: ((Throwable) -> Unit?)? = null
 
     var serverUrl: String? = null
 
@@ -29,8 +30,14 @@ class FTAuth {
 
     companion object {
         private var instance: FTAuth? = null
-        var authEmailInputField: FTEmailInputField? = null
-        var authPasswordInputField: FTPasswordInputField? = null
+
+        //Custom UI fields
+        var authEmailInputField: FTAuthEmailInputField? = null
+        var authPasswordInputField: FTAuthPasswordInputField? = null
+
+        var registerEmailInputField: FTRegistrationEmailInputField? = null
+        var registerPasswordInputField: FTRegistrationPasswordInputField? = null
+        var registerConfirmPasswordInputField: FTRegistrationConfirmPasswordInputField? = null
 
 
         @Synchronized
@@ -102,6 +109,10 @@ class FTAuth {
 
     @Throws(IllegalStateException::class)
     fun register() {
+        if (registerEmailInputField == null || registerPasswordInputField == null || registerConfirmPasswordInputField == null)
+            throw IllegalStateException(
+                "FTAuth register input fields can't be null"
+            )
 
     }
 
