@@ -8,6 +8,8 @@ class FTAuthSampleApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        FTAuth.Companion.Builder(this).setServerUrl("https://8af269c3.ngrok.io").build()
+        FTAuth.Companion.Builder(this).setServerUrl("https://0dd4b6e9.ngrok.io").build()
     }
+
+
 }

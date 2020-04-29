@@ -16,10 +16,9 @@ constructor(private val prefs: SharedPreferences) {
         }
     }
 
-    fun getToken(): Observable<String> {
-        return Observable.fromCallable {
-            prefs[PrefsConstants.SESSION_TOKEN, ""]
-        }
+    fun getToken(): String {
+        return prefs[PrefsConstants.SESSION_TOKEN, ""]!!
+
     }
 
     fun clearToken(): Observable<Boolean> {

@@ -39,9 +39,14 @@ internal class AuthRepository(
         return localDataProvider.saveToken(token)
     }
 
+
     fun getToken(): Observable<String> {
-        return localDataProvider.getToken()
+        return Observable.fromCallable {
+            localDataProvider.getToken()
+        }
     }
+
+    fun getAuthToken(): String = localDataProvider.getToken()
 
     fun clearToken(): Observable<Boolean>? {
         return localDataProvider.clearToken()

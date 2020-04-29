@@ -6,10 +6,13 @@ import com.fruktorum.ftauth.customUI.auth.FTAuthPasswordInputField
 import com.fruktorum.ftauth.customUI.registration.FTRegistrationConfirmPasswordInputField
 import com.fruktorum.ftauth.customUI.registration.FTRegistrationEmailInputField
 import com.fruktorum.ftauth.customUI.registration.FTRegistrationPasswordInputField
+import com.fruktorum.ftauth.data.auth.dataModel.RegisterUserDataModel
 import com.fruktorum.ftauth.network.AuthLocalDataProvider
 import com.fruktorum.ftauth.network.RetrofitHelper
 import com.fruktorum.ftauth.network.repository.AuthRepository
+import com.fruktorum.ftauth.network.usecase.LogOutUserUseCase
 import com.fruktorum.ftauth.network.usecase.LoginUserUseCase
+import com.fruktorum.ftauth.network.usecase.RegisterUserUseCase
 import com.fruktorum.ftauth.util.constants.PrefsConstants
 import com.fruktorum.ftauth.util.extensions.async
 import io.reactivex.disposables.CompositeDisposable
@@ -23,6 +26,9 @@ class FTAuth {
 
     var onRegistrationSuccess: (() -> Unit?)? = null
     var onRegistrationFailure: ((Throwable) -> Unit?)? = null
+
+    var onLogOutSuccess: (() -> Unit?)? = null
+    var onLogOutFailure: ((Throwable) -> Unit?)? = null
 
     var serverUrl: String? = null
 
@@ -107,6 +113,7 @@ class FTAuth {
 
     }
 
+
     @Throws(IllegalStateException::class)
     fun register() {
         if (registerEmailInputField == null || registerPasswordInputField == null || registerConfirmPasswordInputField == null)
@@ -114,7 +121,39 @@ class FTAuth {
                 "FTAuth register input fields can't be null"
             )
 
+        val uc = RegisterUserUseCase(instance!!.authRepository!!)
+        disposables.add(
+            uc.createObservable(
+                RegisterUserDataModel(
+                    registerEmailInputField!!.value,
+                    registerPasswordInputField!!.value,
+                    hashMapOf()
+                )
+            )
+                .async()
+                .subscribe({
+                    onRegistrationSuccess?.invoke()
+                }, {
+                    onRegistrationFailure?.invoke(it)
+                })
+        )
+
     }
+
+    fun logOut() {
+        val uc = LogOutUserUseCase(instance!!.authRepository!!)
+        disposables.add(
+            uc.createObservable()
+                .async()
+                .subscribe({
+                    onLogOutSuccess?.invoke()
+                }, {
+                    onLogOutFailure?.invoke(it)
+                })
+        )
+    }
+
+    fun getAuthToken() = instance!!.authRepository!!.getAuthToken()
 
     fun onStop() {
         if (!disposables.isDisposed) {
