@@ -5,7 +5,9 @@ import android.util.AttributeSet
 import android.view.View
 import android.widget.EditText
 import android.widget.TextView
+import androidx.annotation.StyleRes
 import androidx.constraintlayout.widget.ConstraintLayout
+import com.airbnb.paris.extensions.style
 import com.fruktorum.ftauth.FTAuth
 import com.fruktorum.ftauth.R
 import com.fruktorum.ftauth.util.extensions.isEmailValid
@@ -63,5 +65,13 @@ class FTRegistrationEmailInputField @JvmOverloads constructor(
             emailField.setInputSuccess(text_error_email_login, context!!)
             true
         }
+    }
+
+    fun setInputFieldStyle(@StyleRes res: Int) {
+        inputField.style(res)
+    }
+
+    fun setDescriptionStyle(@StyleRes res: Int) {
+        description.style(res)
     }
 }

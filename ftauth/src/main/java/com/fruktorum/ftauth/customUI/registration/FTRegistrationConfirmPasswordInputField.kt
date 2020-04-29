@@ -5,7 +5,9 @@ import android.util.AttributeSet
 import android.view.View
 import android.widget.EditText
 import android.widget.TextView
+import androidx.annotation.StyleRes
 import androidx.constraintlayout.widget.ConstraintLayout
+import com.airbnb.paris.extensions.style
 import com.fruktorum.ftauth.FTAuth
 import com.fruktorum.ftauth.R
 import com.fruktorum.ftauth.util.extensions.setInputError
@@ -72,5 +74,13 @@ class FTRegistrationConfirmPasswordInputField @JvmOverloads constructor(
                 true
             }
         }
+    }
+
+    fun setInputFieldStyle(@StyleRes res: Int) {
+        inputField.style(res)
+    }
+
+    fun setDescriptionStyle(@StyleRes res: Int) {
+        description.style(res)
     }
 }
