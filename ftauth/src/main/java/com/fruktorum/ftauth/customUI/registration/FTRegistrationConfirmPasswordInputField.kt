@@ -37,7 +37,7 @@ class FTRegistrationConfirmPasswordInputField @JvmOverloads constructor(
     lateinit var inputField: EditText
 
     private fun init(attrs: AttributeSet?) {
-        View.inflate(context, R.layout.layout_password_input_field, this)
+        View.inflate(context, R.layout.layout_confirm_password_input_field, this)
         description = text_error_password
         inputField = edt_input_password
         inputField.addTextChangedListener(object : TextValidator(inputField) {

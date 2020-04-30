@@ -13,9 +13,9 @@ import com.fruktorum.ftauth.R
 import com.fruktorum.ftauth.util.extensions.setInputError
 import com.fruktorum.ftauth.util.extensions.setInputSuccess
 import com.fruktorum.ftauth.util.other.TextValidator
-import kotlinx.android.synthetic.main.layout_confirm_password_input_field.view.*
+import kotlinx.android.synthetic.main.layout_first_name_input_field.view.*
 
-class FTRegistrationPasswordInputField @JvmOverloads constructor(
+class FTRegistrationFirstNameInputField @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
@@ -26,41 +26,46 @@ class FTRegistrationPasswordInputField @JvmOverloads constructor(
         init(attrs)
     }
 
-    var isPasswordValid = false
+    var isFirstNameValid = false
 
     val value: String
         get() {
-            return edt_input_password.text.toString()
+            return edt_input_first_name.text.toString()
         }
 
     lateinit var description: TextView
     lateinit var inputField: EditText
 
+
+    init {
+        FTAuth.registerFirstNameInputField = this
+    }
+
     private fun init(attrs: AttributeSet?) {
-        View.inflate(context, R.layout.layout_password_input_field, this)
-        description = text_error_password
-        inputField = edt_input_password
-        inputField.addTextChangedListener(object : TextValidator(inputField) {
+        View.inflate(context, R.layout.layout_first_name_input_field, this)
+        description = text_error_first_name
+        inputField = edt_input_first_name
+        inputField.addTextChangedListener(object : TextValidator(edt_input_first_name) {
             override fun validate(
                 textView: TextView,
                 text: String
             ) {
-                isPasswordValid = validatePassword(textView, text)
+                isFirstNameValid = validateName(textView, text)
             }
         })
-        FTAuth.registerPasswordInputField = this
+
     }
 
-    fun validatePassword(passwordField: TextView, password: String): Boolean {
-        return if (password.length < 8) {
-            passwordField.setInputError(
-                text_error_password,
-                context!!.getString(R.string.password_error),
+    private fun validateName(nameField: TextView, name: String): Boolean {
+        return if (name.isEmpty()) {
+            nameField.setInputError(
+                text_error_first_name,
+                context!!.getString(R.string.first_name_error),
                 context!!
             )
             false
         } else {
-            passwordField.setInputSuccess(text_error_password, context!!)
+            nameField.setInputSuccess(text_error_first_name, context!!)
             true
         }
     }

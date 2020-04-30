@@ -6,4 +6,9 @@
     <string name="password_error">Password must be at least 8 characters long</string>
     <string name="confirm_password_error">Confirm password must be at least 8 characters long</string>
     <string name="passwords_must_be_same_error">Password and confirmed password must be the same</string>
+    <string name="first_name_hint">First name</string>
+    <string name="first_name_error">First name can\'t be empty</string>
+    <string name="confirm_password_hint">Confirm password</string>
+    <string name="last_name_hint">Last name</string>
+    <string name="last_name_error">Last name can\'t be empt</string>
 </resources>

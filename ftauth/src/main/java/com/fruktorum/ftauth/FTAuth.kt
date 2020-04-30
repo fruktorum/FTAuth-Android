@@ -3,9 +3,7 @@ package com.fruktorum.ftauth
 import android.content.Context
 import com.fruktorum.ftauth.customUI.auth.FTAuthEmailInputField
 import com.fruktorum.ftauth.customUI.auth.FTAuthPasswordInputField
-import com.fruktorum.ftauth.customUI.registration.FTRegistrationConfirmPasswordInputField
-import com.fruktorum.ftauth.customUI.registration.FTRegistrationEmailInputField
-import com.fruktorum.ftauth.customUI.registration.FTRegistrationPasswordInputField
+import com.fruktorum.ftauth.customUI.registration.*
 import com.fruktorum.ftauth.data.auth.dataModel.RegisterUserDataModel
 import com.fruktorum.ftauth.network.AuthLocalDataProvider
 import com.fruktorum.ftauth.network.RetrofitHelper
@@ -30,6 +28,7 @@ class FTAuth {
     var onLogOutSuccess: (() -> Unit?)? = null
     var onLogOutFailure: ((Throwable) -> Unit?)? = null
 
+
     var serverUrl: String? = null
 
     var disposables = CompositeDisposable()
@@ -44,6 +43,8 @@ class FTAuth {
         var registerEmailInputField: FTRegistrationEmailInputField? = null
         var registerPasswordInputField: FTRegistrationPasswordInputField? = null
         var registerConfirmPasswordInputField: FTRegistrationConfirmPasswordInputField? = null
+        var registerFirstNameInputField: FTRegistrationFirstNameInputField? = null
+        var registerLastNameInputField: FTRegistrationLastNameInputField? = null
 
 
         @Synchronized
@@ -116,7 +117,9 @@ class FTAuth {
 
     @Throws(IllegalStateException::class)
     fun registration() {
-        if (registerEmailInputField == null || registerPasswordInputField == null || registerConfirmPasswordInputField == null)
+        if (registerEmailInputField == null || registerPasswordInputField == null || registerConfirmPasswordInputField == null
+            || registerLastNameInputField == null || registerFirstNameInputField == null
+        )
             throw IllegalStateException(
                 "FTAuth register input fields can't be null"
             )
@@ -127,7 +130,10 @@ class FTAuth {
                 RegisterUserDataModel(
                     registerEmailInputField!!.value,
                     registerPasswordInputField!!.value,
-                    hashMapOf()
+                    hashMapOf(
+                        Pair("first_name", registerFirstNameInputField!!.value),
+                        Pair("last_name", registerLastNameInputField!!.value)
+                    )
                 )
             )
                 .async()
