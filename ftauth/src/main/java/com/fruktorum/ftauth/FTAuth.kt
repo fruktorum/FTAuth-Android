@@ -115,7 +115,7 @@ class FTAuth {
 
 
     @Throws(IllegalStateException::class)
-    fun register() {
+    fun registration() {
         if (registerEmailInputField == null || registerPasswordInputField == null || registerConfirmPasswordInputField == null)
             throw IllegalStateException(
                 "FTAuth register input fields can't be null"
