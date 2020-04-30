@@ -40,7 +40,7 @@ class FTRegistrationEmailInputField @JvmOverloads constructor(
 
     private fun init(attrs: AttributeSet?) {
         View.inflate(context, R.layout.layout_email_input_field, this)
-        description = text_error_email_login
+        description = text_error_email
         inputField = edt_input_email
         edt_input_email.addTextChangedListener(object : TextValidator(edt_input_email) {
             override fun validate(
@@ -56,13 +56,13 @@ class FTRegistrationEmailInputField @JvmOverloads constructor(
     fun validateEmail(emailField: TextView, email: String): Boolean {
         return if (!email.isEmailValid() or email.isEmpty()) {
             emailField.setInputError(
-                text_error_email_login,
+                text_error_email,
                 context!!.getString(R.string.email_error),
                 context!!
             )
             false
         } else {
-            emailField.setInputSuccess(text_error_email_login, context!!)
+            emailField.setInputSuccess(text_error_email, context!!)
             true
         }
     }

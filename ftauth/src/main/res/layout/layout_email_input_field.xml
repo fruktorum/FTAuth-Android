@@ -18,8 +18,8 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/text_error_email_login"
-        style="@style/ErrorMessages"
+        android:id="@+id/text_error_email"
+        style="@style/ErrorMessage"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="@+id/edt_input_email"

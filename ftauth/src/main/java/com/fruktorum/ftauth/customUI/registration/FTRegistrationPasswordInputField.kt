@@ -38,7 +38,7 @@ class FTRegistrationPasswordInputField @JvmOverloads constructor(
 
     private fun init(attrs: AttributeSet?) {
         View.inflate(context, R.layout.layout_password_input_field, this)
-        description = text_error_password_login
+        description = text_error_password
         inputField = edt_input_password
         inputField.addTextChangedListener(object : TextValidator(inputField) {
             override fun validate(
@@ -54,13 +54,13 @@ class FTRegistrationPasswordInputField @JvmOverloads constructor(
     fun validatePassword(passwordField: TextView, password: String): Boolean {
         return if (password.length < 8) {
             passwordField.setInputError(
-                text_error_password_login,
+                text_error_password,
                 context!!.getString(R.string.password_error),
                 context!!
             )
             false
         } else {
-            passwordField.setInputSuccess(text_error_password_login, context!!)
+            passwordField.setInputSuccess(text_error_password, context!!)
             true
         }
     }
