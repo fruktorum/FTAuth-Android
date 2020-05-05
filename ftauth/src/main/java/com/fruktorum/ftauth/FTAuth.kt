@@ -4,6 +4,7 @@ import android.content.Context
 import com.fruktorum.ftauth.customUI.auth.FTAuthEmailInputField
 import com.fruktorum.ftauth.customUI.auth.FTAuthPasswordInputField
 import com.fruktorum.ftauth.customUI.registration.*
+import com.fruktorum.ftauth.data.auth.TypeElement
 import com.fruktorum.ftauth.data.auth.dataModel.RegisterUserDataModel
 import com.fruktorum.ftauth.network.AuthLocalDataProvider
 import com.fruktorum.ftauth.network.RetrofitHelper
@@ -28,6 +29,7 @@ class FTAuth {
     var onLogOutSuccess: (() -> Unit?)? = null
     var onLogOutFailure: ((Throwable) -> Unit?)? = null
 
+    var requiredElements = listOf<TypeElement>()
 
     var serverUrl: String? = null
 
@@ -91,6 +93,28 @@ class FTAuth {
 
     }
 
+    private fun checkValidAllElements(): Boolean {
+        var isValid = true
+        getInstance().requiredElements.forEach {
+            when (it) {
+                TypeElement.NONE -> return@forEach
+                TypeElement.FIRST_NAME -> isValid =
+                    if (isValid) registerFirstNameInputField?.isFirstNameValid ?: false else isValid
+                TypeElement.LAST_NAME -> isValid =
+                    if (isValid) registerLastNameInputField?.isLastNameValid ?: false else isValid
+                TypeElement.PASSWORD -> isValid =
+                    if (isValid) registerPasswordInputField?.isPasswordValid ?: false else isValid
+                TypeElement.CONFIRM_PASSWORD -> isValid =
+                    if (isValid) registerConfirmPasswordInputField?.isPasswordValid
+                        ?: false else isValid
+                TypeElement.EMAIL -> isValid =
+                    if (isValid) registerEmailInputField?.isEmailValid
+                        ?: false else isValid
+            }
+        }
+        return isValid
+    }
+
     @Throws(IllegalStateException::class)
     fun login() {
         if (authEmailInputField == null || authPasswordInputField == null)
@@ -117,32 +141,27 @@ class FTAuth {
 
     @Throws(IllegalStateException::class)
     fun registration() {
-        if (registerEmailInputField == null || registerPasswordInputField == null || registerConfirmPasswordInputField == null
-            || registerLastNameInputField == null || registerFirstNameInputField == null
-        )
-            throw IllegalStateException(
-                "FTAuth register input fields can't be null"
-            )
-
-        val uc = RegisterUserUseCase(instance!!.authRepository!!)
-        disposables.add(
-            uc.createObservable(
-                RegisterUserDataModel(
-                    registerEmailInputField!!.value,
-                    registerPasswordInputField!!.value,
-                    hashMapOf(
-                        Pair("first_name", registerFirstNameInputField!!.value),
-                        Pair("last_name", registerLastNameInputField!!.value)
+        if (checkValidAllElements()) {
+            val uc = RegisterUserUseCase(instance!!.authRepository!!)
+            disposables.add(
+                uc.createObservable(
+                    RegisterUserDataModel(
+                        registerEmailInputField!!.value,
+                        registerPasswordInputField!!.value,
+                        hashMapOf(
+                            Pair("first_name", registerFirstNameInputField!!.value),
+                            Pair("last_name", registerLastNameInputField!!.value)
+                        )
                     )
                 )
+                    .async()
+                    .subscribe({
+                        onRegistrationSuccess?.invoke()
+                    }, {
+                        onRegistrationFailure?.invoke(it)
+                    })
             )
-                .async()
-                .subscribe({
-                    onRegistrationSuccess?.invoke()
-                }, {
-                    onRegistrationFailure?.invoke(it)
-                })
-        )
+        }
 
     }
 

@@ -9,5 +9,5 @@ internal data class RegisterUserDataModel(
     @SerializedName("password")
     val password: String,
     @SerializedName("payload")
-    val payload: HashMap<String, Any>
+    val payload: HashMap<String, Any?>
 )
