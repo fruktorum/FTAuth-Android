@@ -1,25 +1,46 @@
 package com.fruktorum.ftauthsample.ui.main
 
-import android.content.Intent
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import com.fruktorum.ftauth.FTAuth
 import com.fruktorum.ftauthsample.R
-import com.fruktorum.ftauthsample.ui.login.LoginActivity
-import kotlinx.android.synthetic.main.activity_main.*
+import com.fruktorum.ftauthsample.ui.Screens
+import com.fruktorum.ftauthsample.ui.base.BaseActivity
+import ru.terrakok.cicerone.NavigatorHolder
+import ru.terrakok.cicerone.Router
+import ru.terrakok.cicerone.android.support.SupportAppNavigator
+import javax.inject.Inject
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        FTAuth.getInstance().onLogOutSuccess = {
-            startActivity(Intent(this, LoginActivity::class.java))
+    private val navigator = SupportAppNavigator(this, R.id.container)
+
+    @Inject
+    lateinit var navigatorHolder: NavigatorHolder
+
+    @Inject
+    lateinit var router: Router
+
+    override val layoutRes: Int
+        get() = R.layout.activity_main
+
+
+    override fun renderView(savedInstanceState: Bundle?) {
+        if (savedInstanceState == null) {
+            if (FTAuth.getInstance().getAuthToken() != "") {
+                router.newRootScreen(Screens.LogOutScreen)
+            } else router.newRootScreen(Screens.LoginScreen)
         }
-        btn_log_out.setOnClickListener {
-            FTAuth.getInstance().logOut()
-        }
+    }
 
+
+    override fun onResumeFragments() {
+        super.onResumeFragments()
+        navigatorHolder.setNavigator(navigator)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        navigatorHolder.removeNavigator()
     }
 
     override fun onDestroy() {
