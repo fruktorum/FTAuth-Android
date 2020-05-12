@@ -15,6 +15,7 @@ import com.fruktorum.ftauth.network.usecase.RegisterUserUseCase
 import com.fruktorum.ftauth.util.constants.PrefsConstants
 import com.fruktorum.ftauth.util.extensions.async
 import io.reactivex.disposables.CompositeDisposable
+import java.util.*
 
 class FTAuth {
 
@@ -30,6 +31,8 @@ class FTAuth {
     var onLogOutFailure: ((Throwable) -> Unit?)? = null
 
     var requiredElements = listOf<TypeElement>()
+
+    var additionalRegistrationPayload: HashMap<String, Any>? = null
 
     var serverUrl: String? = null
 
@@ -139,19 +142,23 @@ class FTAuth {
     }
 
 
-    @Throws(IllegalStateException::class)
     fun registration() {
         if (checkValidAllElements()) {
             val uc = RegisterUserUseCase(instance!!.authRepository!!)
+            val payload = hashMapOf<String, Any?>()
+            payload["first_name"] = registerFirstNameInputField?.value
+            payload["last_name"] = registerLastNameInputField?.value
+            if (additionalRegistrationPayload != null) {
+                additionalRegistrationPayload!!.forEach {
+                    payload[it.key] = it.value
+                }
+            }
             disposables.add(
                 uc.createObservable(
                     RegisterUserDataModel(
                         registerEmailInputField!!.value,
                         registerPasswordInputField!!.value,
-                        hashMapOf(
-                            Pair("first_name", registerFirstNameInputField!!.value),
-                            Pair("last_name", registerLastNameInputField!!.value)
-                        )
+                        payload
                     )
                 )
                     .async()
