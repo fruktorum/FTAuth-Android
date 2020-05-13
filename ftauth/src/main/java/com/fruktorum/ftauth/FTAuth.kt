@@ -122,13 +122,7 @@ class FTAuth {
         return isValid
     }
 
-    @Throws(IllegalStateException::class)
     fun login() {
-        if (authEmailInputField == null || authPasswordInputField == null)
-            throw IllegalStateException(
-                "FTAuth email input field and password input field can't be null"
-            )
-
         val uc = LoginUserUseCase(instance!!.authRepository!!)
         disposables.add(
             uc.createObservable(authEmailInputField!!.value, authPasswordInputField!!.value)
