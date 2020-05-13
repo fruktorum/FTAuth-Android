@@ -56,7 +56,7 @@ class FTRegistrationConfirmPasswordInputField @JvmOverloads constructor(
             password != FTAuth.registerPasswordInputField!!.value -> {
                 passwordField.setInputError(
                     text_error_password,
-                    context!!.getString(R.string.passwords_must_be_same_error),
+                    context!!.getString(R.string.ft_auth_passwords_must_be_same_error),
                     context!!
                 )
                 false
@@ -64,7 +64,7 @@ class FTRegistrationConfirmPasswordInputField @JvmOverloads constructor(
             password.length < 8 -> {
                 passwordField.setInputError(
                     text_error_password,
-                    context!!.getString(R.string.confirm_password_error),
+                    context!!.getString(R.string.ft_auth_confirm_password_error),
                     context!!
                 )
                 false

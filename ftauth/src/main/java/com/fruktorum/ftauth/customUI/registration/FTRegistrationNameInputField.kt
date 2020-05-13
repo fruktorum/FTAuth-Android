@@ -60,7 +60,7 @@ class FTRegistrationNameInputField @JvmOverloads constructor(
         return if (lastName.isEmpty()) {
             nameField.setInputError(
                 text_error_name,
-                context!!.getString(R.string.name_error),
+                context!!.getString(R.string.ft_auth_name_error),
                 context!!
             )
             false

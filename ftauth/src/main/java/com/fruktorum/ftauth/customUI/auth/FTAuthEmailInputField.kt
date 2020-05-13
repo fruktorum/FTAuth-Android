@@ -57,7 +57,7 @@ class FTAuthEmailInputField @JvmOverloads constructor(
         return if (!email.isEmailValid() or email.isEmpty()) {
             emailField.setInputError(
                 text_error_email,
-                context!!.getString(R.string.email_error),
+                context!!.getString(R.string.ft_auth_email_error),
                 context!!
             )
             false

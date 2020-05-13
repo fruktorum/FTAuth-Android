@@ -55,7 +55,7 @@ class FTAuthPasswordInputField @JvmOverloads constructor(
         return if (password.length < 8) {
             passwordField.setInputError(
                 text_error_password,
-                context!!.getString(R.string.password_error),
+                context!!.getString(R.string.ft_auth_password_error),
                 context!!
             )
             false
