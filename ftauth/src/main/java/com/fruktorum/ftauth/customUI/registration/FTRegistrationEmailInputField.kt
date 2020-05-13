@@ -47,7 +47,7 @@ class FTRegistrationEmailInputField @JvmOverloads constructor(
                 textView: TextView,
                 text: String
             ) {
-                isEmailValid = validateEmail(textView, text)
+                isEmailValid = validateEmail(textView, text.trim())
             }
         })
         FTAuth.registerEmailInputField = this
