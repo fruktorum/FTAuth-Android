@@ -10,5 +10,8 @@
     <string name="first_name_error">First name can\'t be empty</string>
     <string name="confirm_password_hint">Confirm password</string>
     <string name="last_name_hint">Last name</string>
-    <string name="last_name_error">Last name can\'t be empt</string>
+    <string name="last_name_error">Last name can\'t be empty</string>
+    <string name="name_error">Name can\'t be empty</string>
+    <string name="name_hint">Name</string>
+
 </resources>

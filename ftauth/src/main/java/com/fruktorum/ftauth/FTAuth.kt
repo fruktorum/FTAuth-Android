@@ -50,6 +50,7 @@ class FTAuth {
         var registerConfirmPasswordInputField: FTRegistrationConfirmPasswordInputField? = null
         var registerFirstNameInputField: FTRegistrationFirstNameInputField? = null
         var registerLastNameInputField: FTRegistrationLastNameInputField? = null
+        var registerNameInputField: FTRegistrationNameInputField? = null
 
 
         @Synchronized
@@ -113,6 +114,9 @@ class FTAuth {
                 TypeElement.EMAIL -> isValid =
                     if (isValid) registerEmailInputField?.isEmailValid
                         ?: false else isValid
+                TypeElement.NAME -> isValid =
+                    if (isValid) registerNameInputField?.isNameValid
+                        ?: false else isValid
             }
         }
         return isValid
@@ -148,6 +152,7 @@ class FTAuth {
             val payload = hashMapOf<String, Any?>()
             payload["first_name"] = registerFirstNameInputField?.value
             payload["last_name"] = registerLastNameInputField?.value
+            payload["name"] = registerNameInputField?.value
             if (additionalRegistrationPayload != null) {
                 additionalRegistrationPayload!!.forEach {
                     payload[it.key] = it.value
