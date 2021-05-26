@@ -12,6 +12,5 @@ constructor(private val repository: AuthRepository) {
             .flatMap {
                 repository.saveToken(it.sessionToken)
             }
-
     }
 }

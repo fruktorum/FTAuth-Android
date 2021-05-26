@@ -1,5 +1,6 @@
 package com.fruktorum.ftauth
 
+import android.annotation.SuppressLint
 import android.content.Context
 import com.fruktorum.ftauth.customUI.auth.FTAuthEmailInputField
 import com.fruktorum.ftauth.customUI.auth.FTAuthPasswordInputField
@@ -38,6 +39,7 @@ class FTAuth {
 
     var disposables = CompositeDisposable()
 
+    @SuppressLint("StaticFieldLeak")
     companion object {
         private var instance: FTAuth? = null
 
@@ -51,6 +53,7 @@ class FTAuth {
         var registerFirstNameInputField: FTRegistrationFirstNameInputField? = null
         var registerLastNameInputField: FTRegistrationLastNameInputField? = null
         var registerNameInputField: FTRegistrationNameInputField? = null
+        var checkBoxAcceptanceOfTerms: FTCheckBoxAcceptanceOfTerms? = null
 
 
         @Synchronized
@@ -117,6 +120,9 @@ class FTAuth {
                 TypeElement.NAME -> isValid =
                     if (isValid) registerNameInputField?.isNameValid
                         ?: false else isValid
+                TypeElement.ACCEPT -> isValid =
+                    if (isValid) checkBoxAcceptanceOfTerms?.isChecked
+                        ?: false else isValid
             }
         }
         return isValid
@@ -146,7 +152,7 @@ class FTAuth {
             val payload = hashMapOf<String, Any?>()
             payload["first_name"] = registerFirstNameInputField?.value
             payload["last_name"] = registerLastNameInputField?.value
-            payload["name"] = registerNameInputField?.value
+            payload["username"] = registerNameInputField?.value
             if (additionalRegistrationPayload != null) {
                 additionalRegistrationPayload!!.forEach {
                     payload[it.key] = it.value

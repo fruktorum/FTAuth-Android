@@ -26,8 +26,10 @@ class RegistrationFragment : BaseFragment() {
                 TypeElement.EMAIL,
                 TypeElement.PASSWORD,
                 TypeElement.CONFIRM_PASSWORD,
+                TypeElement.NAME,
+                TypeElement.LAST_NAME,
                 TypeElement.FIRST_NAME,
-                TypeElement.LAST_NAME
+                TypeElement.ACCEPT
             )
 
         FTAuth.getInstance().onRegistrationSuccess = {
