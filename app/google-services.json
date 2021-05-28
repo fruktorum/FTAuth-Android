@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "448209329935",
+    "project_id": "ftauth-af0bd",
+    "storage_bucket": "ftauth-af0bd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:448209329935:android:e5de71fcb8e9ac1673e87a",
+        "android_client_info": {
+          "package_name": "com.fruktorum.ftauthsample"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "448209329935-cmgjdh9eq8b0363c92mu52j0r80mqm3t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBtuhxVaPznVkRd2C3ve7Hmnui4IUx57FU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "448209329935-cmgjdh9eq8b0363c92mu52j0r80mqm3t.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "448209329935-5fbpmupdihcb9q5gblm1a0aisa0qf5ld.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.fruktorum.framework.FTAuth"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
