@@ -2,14 +2,17 @@ package com.fruktorum.ftauth
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import com.fruktorum.ftauth.customUI.auth.FTAuthEmailInputField
 import com.fruktorum.ftauth.customUI.auth.FTAuthPasswordInputField
 import com.fruktorum.ftauth.customUI.registration.*
+import com.fruktorum.ftauth.customUI.webView.WebViewActivity
 import com.fruktorum.ftauth.data.auth.TypeElement
 import com.fruktorum.ftauth.data.auth.dataModel.RegisterUserDataModel
 import com.fruktorum.ftauth.network.AuthLocalDataProvider
 import com.fruktorum.ftauth.network.RetrofitHelper
 import com.fruktorum.ftauth.network.repository.AuthRepository
+import com.fruktorum.ftauth.network.usecase.GetGoogleSignInUrlUseCase
 import com.fruktorum.ftauth.network.usecase.LogOutUserUseCase
 import com.fruktorum.ftauth.network.usecase.LoginUserUseCase
 import com.fruktorum.ftauth.network.usecase.RegisterUserUseCase
@@ -177,6 +180,21 @@ class FTAuth {
 
     }
 
+    fun loginByGoogle(context: Context) {
+        val uc = GetGoogleSignInUrlUseCase(instance!!.authRepository!!)
+        disposables.add(
+            uc.createObservable()
+                .async()
+                .subscribe({
+                    context.startActivity(Intent(context, WebViewActivity::class.java).apply {
+                        putExtra(WebViewActivity.WEB_VIEW_URL, it.url)
+                    })
+                }, {
+                    onLoginFailure?.invoke(it)
+                })
+        )
+    }
+
     fun logOut() {
         val uc = LogOutUserUseCase(instance!!.authRepository!!)
         disposables.add(
@@ -192,9 +210,11 @@ class FTAuth {
 
     fun getAuthToken() = instance!!.authRepository!!.getAuthToken()
 
+
     fun onStop() {
         if (!disposables.isDisposed) {
             disposables.clear()
         }
     }
+
 }

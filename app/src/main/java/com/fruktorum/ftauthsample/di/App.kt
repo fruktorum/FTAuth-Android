@@ -15,7 +15,7 @@ class App : DaggerApplication() {
     override fun onCreate() {
         appComponent = DaggerAppComponent.builder().application(this).build()
         super.onCreate()
-        FTAuth.Companion.Builder(this).setServerUrl("https://0dd4b6e9.ngrok.io").build()
+        FTAuth.Companion.Builder(this).setServerUrl("https://41078fd26b05.ngrok.io").build()
 
     }
 }
