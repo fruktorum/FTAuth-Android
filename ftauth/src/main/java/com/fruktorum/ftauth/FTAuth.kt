@@ -12,10 +12,7 @@ import com.fruktorum.ftauth.data.auth.dataModel.RegisterUserDataModel
 import com.fruktorum.ftauth.network.AuthLocalDataProvider
 import com.fruktorum.ftauth.network.RetrofitHelper
 import com.fruktorum.ftauth.network.repository.AuthRepository
-import com.fruktorum.ftauth.network.usecase.GetGoogleSignInUrlUseCase
-import com.fruktorum.ftauth.network.usecase.LogOutUserUseCase
-import com.fruktorum.ftauth.network.usecase.LoginUserUseCase
-import com.fruktorum.ftauth.network.usecase.RegisterUserUseCase
+import com.fruktorum.ftauth.network.usecase.*
 import com.fruktorum.ftauth.util.constants.PrefsConstants
 import com.fruktorum.ftauth.util.extensions.async
 import io.reactivex.disposables.CompositeDisposable
@@ -182,6 +179,21 @@ class FTAuth {
 
     fun loginByGoogle(context: Context) {
         val uc = GetGoogleSignInUrlUseCase(instance!!.authRepository!!)
+        disposables.add(
+            uc.createObservable()
+                .async()
+                .subscribe({
+                    context.startActivity(Intent(context, WebViewActivity::class.java).apply {
+                        putExtra(WebViewActivity.WEB_VIEW_URL, it.url)
+                    })
+                }, {
+                    onLoginFailure?.invoke(it)
+                })
+        )
+    }
+
+    fun loginByFacebook(context: Context) {
+        val uc = GetFacebookSignInUrlUseCase(instance!!.authRepository!!)
         disposables.add(
             uc.createObservable()
                 .async()
