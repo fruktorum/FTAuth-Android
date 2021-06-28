@@ -10,6 +10,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import com.airbnb.paris.extensions.style
 import com.fruktorum.ftauth.FTAuth
 import com.fruktorum.ftauth.R
+import com.fruktorum.ftauth.customUI.common.FTAuthUI
 import com.fruktorum.ftauth.util.extensions.setInputError
 import com.fruktorum.ftauth.util.extensions.setInputSuccess
 import com.fruktorum.ftauth.util.other.TextValidator
@@ -20,7 +21,7 @@ class FTRegistrationFirstNameInputField @JvmOverloads constructor(
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
 ) :
-    ConstraintLayout(context, attrs, defStyleAttr) {
+    ConstraintLayout(context, attrs, defStyleAttr), FTAuthUI {
 
     init {
         init(attrs)
@@ -56,7 +57,11 @@ class FTRegistrationFirstNameInputField @JvmOverloads constructor(
 
     }
 
-    private fun validateName(nameField: TextView, name: String): Boolean {
+    override fun validate() {
+        validateName(edt_input_first_name, edt_input_first_name.text.toString())
+    }
+
+    fun validateName(nameField: TextView, name: String): Boolean {
         return if (name.isEmpty()) {
             nameField.setInputError(
                 text_error_first_name,

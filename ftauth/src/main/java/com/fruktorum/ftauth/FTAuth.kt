@@ -100,26 +100,48 @@ class FTAuth {
 
     }
 
+
     private fun checkValidAllElements(): Boolean {
         var isValid = true
         getInstance().requiredElements.forEach {
             when (it) {
                 TypeElement.NONE -> return@forEach
-                TypeElement.FIRST_NAME -> isValid =
-                    if (isValid) registerFirstNameInputField?.isFirstNameValid ?: false else isValid
-                TypeElement.LAST_NAME -> isValid =
-                    if (isValid) registerLastNameInputField?.isLastNameValid ?: false else isValid
-                TypeElement.PASSWORD -> isValid =
-                    if (isValid) registerPasswordInputField?.isPasswordValid ?: false else isValid
-                TypeElement.CONFIRM_PASSWORD -> isValid =
-                    if (isValid) registerConfirmPasswordInputField?.isPasswordValid
-                        ?: false else isValid
-                TypeElement.EMAIL -> isValid =
-                    if (isValid) registerEmailInputField?.isEmailValid
-                        ?: false else isValid
-                TypeElement.NAME -> isValid =
-                    if (isValid) registerNameInputField?.isNameValid
-                        ?: false else isValid
+                TypeElement.FIRST_NAME -> {
+                    registerFirstNameInputField?.validate()
+                    isValid =
+                        if (isValid) registerFirstNameInputField?.isFirstNameValid
+                            ?: false else isValid
+                }
+                TypeElement.LAST_NAME -> {
+                    registerLastNameInputField?.validate()
+                    isValid =
+                        if (isValid) registerLastNameInputField?.isLastNameValid
+                            ?: false else isValid
+                }
+                TypeElement.PASSWORD -> {
+                    registerPasswordInputField?.validate()
+                    isValid =
+                        if (isValid) registerPasswordInputField?.isPasswordValid
+                            ?: false else isValid
+                }
+                TypeElement.CONFIRM_PASSWORD -> {
+                    registerConfirmPasswordInputField?.validate()
+                    isValid =
+                        if (isValid) registerConfirmPasswordInputField?.isPasswordValid
+                            ?: false else isValid
+                }
+                TypeElement.EMAIL -> {
+                    registerEmailInputField?.validate()
+                    isValid =
+                        if (isValid) registerEmailInputField?.isEmailValid
+                            ?: false else isValid
+                }
+                TypeElement.NAME -> {
+                    registerNameInputField?.validate()
+                    isValid =
+                        if (isValid) registerNameInputField?.isNameValid
+                            ?: false else isValid
+                }
                 TypeElement.ACCEPT -> isValid =
                     if (isValid) checkBoxAcceptanceOfTerms?.isChecked
                         ?: false else isValid
@@ -129,6 +151,9 @@ class FTAuth {
     }
 
     fun login() {
+        authEmailInputField?.validate()
+        authPasswordInputField?.validate()
+        if (authEmailInputField?.isEmailValid == false || authPasswordInputField?.isPasswordValid == false) return
         val uc = LoginUserUseCase(instance!!.authRepository!!)
         disposables.add(
             uc.createObservable(authEmailInputField!!.value, authPasswordInputField!!.value)

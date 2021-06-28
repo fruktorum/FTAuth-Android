@@ -10,6 +10,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import com.airbnb.paris.extensions.style
 import com.fruktorum.ftauth.FTAuth
 import com.fruktorum.ftauth.R
+import com.fruktorum.ftauth.customUI.common.FTAuthUI
 import com.fruktorum.ftauth.util.extensions.isEmailValid
 import com.fruktorum.ftauth.util.extensions.setInputError
 import com.fruktorum.ftauth.util.extensions.setInputSuccess
@@ -21,7 +22,7 @@ class FTRegistrationEmailInputField @JvmOverloads constructor(
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
 ) :
-    ConstraintLayout(context, attrs, defStyleAttr) {
+    ConstraintLayout(context, attrs, defStyleAttr), FTAuthUI {
 
     init {
         init(attrs)
@@ -65,6 +66,10 @@ class FTRegistrationEmailInputField @JvmOverloads constructor(
             emailField.setInputSuccess(text_error_email, context!!)
             true
         }
+    }
+
+    override fun validate() {
+        validateEmail(edt_input_email, edt_input_email.text.toString())
     }
 
     fun setInputFieldStyle(@StyleRes res: Int) {
