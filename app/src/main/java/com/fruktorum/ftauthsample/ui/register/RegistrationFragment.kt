@@ -8,6 +8,8 @@ import com.fruktorum.ftauth.data.auth.TypeElement
 import com.fruktorum.ftauthsample.R
 import com.fruktorum.ftauthsample.ui.Screens
 import com.fruktorum.ftauthsample.ui.base.BaseFragment
+import com.fruktorum.ftauthsample.util.extensions.hideKeyboard
+import kotlinx.android.synthetic.main.fragment_login.*
 import ru.terrakok.cicerone.Router
 import javax.inject.Inject
 
@@ -39,6 +41,10 @@ class RegistrationFragment : BaseFragment() {
         }
         FTAuth.getInstance().onRegistrationFailure = {
             Toast.makeText(requireContext(), it.localizedMessage!!, Toast.LENGTH_LONG).show()
+        }
+
+        root_view.setOnClickListener {
+            hideKeyboard()
         }
 
     }

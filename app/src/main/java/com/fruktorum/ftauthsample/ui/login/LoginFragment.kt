@@ -7,6 +7,7 @@ import com.fruktorum.ftauth.FTAuth
 import com.fruktorum.ftauthsample.R
 import com.fruktorum.ftauthsample.ui.Screens
 import com.fruktorum.ftauthsample.ui.base.BaseFragment
+import com.fruktorum.ftauthsample.util.extensions.hideKeyboard
 import kotlinx.android.synthetic.main.fragment_login.*
 import ru.terrakok.cicerone.Router
 import javax.inject.Inject
@@ -32,6 +33,10 @@ class LoginFragment : BaseFragment() {
         btn_register.setOnClickListener {
             router.navigateTo(Screens.RegistrationScreen)
 
+        }
+
+        root_view.setOnClickListener {
+            hideKeyboard()
         }
     }
 
