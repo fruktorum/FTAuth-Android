@@ -16,6 +16,5 @@ class App : DaggerApplication() {
         appComponent = DaggerAppComponent.builder().application(this).build()
         super.onCreate()
         FTAuth.Companion.Builder(this).setServerUrl("https://41078fd26b05.ngrok.io").build()
-
     }
 }

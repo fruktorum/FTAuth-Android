@@ -3,6 +3,7 @@ package com.fruktorum.ftauth
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import androidx.annotation.ColorRes
 import com.fruktorum.ftauth.customUI.auth.FTAuthEmailInputField
 import com.fruktorum.ftauth.customUI.auth.FTAuthPasswordInputField
 import com.fruktorum.ftauth.customUI.registration.*
@@ -40,11 +41,15 @@ class FTAuth {
 
     var disposables = CompositeDisposable()
 
+
     private val errorHandler = ErrorHandler()
 
     @SuppressLint("StaticFieldLeak")
     companion object {
         private var instance: FTAuth? = null
+
+        @ColorRes
+        var errorMessageColor: Int = R.color.colorError
 
         //Custom UI fields
         var authEmailInputField: FTAuthEmailInputField? = null
@@ -57,7 +62,6 @@ class FTAuth {
         var registerLastNameInputField: FTRegistrationLastNameInputField? = null
         var registerNameInputField: FTRegistrationNameInputField? = null
         var checkBoxAcceptanceOfTerms: FTCheckBoxAcceptanceOfTerms? = null
-
 
         @Synchronized
         @JvmStatic
@@ -255,7 +259,6 @@ class FTAuth {
     }
 
     fun getAuthToken() = instance!!.authRepository!!.getAuthToken()
-
 
     fun onStop() {
         if (!disposables.isDisposed) {
