@@ -7,6 +7,7 @@ import com.fruktorum.ftauth.customUI.auth.FTAuthEmailInputField
 import com.fruktorum.ftauth.customUI.auth.FTAuthPasswordInputField
 import com.fruktorum.ftauth.customUI.registration.*
 import com.fruktorum.ftauth.customUI.webView.WebViewActivity
+import com.fruktorum.ftauth.data.ErrorHandler
 import com.fruktorum.ftauth.data.auth.TypeElement
 import com.fruktorum.ftauth.data.auth.dataModel.RegisterUserDataModel
 import com.fruktorum.ftauth.network.AuthLocalDataProvider
@@ -38,6 +39,8 @@ class FTAuth {
     var serverUrl: String? = null
 
     var disposables = CompositeDisposable()
+
+    private val errorHandler = ErrorHandler()
 
     @SuppressLint("StaticFieldLeak")
     companion object {
@@ -164,10 +167,15 @@ class FTAuth {
                 .subscribe({
                     onLoginSuccess?.invoke()
                 }, {
+                    handleError(it)
                     onLoginFailure?.invoke(it)
                 })
         )
 
+    }
+
+    private fun handleError(throwable: Throwable) {
+        errorHandler.handle(throwable)
     }
 
 
@@ -195,6 +203,7 @@ class FTAuth {
                     .subscribe({
                         onRegistrationSuccess?.invoke()
                     }, {
+                        errorHandler.handle(it)
                         onRegistrationFailure?.invoke(it)
                     })
             )

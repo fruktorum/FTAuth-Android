@@ -79,4 +79,14 @@ class FTRegistrationEmailInputField @JvmOverloads constructor(
     fun setDescriptionStyle(@StyleRes res: Int) {
         description.style(res)
     }
+
+    fun setErrorMessage(message: String) {
+        inputField.setInputError(
+            text_error_email,
+            message,
+            context!!
+        )
+    }
+
+
 }
