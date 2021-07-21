@@ -61,6 +61,7 @@ class FTAuth {
         var registerFirstNameInputField: FTRegistrationFirstNameInputField? = null
         var registerLastNameInputField: FTRegistrationLastNameInputField? = null
         var registerNameInputField: FTRegistrationNameInputField? = null
+        var registerPhoneNumberInputField: FTRegistrationPhoneNumberInputField? = null
         var checkBoxAcceptanceOfTerms: FTCheckBoxAcceptanceOfTerms? = null
 
         @Synchronized
@@ -147,6 +148,12 @@ class FTAuth {
                     registerNameInputField?.validate()
                     isValid =
                         if (isValid) registerNameInputField?.isNameValid
+                            ?: false else isValid
+                }
+                TypeElement.PHONE -> {
+                    registerPhoneNumberInputField?.validate()
+                    isValid =
+                        if (isValid) registerPhoneNumberInputField?.isPhoneValid
                             ?: false else isValid
                 }
                 TypeElement.ACCEPT -> isValid =

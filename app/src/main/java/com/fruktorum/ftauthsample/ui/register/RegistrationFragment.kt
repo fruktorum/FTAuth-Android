@@ -5,11 +5,13 @@ import android.view.View
 import android.widget.Toast
 import com.fruktorum.ftauth.FTAuth
 import com.fruktorum.ftauth.data.auth.TypeElement
+import com.fruktorum.ftauth.data.phoneNumber.PhoneMask
 import com.fruktorum.ftauthsample.R
 import com.fruktorum.ftauthsample.ui.Screens
 import com.fruktorum.ftauthsample.ui.base.BaseFragment
 import com.fruktorum.ftauthsample.util.extensions.hideKeyboard
-import kotlinx.android.synthetic.main.fragment_login.*
+import kotlinx.android.synthetic.main.fragment_login.root_view
+import kotlinx.android.synthetic.main.fragment_registration.*
 import ru.terrakok.cicerone.Router
 import javax.inject.Inject
 
@@ -31,8 +33,11 @@ class RegistrationFragment : BaseFragment() {
                 TypeElement.NAME,
                 TypeElement.LAST_NAME,
                 TypeElement.FIRST_NAME,
+                TypeElement.PHONE,
                 TypeElement.ACCEPT
             )
+
+        name_phone_field.phoneMask = PhoneMask.X_XXX_XXX_XXXX
 
         FTAuth.getInstance().onRegistrationSuccess = {
             Toast.makeText(requireContext(), "Registration successful", Toast.LENGTH_LONG).show()
