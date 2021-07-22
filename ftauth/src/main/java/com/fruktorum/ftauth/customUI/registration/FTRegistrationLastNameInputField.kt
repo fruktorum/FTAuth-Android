@@ -14,7 +14,6 @@ import com.fruktorum.ftauth.customUI.common.FTAuthUI
 import com.fruktorum.ftauth.util.extensions.setInputError
 import com.fruktorum.ftauth.util.extensions.setInputSuccess
 import com.fruktorum.ftauth.util.other.TextValidator
-import kotlinx.android.synthetic.main.layout_last_name_input_field.view.*
 
 class FTRegistrationLastNameInputField @JvmOverloads constructor(
     context: Context,
@@ -31,7 +30,7 @@ class FTRegistrationLastNameInputField @JvmOverloads constructor(
 
     val value: String
         get() {
-            return edt_input_last_name.text.toString()
+            return inputField.text.toString()
         }
 
     lateinit var description: TextView
@@ -44,9 +43,9 @@ class FTRegistrationLastNameInputField @JvmOverloads constructor(
 
     private fun init(attrs: AttributeSet?) {
         View.inflate(context, R.layout.layout_last_name_input_field, this)
-        description = text_error_last_name
-        inputField = edt_input_last_name
-        inputField.addTextChangedListener(object : TextValidator(edt_input_last_name) {
+        description = findViewById(R.id.text_error_last_name)
+        inputField = findViewById(R.id.edt_input_last_name)
+        inputField.addTextChangedListener(object : TextValidator(inputField) {
             override fun validate(
                 textView: TextView,
                 text: String
@@ -60,19 +59,19 @@ class FTRegistrationLastNameInputField @JvmOverloads constructor(
     private fun validateLastName(nameField: TextView, lastName: String): Boolean {
         return if (lastName.isEmpty()) {
             nameField.setInputError(
-                text_error_last_name,
+                description,
                 context!!.getString(R.string.ft_auth_last_name_error),
                 context!!
             )
             false
         } else {
-            nameField.setInputSuccess(text_error_last_name, context!!)
+            nameField.setInputSuccess(description, context!!)
             true
         }
     }
 
     override fun validate() {
-        validateLastName(edt_input_last_name, edt_input_last_name.text.toString())
+        validateLastName(inputField, inputField.text.toString())
     }
 
     fun setInputFieldStyle(@StyleRes res: Int) {

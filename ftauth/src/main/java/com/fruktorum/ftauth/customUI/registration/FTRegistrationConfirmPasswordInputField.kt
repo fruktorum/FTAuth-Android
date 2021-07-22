@@ -14,7 +14,6 @@ import com.fruktorum.ftauth.customUI.common.FTAuthUI
 import com.fruktorum.ftauth.util.extensions.setInputError
 import com.fruktorum.ftauth.util.extensions.setInputSuccess
 import com.fruktorum.ftauth.util.other.TextValidator
-import kotlinx.android.synthetic.main.layout_password_input_field.view.*
 
 class FTRegistrationConfirmPasswordInputField @JvmOverloads constructor(
     context: Context,
@@ -31,7 +30,7 @@ class FTRegistrationConfirmPasswordInputField @JvmOverloads constructor(
 
     val value: String
         get() {
-            return edt_input_password.text.toString()
+            return inputField.text.toString()
         }
 
     lateinit var description: TextView
@@ -39,8 +38,8 @@ class FTRegistrationConfirmPasswordInputField @JvmOverloads constructor(
 
     private fun init(attrs: AttributeSet?) {
         View.inflate(context, R.layout.layout_confirm_password_input_field, this)
-        description = text_error_password
-        inputField = edt_input_password
+        description = findViewById(R.id.text_error_password)
+        inputField = findViewById(R.id.edt_input_password)
         inputField.addTextChangedListener(object : TextValidator(inputField) {
             override fun validate(
                 textView: TextView,
@@ -56,7 +55,7 @@ class FTRegistrationConfirmPasswordInputField @JvmOverloads constructor(
         return when {
             password != FTAuth.registerPasswordInputField!!.value -> {
                 passwordField.setInputError(
-                    text_error_password,
+                    description,
                     context!!.getString(R.string.ft_auth_passwords_must_be_same_error),
                     context!!
                 )
@@ -64,21 +63,21 @@ class FTRegistrationConfirmPasswordInputField @JvmOverloads constructor(
             }
             password.length < 8 -> {
                 passwordField.setInputError(
-                    text_error_password,
+                    description,
                     context!!.getString(R.string.ft_auth_confirm_password_error),
                     context!!
                 )
                 false
             }
             else -> {
-                passwordField.setInputSuccess(text_error_password, context!!)
+                passwordField.setInputSuccess(description, context!!)
                 true
             }
         }
     }
 
     override fun validate() {
-        validatePassword(edt_input_password, edt_input_password.text.toString())
+        validatePassword(inputField, inputField.text.toString())
     }
 
     fun setInputFieldStyle(@StyleRes res: Int) {

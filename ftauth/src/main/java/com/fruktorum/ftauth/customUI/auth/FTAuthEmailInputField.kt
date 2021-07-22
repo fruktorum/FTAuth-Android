@@ -15,7 +15,6 @@ import com.fruktorum.ftauth.util.extensions.isEmailValid
 import com.fruktorum.ftauth.util.extensions.setInputError
 import com.fruktorum.ftauth.util.extensions.setInputSuccess
 import com.fruktorum.ftauth.util.other.TextValidator
-import kotlinx.android.synthetic.main.layout_email_input_field.view.*
 
 class FTAuthEmailInputField @JvmOverloads constructor(
     context: Context,
@@ -32,7 +31,7 @@ class FTAuthEmailInputField @JvmOverloads constructor(
 
     val value: String
         get() {
-            return edt_input_email.text.toString()
+            return inputField.text.toString()
         }
 
     lateinit var description: TextView
@@ -41,9 +40,9 @@ class FTAuthEmailInputField @JvmOverloads constructor(
 
     private fun init(attrs: AttributeSet?) {
         View.inflate(context, R.layout.layout_email_input_field, this)
-        description = text_error_email
-        inputField = edt_input_email
-        edt_input_email.addTextChangedListener(object : TextValidator(edt_input_email) {
+        description = findViewById(R.id.text_error_email)
+        inputField = findViewById(R.id.edt_input_email)
+        inputField.addTextChangedListener(object : TextValidator(inputField) {
             override fun validate(
                 textView: TextView,
                 text: String
@@ -57,19 +56,19 @@ class FTAuthEmailInputField @JvmOverloads constructor(
     fun validateEmail(emailField: TextView, email: String): Boolean {
         return if (!email.isEmailValid() or email.isEmpty()) {
             emailField.setInputError(
-                text_error_email,
+                description,
                 context!!.getString(R.string.ft_auth_email_error),
                 context!!
             )
             false
         } else {
-            emailField.setInputSuccess(text_error_email, context!!)
+            emailField.setInputSuccess(description, context!!)
             true
         }
     }
 
     override fun validate() {
-        validateEmail(edt_input_email, edt_input_email.text.toString())
+        validateEmail(inputField, inputField.text.toString())
     }
 
     fun setInputFieldStyle(@StyleRes res: Int) {

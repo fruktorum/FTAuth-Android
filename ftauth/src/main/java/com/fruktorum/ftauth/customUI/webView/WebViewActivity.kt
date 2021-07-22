@@ -16,12 +16,15 @@ import com.fruktorum.ftauth.R
 import com.fruktorum.ftauth.util.constants.PrefsConstants
 import com.fruktorum.ftauth.util.extensions.set
 import io.reactivex.disposables.CompositeDisposable
-import kotlinx.android.synthetic.main.activity_webview.*
 
 internal class WebViewActivity : AppCompatActivity(R.layout.activity_webview) {
 
     private val url: String by lazy {
         intent.extras?.getString(WEB_VIEW_URL) ?: ""
+    }
+
+    private val webView: WebView by lazy {
+        findViewById(R.id.web_view)
     }
 
     private val compositeDisposable = CompositeDisposable()
@@ -40,15 +43,15 @@ internal class WebViewActivity : AppCompatActivity(R.layout.activity_webview) {
 
     @SuppressLint("SetJavaScriptEnabled")
     private fun initWebView() {
-        if (url.contains("google")) web_view.settings.userAgentString =
+        if (url.contains("google")) webView.settings.userAgentString =
             System.getProperty("http.agent")
 
-        web_view.settings!!.javaScriptEnabled = true
+        webView.settings.javaScriptEnabled = true
 
-        web_view!!.clearCache(true)
+        webView.clearCache(true)
 
-        web_view.loadUrl(url)
-        web_view.webViewClient = object : WebViewClient() {
+        webView.loadUrl(url)
+        webView.webViewClient = object : WebViewClient() {
 
             override fun shouldOverrideUrlLoading(
                 view: WebView?,

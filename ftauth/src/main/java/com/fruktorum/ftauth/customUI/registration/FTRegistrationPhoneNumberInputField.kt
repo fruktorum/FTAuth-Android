@@ -15,7 +15,6 @@ import com.fruktorum.ftauth.util.extensions.setInputError
 import com.fruktorum.ftauth.util.extensions.setInputSuccess
 import com.fruktorum.ftauth.util.other.TextValidator
 import com.vicmikhailau.maskededittext.MaskedEditText
-import kotlinx.android.synthetic.main.layout_phone_number_input_field.view.*
 
 class FTRegistrationPhoneNumberInputField @JvmOverloads constructor(
     context: Context,
@@ -61,9 +60,9 @@ class FTRegistrationPhoneNumberInputField @JvmOverloads constructor(
 
     private fun init(attrs: AttributeSet?) {
         View.inflate(context, R.layout.layout_phone_number_input_field, this)
-        description = text_error_phone_number
-        inputField = edt_input_phone_number
-        inputField.addTextChangedListener(object : TextValidator(edt_input_phone_number) {
+        description = findViewById(R.id.text_error_phone_number)
+        inputField = findViewById(R.id.edt_input_phone_number)
+        inputField.addTextChangedListener(object : TextValidator(inputField) {
             override fun validate(
                 textView: TextView,
                 text: String
@@ -93,14 +92,14 @@ class FTRegistrationPhoneNumberInputField @JvmOverloads constructor(
     private fun checkPhoneNumberSize(phoneField: MaskedEditText, requiredSize: Int): Boolean {
         return if (phoneField.unMaskedText?.length ?: 0 < requiredSize) {
             phoneField.setInputError(
-                text_error_phone_number,
+                description,
                 context.getString(R.string.ft_auth_phone_number_error),
                 context
             )
             false
         } else {
             phoneField.setInputSuccess(
-                text_error_phone_number,
+                description,
                 context
             )
             true
