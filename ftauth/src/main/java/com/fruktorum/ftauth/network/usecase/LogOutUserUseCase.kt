@@ -9,7 +9,7 @@ constructor(
 ) {
 
     fun createObservable(): Observable<Boolean> {
-        return repository.getToken()
+        return repository.getSessionTokenAsync()
             .flatMap {
                 repository.logOut(it)
             }

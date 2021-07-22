@@ -174,7 +174,7 @@ class FTAuth {
         disposables.add(
             uc.createObservable(authEmailInputField!!.value, authPasswordInputField!!.value)
                 .flatMap {
-                    authRepository!!.getToken()
+                    authRepository!!.getSessionTokenAsync()
                 }
                 .async()
                 .subscribe({
@@ -267,7 +267,9 @@ class FTAuth {
         )
     }
 
-    fun getAuthToken() = instance!!.authRepository!!.getAuthToken()
+    fun getSessionToken() = instance!!.authRepository!!.getSessionToken()
+
+    fun getProviderToken() = instance!!.authRepository!!.getProviderToken()
 
     fun onStop() {
         if (!disposables.isDisposed) {

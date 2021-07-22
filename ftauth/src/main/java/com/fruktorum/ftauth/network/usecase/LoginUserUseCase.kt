@@ -11,7 +11,7 @@ constructor(private val repository: AuthRepository) {
     fun createObservable(email: String, password: String): Observable<Boolean> {
         return repository.login(LoginUserDataModel(email, password))
             .flatMap {
-                repository.saveToken(it.sessionToken)
+                repository.saveTokens(it.sessionToken, it.providerToken)
             }
     }
 }

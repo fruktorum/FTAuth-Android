@@ -9,21 +9,26 @@ import io.reactivex.Observable
 internal class AuthLocalDataProvider
 constructor(private val prefs: SharedPreferences) {
 
-    fun saveToken(token: String): Observable<Boolean> {
+    fun saveTokens(sessionToken: String, providerToken: String): Observable<Boolean> {
         return Observable.fromCallable {
-            prefs[PrefsConstants.SESSION_TOKEN] = token
+            prefs[PrefsConstants.SESSION_TOKEN] = sessionToken
+            prefs[PrefsConstants.PROVIDER_TOKEN] = providerToken
             true
         }
     }
 
-    fun getToken(): String {
+    fun getSessionToken(): String {
         return prefs[PrefsConstants.SESSION_TOKEN, ""]!!
-
     }
 
-    fun clearToken(): Observable<Boolean> {
+    fun getProviderToken(): String {
+        return prefs[PrefsConstants.PROVIDER_TOKEN, ""]!!
+    }
+
+    fun clearTokens(): Observable<Boolean> {
         return Observable.fromCallable {
             prefs[PrefsConstants.SESSION_TOKEN] = ""
+            prefs[PrefsConstants.PROVIDER_TOKEN] = ""
             true
         }
     }

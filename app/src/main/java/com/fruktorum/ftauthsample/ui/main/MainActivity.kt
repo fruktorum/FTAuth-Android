@@ -26,7 +26,7 @@ class MainActivity : BaseActivity() {
 
     override fun renderView(savedInstanceState: Bundle?) {
         if (savedInstanceState == null) {
-            if (FTAuth.getInstance().getAuthToken() != "") {
+            if (FTAuth.getInstance().getSessionToken() != "") {
                 router.newRootScreen(Screens.LogOutScreen)
             } else router.newRootScreen(Screens.LoginScreen)
         }

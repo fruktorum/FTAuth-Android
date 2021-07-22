@@ -10,7 +10,7 @@ constructor(private val repository: AuthRepository) {
     fun createObservable(dataModel: RegisterUserDataModel?): Observable<Boolean> {
         return repository.register(dataModel!!)
             .flatMap {
-                repository.saveToken(it.sessionToken)
+                repository.saveTokens(it.sessionToken, it.providerToken)
             }
     }
 }

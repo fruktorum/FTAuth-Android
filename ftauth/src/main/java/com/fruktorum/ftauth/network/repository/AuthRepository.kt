@@ -35,21 +35,23 @@ internal class AuthRepository(
         return authGlobalDataProvider.logOut(token)
     }
 
-    fun saveToken(token: String): Observable<Boolean> {
-        return localDataProvider.saveToken(token)
+    fun saveTokens(sessionToken: String, providerToken: String): Observable<Boolean> {
+        return localDataProvider.saveTokens(sessionToken, providerToken)
     }
 
 
-    fun getToken(): Observable<String> {
+    fun getSessionTokenAsync(): Observable<String> {
         return Observable.fromCallable {
-            localDataProvider.getToken()
+            localDataProvider.getSessionToken()
         }
     }
 
-    fun getAuthToken(): String = localDataProvider.getToken()
+    fun getSessionToken(): String = localDataProvider.getSessionToken()
+
+    fun getProviderToken(): String = localDataProvider.getProviderToken()
 
     fun clearToken(): Observable<Boolean>? {
-        return localDataProvider.clearToken()
+        return localDataProvider.clearTokens()
     }
 
 
