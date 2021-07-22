@@ -1,30 +1,47 @@
 package com.fruktorum.ftauthsample.ui.register
 
+import android.content.Context
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import com.fruktorum.ftauth.FTAuth
 import com.fruktorum.ftauth.data.auth.TypeElement
 import com.fruktorum.ftauth.data.phoneNumber.PhoneMask
 import com.fruktorum.ftauthsample.R
+import com.fruktorum.ftauthsample.databinding.FragmentRegistrationBinding
 import com.fruktorum.ftauthsample.ui.Screens
-import com.fruktorum.ftauthsample.ui.base.BaseFragment
 import com.fruktorum.ftauthsample.util.extensions.hideKeyboard
-import kotlinx.android.synthetic.main.fragment_login.root_view
-import kotlinx.android.synthetic.main.fragment_registration.*
+import dagger.android.support.AndroidSupportInjection
 import ru.terrakok.cicerone.Router
 import javax.inject.Inject
 
-class RegistrationFragment : BaseFragment() {
+class RegistrationFragment : Fragment(R.layout.fragment_registration) {
 
     @Inject
     lateinit var router: Router
 
-    override val layoutRes: Int
-        get() = R.layout.fragment_registration
+    private var _binding: FragmentRegistrationBinding? = null
+    private val binding get() = _binding!!
 
+    override fun onAttach(context: Context) {
+        AndroidSupportInjection.inject(this)
+        super.onAttach(context)
+    }
 
-    override fun renderView(view: View, savedInstanceState: Bundle?) {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentRegistrationBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         FTAuth.getInstance().requiredElements =
             listOf(
                 TypeElement.EMAIL,
@@ -37,7 +54,7 @@ class RegistrationFragment : BaseFragment() {
                 TypeElement.ACCEPT
             )
 
-        name_phone_field.phoneMask = PhoneMask.X_XXX_XXX_XXXX
+        binding.namePhoneField.phoneMask = PhoneMask.X_XXX_XXX_XXXX
 
         FTAuth.getInstance().onRegistrationSuccess = {
             Toast.makeText(requireContext(), "Registration successful", Toast.LENGTH_LONG).show()
@@ -48,10 +65,14 @@ class RegistrationFragment : BaseFragment() {
             Toast.makeText(requireContext(), it.localizedMessage!!, Toast.LENGTH_LONG).show()
         }
 
-        root_view.setOnClickListener {
+        binding.rootView.setOnClickListener {
             hideKeyboard()
         }
+    }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
 }

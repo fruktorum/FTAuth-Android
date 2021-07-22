@@ -1,26 +1,45 @@
 package com.fruktorum.ftauthsample.ui.login
 
+import android.content.Context
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import com.fruktorum.ftauth.FTAuth
 import com.fruktorum.ftauthsample.R
+import com.fruktorum.ftauthsample.databinding.FragmentLoginBinding
 import com.fruktorum.ftauthsample.ui.Screens
-import com.fruktorum.ftauthsample.ui.base.BaseFragment
 import com.fruktorum.ftauthsample.util.extensions.hideKeyboard
-import kotlinx.android.synthetic.main.fragment_login.*
+import dagger.android.support.AndroidSupportInjection
 import ru.terrakok.cicerone.Router
 import javax.inject.Inject
 
-class LoginFragment : BaseFragment() {
+class LoginFragment : Fragment(R.layout.fragment_login) {
 
-    override val layoutRes: Int
-        get() = R.layout.fragment_login
+    private var _binding: FragmentLoginBinding? = null
+    private val binding get() = _binding!!
 
     @Inject
     lateinit var router: Router
 
-    override fun renderView(view: View, savedInstanceState: Bundle?) {
+    override fun onAttach(context: Context) {
+        AndroidSupportInjection.inject(this)
+        super.onAttach(context)
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentLoginBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         FTAuth.getInstance().onLoginSuccess = {
             Toast.makeText(requireContext(), "Login successful", Toast.LENGTH_LONG).show()
             router.newRootScreen(Screens.LogOutScreen)
@@ -30,14 +49,19 @@ class LoginFragment : BaseFragment() {
             Toast.makeText(requireContext(), it.localizedMessage!!, Toast.LENGTH_LONG).show()
         }
 
-        btn_register.setOnClickListener {
+        binding.btnRegister.setOnClickListener {
             router.navigateTo(Screens.RegistrationScreen)
 
         }
 
-        root_view.setOnClickListener {
+        binding.rootView.setOnClickListener {
             hideKeyboard()
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
 }
