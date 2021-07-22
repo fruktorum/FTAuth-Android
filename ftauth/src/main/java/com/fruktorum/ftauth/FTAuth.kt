@@ -46,6 +46,8 @@ class FTAuth {
 
     @SuppressLint("StaticFieldLeak")
     companion object {
+        const val TAG = "FTAuth"
+
         private var instance: FTAuth? = null
 
         @ColorRes

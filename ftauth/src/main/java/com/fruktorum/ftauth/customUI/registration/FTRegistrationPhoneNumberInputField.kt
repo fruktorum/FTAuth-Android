@@ -28,11 +28,12 @@ class FTRegistrationPhoneNumberInputField @JvmOverloads constructor(
         init(attrs)
     }
 
+    var prefix: String = ""
     var isPhoneValid = false
 
     val value: String
         get() {
-            return edt_input_phone_number.unMaskedText ?: ""
+            return "${prefix}${inputField.unMaskedText}"
         }
 
     lateinit var description: TextView
