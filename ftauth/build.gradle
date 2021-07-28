@@ -23,6 +23,11 @@ android {
         }
     }
 
+    libraryVariants.all { variant ->
+        variant.outputs.all { output ->
+            outputFileName = "${archivesBaseName}-${variant.name}-${defaultConfig.versionName}.aar"
+        }
+    }
 }
 
 dependencies {
@@ -51,6 +56,6 @@ dependencies {
 
     implementation 'com.github.duanhong169:drawabletoolbox:1.0.7'
 
-    api 'io.github.vicmikhailau:MaskedEditText:4.0.5'
+    implementation 'io.github.vicmikhailau:MaskedEditText:4.0.5'
 
 }
