@@ -13,7 +13,7 @@
 
 ## Первоначальная настройка SDK
 
-Перед началом работы необходимо проинициализировать библиотеку. Лучше всего это делать в классе Application.
+Перед началом работы необходимо проинициализировать библиотеку. Лучше всего это делать в классе ***Application***.
 С помощью метода ***setServerUrl*** нужно установить URL для обращения к серверу.
 
 ```kotlin
@@ -45,3 +45,30 @@ class App : DaggerApplication() {
 | FTRegistrationPasswordInputField | Для ввода **пароля** при регистрации |
 | FTRegistrationConfirmPasswordInputField | Для **подтверждения пароля** при регистрации |
 | FTRegistrationPhoneNumberInputField | Для ввода **номера телефона** при регистрации |
+
+**2. Подключение полей ввода**
+
+Для подключения поля ввода нужно просто добавить его в **xml** файл разметки.
+
+```xml
+ <com.fruktorum.ftauth.customUI.auth.FTAuthEmailInputField
+        android:id="@+id/email_input_field"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+```
+
+**3. Особенности полей ввода элементов и примеры использования:**
+
+Каждый ***InputField*** имеет публичные переменные ***inputField*** и ***description*** - метки, для ввода значений и для вывода ошибок валидации или ошибок с сервера соответсвенно. Их свойства можно переопределять, обращаясь к ним напрямую.
+
+**Пример:**
+
+```kotlin
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        emailInputField.inputField.hint = "Hint"
+        emailInputField.description.setTextColor(Color.BLACK) 
+    }
+```
+
+
