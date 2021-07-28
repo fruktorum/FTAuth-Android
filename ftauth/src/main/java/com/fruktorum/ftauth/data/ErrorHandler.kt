@@ -24,7 +24,7 @@ class ErrorHandler {
         if (throwable is HttpException) {
             try {
                 val errorModel = gson.fromJson(
-                    throwable.response().errorBody()!!.string(),
+                    throwable.response()!!.errorBody()!!.string(),
                     ErrorResponseModel::class.java
                 )
                 if (errorModel.isErrorExisted()) {

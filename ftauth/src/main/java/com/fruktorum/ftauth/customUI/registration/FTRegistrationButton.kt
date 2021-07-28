@@ -6,7 +6,7 @@ import androidx.appcompat.widget.AppCompatButton
 import com.fruktorum.ftauth.FTAuth
 
 class FTRegistrationButton(
-    context: Context?,
+    context: Context,
     attrs: AttributeSet?
 ) : AppCompatButton(context, attrs) {
 

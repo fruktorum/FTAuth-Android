@@ -8,7 +8,7 @@ import com.fruktorum.ftauth.FTAuth
 import com.fruktorum.ftauth.customUI.common.FTAuthUI
 
 class FTCheckBoxAcceptanceOfTerms(
-    context: Context?,
+    context: Context,
     attrs: AttributeSet?
 ) : AppCompatCheckBox(context, attrs), FTAuthUI {
 
