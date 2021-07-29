@@ -47,7 +47,7 @@ class FTRegistrationPhoneNumberInputField @JvmOverloads constructor(
 
     private fun setPhoneMaskToInputField(mask: PhoneMask) {
         when (mask) {
-            is PhoneMask.CustomMask -> inputField.setMask(mask.mask)
+            is PhoneMask.CustomMask -> inputField.setMask(mask.mask.replace('X', '#'))
             PhoneMask.NONE -> inputField.setMask("*".repeat(50))
             PhoneMask.XX_XXX_XXX_XXXX -> inputField.setMask("+## (###) ###-####")
             PhoneMask.X_XXX_XXX_XXXX -> inputField.setMask("+# (###) ###-####")
