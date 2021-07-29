@@ -101,4 +101,16 @@ class App : DaggerApplication() {
     }
 ```
 
+- В классе ***FTRegistrationPhoneNumberInputField*** существует публичное свойство ***prefix*** типа ***String***, предназначеное для добавления специальных символов перед введенными числами номера до отправки на сервер. Значение в свойстве ***prefix*** не учитывается при валидации. Обращение к свойству ***prefix*** происходит через экземпляр ***FTRegistrationPhoneTextField***.
+
+**Пример:**
+
+```kotlin
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        phoneNumberInputField.prefix = "+7"
+    }
+```
+
+
+
 
