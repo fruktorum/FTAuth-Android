@@ -5,14 +5,14 @@ import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatButton
 import com.fruktorum.ftauth.FTAuth
 
-class FTLoginByGoogleButton(
+class FTLoginFacebookButton(
     context: Context,
     attrs: AttributeSet?
 ) : AppCompatButton(context, attrs) {
 
     init {
         setOnClickListener {
-            FTAuth.getInstance().loginByGoogle(it.context)
+            FTAuth.getInstance().loginByFacebook(it.context)
         }
     }
 }
