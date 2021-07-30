@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
     android:id="@+id/root_view"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <Toolbar
@@ -15,11 +15,34 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent">
+
+        <com.fruktorum.ftauth.customUI.registration.FTRegistrationFirstNameInputField
+            android:id="@+id/first_name_input_field"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp" />
+
+        <com.fruktorum.ftauth.customUI.registration.FTRegistrationLastNameInputField
+            android:id="@+id/last_name_input_field"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp" />
+
+        <com.fruktorum.ftauth.customUI.registration.FTRegistrationNameInputField
+            android:id="@+id/name_input_field"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp" />
+
 
         <com.fruktorum.ftauth.customUI.registration.FTRegistrationEmailInputField
             android:id="@+id/email_input_field"
@@ -27,90 +50,47 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginEnd="24dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+
+            />
+
+        <com.fruktorum.ftauth.customUI.registration.FTRegistrationPhoneNumberInputField
+            android:id="@+id/phone_input_field"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp" />
+
 
         <com.fruktorum.ftauth.customUI.registration.FTRegistrationPasswordInputField
             android:id="@+id/password_input_field"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
-            android:layout_marginEnd="24dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/email_input_field" />
+            android:layout_marginEnd="24dp" />
 
         <com.fruktorum.ftauth.customUI.registration.FTRegistrationConfirmPasswordInputField
             android:id="@+id/confirm_password_input_field"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
-            android:layout_marginEnd="24dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/password_input_field" />
+            android:layout_marginEnd="24dp" />
 
-        <com.fruktorum.ftauth.customUI.registration.FTRegistrationFirstNameInputField
-            android:id="@+id/first_name_input_field"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginEnd="24dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/confirm_password_input_field" />
-
-        <com.fruktorum.ftauth.customUI.registration.FTRegistrationLastNameInputField
-            android:id="@+id/last_name_input_field"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginEnd="24dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/first_name_input_field" />
-
-        <com.fruktorum.ftauth.customUI.registration.FTRegistrationPhoneNumberInputField
-            android:id="@+id/name_phone_field"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:layout_marginStart="24dp"
-            android:layout_marginEnd="24dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/last_name_input_field" />
-
-        <com.fruktorum.ftauth.customUI.registration.FTRegistrationNameInputField
-            android:id="@+id/name_input_field"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:layout_marginStart="24dp"
-            android:layout_marginEnd="24dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/name_phone_field" />
 
         <com.fruktorum.ftauth.customUI.registration.FTCheckBoxAcceptanceOfTerms
             android:id="@+id/check_box_terms"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
-            android:text="Accept Terms &amp; Privacy Policy"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/name_input_field" />
+            android:text="Accept Terms &amp; Privacy Policy" />
 
         <com.fruktorum.ftauth.customUI.registration.FTRegistrationButton
             android:id="@+id/btn_register"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Register"
+            android:layout_gravity="center"
             android:layout_marginTop="16dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/check_box_terms" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            android:text="Register" />
+    </LinearLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

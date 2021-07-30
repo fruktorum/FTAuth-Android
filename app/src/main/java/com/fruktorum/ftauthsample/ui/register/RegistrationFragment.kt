@@ -54,7 +54,7 @@ class RegistrationFragment : Fragment(R.layout.fragment_registration) {
                 TypeElement.ACCEPT
             )
 
-        binding.namePhoneField.phoneMask = PhoneMask.X_XXX_XXX_XXXX
+        binding.phoneInputField.phoneMask = PhoneMask.X_XXX_XXX_XXXX
 
         FTAuth.getInstance().onRegistrationSuccess = {
             Toast.makeText(requireContext(), "Registration successful", Toast.LENGTH_LONG).show()
