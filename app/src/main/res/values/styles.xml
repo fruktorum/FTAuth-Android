@@ -8,4 +8,10 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="InputField">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:padding">12dp</item>
+        <item name="android:background">@drawable/input_field_background</item>
+    </style>
 </resources>
