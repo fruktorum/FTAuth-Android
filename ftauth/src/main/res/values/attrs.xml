@@ -1,12 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <declare-styleable name="FTAuthEmailInputField">
-        <attr name="email_input_hint" format="string" />
-        <attr name="android:hint" format="string" />
+    <declare-styleable name="FTAuthInputField">
+        <attr name="inputFieldStyle" format="reference" />
+        <attr name="descriptionStyle" format="reference" />
     </declare-styleable>
-    <declare-styleable name="FTAuthPasswordInputField">
-        <attr name="password_input_hint" format="string" />
-        <attr name="backgroundInputField" format="string" />
 
-    </declare-styleable>
 </resources>

@@ -42,6 +42,23 @@ class FTAuthEmailInputField @JvmOverloads constructor(
         View.inflate(context, R.layout.layout_email_input_field, this)
         description = findViewById(R.id.text_error_email)
         inputField = findViewById(R.id.edt_input_email)
+
+        context.theme.obtainStyledAttributes(
+            attrs,
+            R.styleable.FTAuthInputField,
+            0, 0
+        ).apply {
+            try {
+                val inputStyle = getResourceId(R.styleable.FTAuthInputField_inputFieldStyle, -1)
+                if (inputStyle != -1) setInputFieldStyle(inputStyle)
+                val descriptionStyle =
+                    getResourceId(R.styleable.FTAuthInputField_descriptionStyle, -1)
+                if (descriptionStyle != -1) setDescriptionStyle(inputStyle)
+            } finally {
+                recycle()
+            }
+        }
+
         inputField.addTextChangedListener(object : TextValidator(inputField) {
             override fun validate(
                 textView: TextView,
