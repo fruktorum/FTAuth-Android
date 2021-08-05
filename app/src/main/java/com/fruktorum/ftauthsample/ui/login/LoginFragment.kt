@@ -54,10 +54,6 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
 
         }
 
-        binding.emailInputField.setInputFieldStyle(R.style.InputField)
-        binding.passwordInputField.setInputFieldStyle(R.style.InputField)
-
-
         binding.rootView.setOnClickListener {
             hideKeyboard()
         }

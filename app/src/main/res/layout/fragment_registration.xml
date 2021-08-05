@@ -9,8 +9,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorPrimary"
-        android:title="Registration"
-        android:titleTextColor="#FFFFFF"
+        android:title="@string/registration"
+        android:titleTextColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -27,21 +27,24 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
-            android:layout_marginEnd="24dp" />
+            android:layout_marginEnd="24dp"
+            app:inputFieldStyle="@style/InputField" />
 
         <com.fruktorum.ftauth.customUI.registration.FTRegistrationLastNameInputField
             android:id="@+id/last_name_input_field"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
-            android:layout_marginEnd="24dp" />
+            android:layout_marginEnd="24dp"
+            app:inputFieldStyle="@style/InputField" />
 
         <com.fruktorum.ftauth.customUI.registration.FTRegistrationNameInputField
             android:id="@+id/name_input_field"
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:layout_marginStart="24dp"
-            android:layout_marginEnd="24dp" />
+            android:layout_marginEnd="24dp"
+            app:inputFieldStyle="@style/InputField" />
 
 
         <com.fruktorum.ftauth.customUI.registration.FTRegistrationEmailInputField
@@ -50,6 +53,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginEnd="24dp"
+            app:inputFieldStyle="@style/InputField"
 
             />
 
@@ -58,7 +62,8 @@
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:layout_marginStart="24dp"
-            android:layout_marginEnd="24dp" />
+            android:layout_marginEnd="24dp"
+            app:inputFieldStyle="@style/InputField" />
 
 
         <com.fruktorum.ftauth.customUI.registration.FTRegistrationPasswordInputField
@@ -66,14 +71,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
-            android:layout_marginEnd="24dp" />
+            android:layout_marginEnd="24dp"
+            app:inputFieldStyle="@style/InputField" />
 
         <com.fruktorum.ftauth.customUI.registration.FTRegistrationConfirmPasswordInputField
             android:id="@+id/confirm_password_input_field"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
-            android:layout_marginEnd="24dp" />
+            android:layout_marginEnd="24dp"
+            app:inputFieldStyle="@style/InputField" />
 
 
         <com.fruktorum.ftauth.customUI.registration.FTCheckBoxAcceptanceOfTerms
@@ -81,15 +88,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
-            android:text="Accept Terms &amp; Privacy Policy" />
+            android:text="@string/accept_terms_privacy_policy" />
 
         <com.fruktorum.ftauth.customUI.registration.FTRegistrationButton
             android:id="@+id/btn_register"
-            android:layout_width="wrap_content"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="16dp"
-            android:text="Register" />
+            android:layout_marginEnd="8dp"
+            android:background="@color/colorPrimary"
+            android:padding="16dp"
+            android:text="@string/register"
+            android:textAllCaps="false"
+            android:textColor="@color/white" />
     </LinearLayout>
 
 
