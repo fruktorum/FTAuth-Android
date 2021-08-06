@@ -1,3 +1,5 @@
+[![](https://jitpack.io/v/fruktorum/FTAuth-Android.svg)](https://jitpack.io/#fruktorum/FTAuth-Android)
+
 <img src="https://i.gyazo.com/fcbc3c4c7369d613fa7bfef1cae5ec3a.png" align="center" width="500" >
 
 # FTAuth Android SDK 
@@ -10,6 +12,16 @@
 - Готовые классы UI объектов
 
 ***
+
+## Установка
+
+Для того, чтобы добавить FTAuth Android SDK в проект, нужно добавить зависимость в ваш build.gradle файл.
+```kotlin
+dependencies {
+    //Cicerone
+    implementation("com.github.fruktorum:FTAuth-Android:1.0.0")
+}
+```
 
 ## Первоначальная настройка SDK
 
