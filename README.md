@@ -18,7 +18,7 @@
 Для того, чтобы добавить FTAuth Android SDK в проект, нужно добавить зависимость в ваш build.gradle файл.
 ```kotlin
 dependencies {
-    //Cicerone
+    //FTAuth
     implementation("com.github.fruktorum:FTAuth-Android:1.0.0")
 }
 ```
