@@ -100,9 +100,12 @@ setDescriptionStyle***, которые повзоляют применить с�
 
 ```xml
 
-<com.fruktorum.ftauth.customUI.auth.FTAuthEmailInputField android:id="@+id/email_input_field"
-        android:layout_width="match_parent" android:layout_height="wrap_content"
-        app:inputFieldStyle="@style/InputField" app:descriptionStyle="@style/DescriptionStyle" />
+<com.fruktorum.ftauth.customUI.auth.FTAuthEmailInputField 
+        android:id="@+id/email_input_field"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:inputFieldStyle="@style/InputField"
+        app:descriptionStyle="@style/DescriptionStyle" />
 ```
 
 - В классе ***FTRegistrationPhoneNumberInputField*** существует публичное свойство ***phoneMask***
