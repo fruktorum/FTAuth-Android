@@ -83,24 +83,41 @@ class App : DaggerApplication() {
     }
 ```
 
-Также каждый ***InputField*** имеет публичные методы ***setInputFieldStyle*** и ***setDescriptionStyle***, которые повзоляют применить стиль для полей ввода и вывода ошибок. 
+Также каждый ***InputField*** имеет публичные методы ***setInputFieldStyle*** и ***
+setDescriptionStyle***, которые повзоляют применить стиль для полей ввода и вывода ошибок.
 
 **Пример:**
 
 ```kotlin
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        emailInputField.setInputFieldStyle(R.style.InputField)
-        emailInputField.setDescriptionStyle(R.style.Description)
-    }
+    emailInputField.setInputFieldStyle(R.style.InputField)
+    emailInputField.setDescriptionStyle(R.style.Description)
+}
 ```
 
-- В классе ***FTRegistrationPhoneNumberInputField*** существует публичное свойство ***phoneMask*** типа ***PhoneMask***, предназначеное для назначения маски ввода телефонного номера.
+Есть возможность установить стили для полей ввода и вывода ошибок напрямую в xml разметке при помощи
+аттрибутов ***inputFieldStyle*** и ***descriptionStyle***.
+
+```xml
+
+<com.fruktorum.ftauth.customUI.auth.FTAuthEmailInputField android:id="@+id/email_input_field"
+    android:layout_width="match_parent" android:layout_height="wrap_content"
+    app:inputFieldStyle="@style/InputField" app:descriptionStyle="@style/DescriptionStyle" />
+```
+
+- В классе ***FTRegistrationPhoneNumberInputField*** существует публичное свойство ***phoneMask***
+  типа ***PhoneMask***, предназначеное для назначения маски ввода телефонного номера.
 
 | Значение ***PhoneMask*** | Описание | Вид маски | Валидация |
 | ------ | ------ | ------ | ------ |
-| **.X_XXX_XXX_XXXX** | Маска для номеров международного формата с кодом страны из одной цифры | "+X (XXX) XXX-XXXX" | Согласно маске |
-| **.XX_XXX_XXX_XXXX** | Маска для номеров международного формата с кодом страны из двух цифр | "+XX (XXX) XXX-XXXX" | Согласно маске |
-| **.CustomMask(mask: String)** | Пользовательская маска телефонного номера. Маска должна быть задана с учетом последовательной замены всех символов *"X"* введенными пользователем цифрами, остальные символы маски сохранят своё положение | *mask* | Согласно маске |
+| **
+.X_XXX_XXX_XXXX** | Маска для номеров международного формата с кодом страны из одной цифры | "+X (XXX) XXX-XXXX" | Согласно маске |
+| **
+.XX_XXX_XXX_XXXX** | Маска для номеров международного формата с кодом страны из двух цифр | "+XX (XXX) XXX-XXXX" | Согласно маске |
+| **.CustomMask(mask:
+String)** | Пользовательская маска телефонного номера. Маска должна быть задана с учетом последовательной замены всех символов *"
+X"* введенными пользователем цифрами, остальные символы маски сохранят своё положение | *
+mask* | Согласно маске |
 | **.NONE** | Ввод телефонного номера без маски | "" | Без валидации |
 
 Обращение к свойству ***phoneMask*** происходит через экземпляр ***FTRegistrationPhoneNumberInputField***.
