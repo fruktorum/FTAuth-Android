@@ -96,7 +96,7 @@ class FTRegistrationEmailInputField @JvmOverloads constructor(
         description.style(res)
     }
 
-    fun setErrorMessage(message: String) {
+    override fun setErrorMessage(message: String) {
         inputField.setInputError(
             description,
             message,

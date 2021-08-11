@@ -86,6 +86,14 @@ class FTAuthPasswordInputField @JvmOverloads constructor(
         validatePassword(inputField, inputField.text.toString())
     }
 
+    override fun setErrorMessage(message: String) {
+        inputField.setInputError(
+            description,
+            message,
+            context!!
+        )
+    }
+
     fun setInputFieldStyle(@StyleRes res: Int) {
         inputField.style(res)
     }

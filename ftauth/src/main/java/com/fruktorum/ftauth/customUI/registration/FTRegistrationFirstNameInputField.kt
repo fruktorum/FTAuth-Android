@@ -73,10 +73,6 @@ class FTRegistrationFirstNameInputField @JvmOverloads constructor(
 
     }
 
-    override fun validate() {
-        validateName(inputField, inputField.text.toString())
-    }
-
     fun validateName(nameField: TextView, name: String): Boolean {
         return if (name.isEmpty()) {
             nameField.setInputError(
@@ -89,6 +85,18 @@ class FTRegistrationFirstNameInputField @JvmOverloads constructor(
             nameField.setInputSuccess(description, context!!)
             true
         }
+    }
+
+    override fun validate() {
+        validateName(inputField, inputField.text.toString())
+    }
+
+    override fun setErrorMessage(message: String) {
+        inputField.setInputError(
+            description,
+            message,
+            context!!
+        )
     }
 
     fun setInputFieldStyle(@StyleRes res: Int) {

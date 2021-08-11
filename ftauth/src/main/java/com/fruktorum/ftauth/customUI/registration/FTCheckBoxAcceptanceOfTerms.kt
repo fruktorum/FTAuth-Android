@@ -24,4 +24,8 @@ class FTCheckBoxAcceptanceOfTerms(
     override fun validate() {
         //TODO: Make validation
     }
+
+    override fun setErrorMessage(message: String) {
+
+    }
 }

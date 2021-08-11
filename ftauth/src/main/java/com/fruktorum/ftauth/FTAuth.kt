@@ -11,6 +11,7 @@ import com.fruktorum.ftauth.customUI.webView.WebViewActivity
 import com.fruktorum.ftauth.data.ErrorHandler
 import com.fruktorum.ftauth.data.auth.TypeElement
 import com.fruktorum.ftauth.data.auth.dataModel.RegisterUserDataModel
+import com.fruktorum.ftauth.data.base.MethodType
 import com.fruktorum.ftauth.network.AuthLocalDataProvider
 import com.fruktorum.ftauth.network.RetrofitHelper
 import com.fruktorum.ftauth.network.repository.AuthRepository
@@ -188,15 +189,15 @@ class FTAuth {
                 .subscribe({
                     onLoginSuccess?.invoke()
                 }, {
-                    handleError(it)
+                    handleError(it, MethodType.AUTH)
                     onLoginFailure?.invoke(it)
                 })
         )
 
     }
 
-    private fun handleError(throwable: Throwable) {
-        errorHandler.handle(throwable)
+    private fun handleError(throwable: Throwable, methodType: MethodType) {
+        errorHandler.handle(throwable, methodType)
     }
 
 
@@ -224,7 +225,7 @@ class FTAuth {
                     .subscribe({
                         onRegistrationSuccess?.invoke()
                     }, {
-                        errorHandler.handle(it)
+                        errorHandler.handle(it, MethodType.REGISTRATION)
                         onRegistrationFailure?.invoke(it)
                     })
             )
