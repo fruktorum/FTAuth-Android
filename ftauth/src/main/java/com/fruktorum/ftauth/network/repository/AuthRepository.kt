@@ -50,7 +50,11 @@ internal class AuthRepository(
 
     fun getProviderToken(): String = localDataProvider.getProviderToken()
 
-    fun clearToken(): Observable<Boolean>? {
+    fun setSessionToken(sessionToken: String) = localDataProvider.setSessionToken(sessionToken)
+
+    fun setProviderToken(providerToken: String) = localDataProvider.setProviderToken(providerToken)
+
+    fun clearToken(): Observable<Boolean> {
         return localDataProvider.clearTokens()
     }
 

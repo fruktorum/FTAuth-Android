@@ -212,7 +212,7 @@ provider-token**, если он был получен не через ***FTAuth*
 | **onLogOutFailure: ((Throwable) -> Unit?)
 ?** | Срабатывает при ошибке запроса логаута. Содержит в себе объект типа Throwable |
 
-**3. Определение списка элементов, являющихся обязательными для процесса регистрации (
+**2. Определение списка элементов, являющихся обязательными для процесса регистрации (
 requiredElements):**
 
 | Поле(тип) | Описание |
@@ -238,6 +238,34 @@ ACCEPT*). Обязательными могут быть все поля или 
   TypeElement.ACCEPT
 )
 ```
+
+**3. Получение и установка токенов (getSessionToken, getProviderToken, setSessionToken, setProviderToken)**
+
+- Функция **getSessionToken(): String** возвращает строку с **session_token**, если он уже получен или пустую строку, если **session_token** не получен.
+
+```kotlin
+val sessionToken = FTAuth.getInstance().getSessionToken()
+```
+
+- Функция **getProviderToken(): String** возвращает строку с **provider_token**, если он уже получен или пустую строку, если **provider_token** не получен.
+
+```kotlin
+val providerToken = FTAuth.getInstance().getProviderToken()
+```
+
+- Функция **setSessionToken(sessionToken: String)** позволяет установить **session_token***, если они был получен за пределами ***FTAuth***.
+
+```kotlin
+FTAuth.getInstance().setSessionToken(sessionToken)
+```
+
+- Функция **setProviderToken(providerToken: String)** позволяет установить **provider_token***, если они был получен за пределами ***FTAuth***.
+
+```kotlin
+FTAuth.getInstance().setProviderToken(providerToken)
+```
+
+
 
 
 

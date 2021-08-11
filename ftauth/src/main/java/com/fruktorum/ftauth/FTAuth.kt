@@ -44,7 +44,6 @@ class FTAuth {
 
     private val errorHandler = ErrorHandler()
 
-    @SuppressLint("StaticFieldLeak")
     companion object {
         const val TAG = "FTAuth"
 
@@ -54,15 +53,24 @@ class FTAuth {
         var errorMessageColor: Int = R.color.colorError
 
         //Custom UI fields
+        @SuppressLint("StaticFieldLeak")
         var authEmailInputField: FTAuthEmailInputField? = null
+        @SuppressLint("StaticFieldLeak")
         var authPasswordInputField: FTAuthPasswordInputField? = null
 
+        @SuppressLint("StaticFieldLeak")
         var registerEmailInputField: FTRegistrationEmailInputField? = null
+        @SuppressLint("StaticFieldLeak")
         var registerPasswordInputField: FTRegistrationPasswordInputField? = null
+        @SuppressLint("StaticFieldLeak")
         var registerConfirmPasswordInputField: FTRegistrationConfirmPasswordInputField? = null
+        @SuppressLint("StaticFieldLeak")
         var registerFirstNameInputField: FTRegistrationFirstNameInputField? = null
+        @SuppressLint("StaticFieldLeak")
         var registerLastNameInputField: FTRegistrationLastNameInputField? = null
+        @SuppressLint("StaticFieldLeak")
         var registerNameInputField: FTRegistrationNameInputField? = null
+        @SuppressLint("StaticFieldLeak")
         var registerPhoneNumberInputField: FTRegistrationPhoneNumberInputField? = null
         var checkBoxAcceptanceOfTerms: FTCheckBoxAcceptanceOfTerms? = null
 
@@ -270,6 +278,10 @@ class FTAuth {
     fun getSessionToken() = instance!!.authRepository!!.getSessionToken()
 
     fun getProviderToken() = instance!!.authRepository!!.getProviderToken()
+
+    fun setSessionToken(sessionToken: String) = instance?.authRepository?.setSessionToken(sessionToken)
+
+    fun setProviderToken(providerToken: String) = instance?.authRepository?.setProviderToken(providerToken)
 
     fun onStop() {
         if (!disposables.isDisposed) {
