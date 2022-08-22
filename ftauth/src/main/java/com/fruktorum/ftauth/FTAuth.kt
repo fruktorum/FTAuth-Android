@@ -243,6 +243,7 @@ class FTAuth {
                         putExtra(WebViewActivity.WEB_VIEW_URL, it.url)
                     })
                 }, {
+                    errorHandler.handle(it, MethodType.AUTH_GOOGLE)
                     onLoginFailure?.invoke(it)
                 })
         )
@@ -258,6 +259,7 @@ class FTAuth {
                         putExtra(WebViewActivity.WEB_VIEW_URL, it.url)
                     })
                 }, {
+                    errorHandler.handle(it, MethodType.AUTH_FACEBOOK)
                     onLoginFailure?.invoke(it)
                 })
         )
@@ -271,6 +273,7 @@ class FTAuth {
                 .subscribe({
                     onLogOutSuccess?.invoke()
                 }, {
+                    errorHandler.handle(it, MethodType.LOGOUT)
                     onLogOutFailure?.invoke(it)
                 })
         )

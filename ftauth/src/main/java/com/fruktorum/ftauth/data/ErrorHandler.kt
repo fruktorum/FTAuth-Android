@@ -1,6 +1,7 @@
 package com.fruktorum.ftauth.data
 
 import android.util.Log
+import android.widget.Toast
 import com.fruktorum.ftauth.FTAuth
 import com.fruktorum.ftauth.data.base.ErrorModelDeserializer
 import com.fruktorum.ftauth.data.base.ErrorResponseModel
@@ -49,7 +50,9 @@ class ErrorHandler {
                                 else FTAuth.registerPasswordInputField
                                 fieldToShowError?.setErrorMessage("Password too short")
                             }
+                            //TODO Добавить виды ошибок для Google/Facebook/Logout
                             else -> {
+                                handleUnknownTypeError(error.message)
                             }
                         }
                     }
@@ -62,5 +65,9 @@ class ErrorHandler {
         }
     }
 
+    private fun handleUnknownTypeError(error: String?) {
+        // TODO продумать что делаем с ошибкой, допустим ошибка на сервере
+        // TODO Log.d(FTAuth.TAG, "Thrown error by: $error")
+    }
 
 }
