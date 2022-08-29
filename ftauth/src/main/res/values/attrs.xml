@@ -5,4 +5,11 @@
         <attr name="descriptionStyle" format="reference" />
     </declare-styleable>
 
+    <declare-styleable name="FTCheckBoxField">
+        <attr name="successFieldColor" format="color" />
+        <attr name="defaultFieldColor" format="color" />
+        <attr name="errorFieldColor" format="color" />
+    </declare-styleable>
+
+
 </resources>
