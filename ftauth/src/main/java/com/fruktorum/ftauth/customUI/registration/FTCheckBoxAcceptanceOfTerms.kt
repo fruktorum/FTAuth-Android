@@ -80,7 +80,6 @@ class FTCheckBoxAcceptanceOfTerms(
         buttonTintList = defaultTintList
     }
 
-
     //NOTE Убираем подсветку после нажатия чекбокса
     private fun addUpdateAfterValidation() {
         setOnCheckedChangeListener { compoundButton, b ->
