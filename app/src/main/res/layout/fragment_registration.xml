@@ -82,13 +82,15 @@
             android:layout_marginEnd="24dp"
             app:inputFieldStyle="@style/InputField" />
 
-
         <com.fruktorum.ftauth.customUI.registration.FTCheckBoxAcceptanceOfTerms
             android:id="@+id/check_box_terms"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
-            android:text="@string/accept_terms_privacy_policy" />
+            android:text="@string/accept_terms_privacy_policy"
+            app:successFieldColor="@android:color/holo_green_dark"
+            app:defaultFieldColor="@android:color/holo_blue_bright"
+            app:errorFieldColor="@android:color/holo_red_dark"/>
 
         <com.fruktorum.ftauth.customUI.registration.FTRegistrationButton
             android:id="@+id/btn_register"
