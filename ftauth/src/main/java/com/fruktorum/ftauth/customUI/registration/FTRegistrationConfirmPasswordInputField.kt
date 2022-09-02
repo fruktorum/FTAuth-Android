@@ -22,53 +22,50 @@ class FTRegistrationConfirmPasswordInputField @JvmOverloads constructor(
 ) :
     ConstraintLayout(context, attrs, defStyleAttr), FTAuthUI {
 
-    init {
-        init(attrs)
-    }
-
     var isPasswordValid = false
-
     val value: String
         get() {
             return inputField.text.toString()
         }
 
-    lateinit var description: TextView
+    /** Must be public. It allows to apply the user style for input field */
     lateinit var inputField: EditText
+    /** Must be public. It allows to apply the user style for errors field */
+    lateinit var description: TextView
 
-    private fun init(attrs: AttributeSet?) {
-        View.inflate(context, R.layout.layout_confirm_password_input_field, this)
-        description = findViewById(R.id.text_error_password)
-        inputField = findViewById(R.id.edt_input_password)
-
-        context.theme.obtainStyledAttributes(
-            attrs,
-            R.styleable.FTAuthInputField,
-            0, 0
-        ).apply {
-            try {
-                val inputStyle = getResourceId(R.styleable.FTAuthInputField_inputFieldStyle, -1)
-                if (inputStyle != -1) setInputFieldStyle(inputStyle)
-                val descriptionStyle =
-                    getResourceId(R.styleable.FTAuthInputField_descriptionStyle, -1)
-                if (descriptionStyle != -1) setDescriptionStyle(inputStyle)
-            } finally {
-                recycle()
-            }
-        }
-
-        inputField.addTextChangedListener(object : TextValidator(inputField) {
-            override fun validate(
-                textView: TextView,
-                text: String
-            ) {
-                isPasswordValid = validatePassword(textView, text)
-            }
-        })
+    init {
+        init(attrs)
         FTAuth.registerConfirmPasswordInputField = this
     }
 
-    fun validatePassword(passwordField: TextView, password: String): Boolean {
+    override fun onDetachedFromWindow() {
+        inputField.addTextChangedListener(null)
+        super.onDetachedFromWindow()
+    }
+
+    override fun validate() {
+        validatePassword(inputField, inputField.text.toString())
+    }
+
+    override fun setErrorMessage(message: String) {
+        inputField.setInputError(
+            description,
+            message,
+            context!!
+        )
+    }
+
+    /** Must be public. It allows to apply the user style for input field */
+    fun setInputFieldStyle(@StyleRes res: Int) {
+        inputField.style(res)
+    }
+
+    /** Must be public. It allows to apply the user style for errors field */
+    fun setDescriptionStyle(@StyleRes res: Int) {
+        description.style(res)
+    }
+
+    private fun validatePassword(passwordField: TextView, password: String): Boolean {
         return when {
             password != FTAuth.registerPasswordInputField!!.value -> {
                 passwordField.setInputError(
@@ -93,23 +90,36 @@ class FTRegistrationConfirmPasswordInputField @JvmOverloads constructor(
         }
     }
 
-    override fun validate() {
-        validatePassword(inputField, inputField.text.toString())
-    }
+    private fun init(attrs: AttributeSet?) {
+        View.inflate(context, R.layout.layout_confirm_password_input_field, this)
+        description = findViewById(R.id.text_error_password)
+        inputField = findViewById(R.id.edt_input_password)
 
-    override fun setErrorMessage(message: String) {
-        inputField.setInputError(
-            description,
-            message,
-            context!!
-        )
-    }
+        context.theme.obtainStyledAttributes(
+            attrs,
+            R.styleable.FTAuthInputField,
+            0, 0
+        ).apply {
+            try {
+                val inputStyle =
+                    getResourceId(R.styleable.FTAuthInputField_inputFieldStyle, -1)
+                if (inputStyle != -1) setInputFieldStyle(inputStyle)
 
-    fun setInputFieldStyle(@StyleRes res: Int) {
-        inputField.style(res)
-    }
+                val descriptionStyle =
+                    getResourceId(R.styleable.FTAuthInputField_descriptionStyle, -1)
+                if (descriptionStyle != -1) setDescriptionStyle(descriptionStyle)
+            } finally {
+                recycle()
+            }
+        }
 
-    fun setDescriptionStyle(@StyleRes res: Int) {
-        description.style(res)
+        inputField.addTextChangedListener(object : TextValidator(inputField) {
+            override fun validate(
+                textView: TextView,
+                text: String
+            ) {
+                isPasswordValid = validatePassword(textView, text)
+            }
+        })
     }
 }

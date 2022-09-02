@@ -23,54 +23,50 @@ class FTRegistrationEmailInputField @JvmOverloads constructor(
 ) :
     ConstraintLayout(context, attrs, defStyleAttr), FTAuthUI {
 
-    init {
-        init(attrs)
-    }
-
     var isEmailValid = false
-
     val value: String
         get() {
             return inputField.text.toString()
         }
 
-    lateinit var description: TextView
+    /** Must be public. It allows to apply the user style for input field */
     lateinit var inputField: EditText
+    /** Must be public. It allows to apply the user style for errors field */
+    lateinit var description: TextView
 
-
-    private fun init(attrs: AttributeSet?) {
-        View.inflate(context, R.layout.layout_email_input_field, this)
-        description = findViewById(R.id.text_error_email)
-        inputField = findViewById(R.id.edt_input_email)
-
-        context.theme.obtainStyledAttributes(
-            attrs,
-            R.styleable.FTAuthInputField,
-            0, 0
-        ).apply {
-            try {
-                val inputStyle = getResourceId(R.styleable.FTAuthInputField_inputFieldStyle, -1)
-                if (inputStyle != -1) setInputFieldStyle(inputStyle)
-                val descriptionStyle =
-                    getResourceId(R.styleable.FTAuthInputField_descriptionStyle, -1)
-                if (descriptionStyle != -1) setDescriptionStyle(inputStyle)
-            } finally {
-                recycle()
-            }
-        }
-
-        inputField.addTextChangedListener(object : TextValidator(inputField) {
-            override fun validate(
-                textView: TextView,
-                text: String
-            ) {
-                isEmailValid = validateEmail(textView, text.trim())
-            }
-        })
+    init {
+        init(attrs)
         FTAuth.registerEmailInputField = this
     }
 
-    fun validateEmail(emailField: TextView, email: String): Boolean {
+    override fun onDetachedFromWindow() {
+        inputField.addTextChangedListener(null)
+        super.onDetachedFromWindow()
+    }
+
+    override fun validate() {
+        validateEmail(inputField, inputField.text.toString())
+    }
+
+    override fun setErrorMessage(message: String) {
+        inputField.setInputError(
+            description,
+            message,
+            context!!
+        )
+    }
+
+    /** Must be public. It allows to apply the user style for input field */
+    fun setInputFieldStyle(@StyleRes res: Int) {
+        inputField.style(res)
+    }
+
+    /** Must be public. It allows to apply the user style for errors field */
+    fun setDescriptionStyle(@StyleRes res: Int) {
+        description.style(res)
+    }
+
+    private fun validateEmail(emailField: TextView, email: String): Boolean {
         return if (!email.isEmailValid() or email.isEmpty()) {
             emailField.setInputError(
                 description,
@@ -84,25 +80,36 @@ class FTRegistrationEmailInputField @JvmOverloads constructor(
         }
     }
 
-    override fun validate() {
-        validateEmail(inputField, inputField.text.toString())
+    private fun init(attrs: AttributeSet?) {
+        View.inflate(context, R.layout.layout_email_input_field, this)
+        description = findViewById(R.id.text_error_email)
+        inputField = findViewById(R.id.edt_input_email)
+
+        context.theme.obtainStyledAttributes(
+            attrs,
+            R.styleable.FTAuthInputField,
+            0, 0
+        ).apply {
+            try {
+                val inputStyle =
+                    getResourceId(R.styleable.FTAuthInputField_inputFieldStyle, -1)
+                if (inputStyle != -1) setInputFieldStyle(inputStyle)
+
+                val descriptionStyle =
+                    getResourceId(R.styleable.FTAuthInputField_descriptionStyle, -1)
+                if (descriptionStyle != -1) setDescriptionStyle(descriptionStyle)
+            } finally {
+                recycle()
+            }
+        }
+
+        inputField.addTextChangedListener(object : TextValidator(inputField) {
+            override fun validate(
+                textView: TextView,
+                text: String
+            ) {
+                isEmailValid = validateEmail(textView, text.trim())
+            }
+        })
     }
-
-    fun setInputFieldStyle(@StyleRes res: Int) {
-        inputField.style(res)
-    }
-
-    fun setDescriptionStyle(@StyleRes res: Int) {
-        description.style(res)
-    }
-
-    override fun setErrorMessage(message: String) {
-        inputField.setInputError(
-            description,
-            message,
-            context!!
-        )
-    }
-
-
 }

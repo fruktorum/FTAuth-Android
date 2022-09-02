@@ -16,16 +16,16 @@ class FTCheckBoxAcceptanceOfTerms(
         FTAuth.checkBoxAcceptanceOfTerms = this
     }
 
-    fun set(checked: Boolean, image: Drawable) {
-        this.isChecked = checked
-        this.buttonDrawable = image
-    }
-
     override fun validate() {
         //TODO: Make validation
     }
 
     override fun setErrorMessage(message: String) {
 
+    }
+
+    fun set(checked: Boolean, image: Drawable) {
+        this.isChecked = checked
+        this.buttonDrawable = image
     }
 }
