@@ -65,31 +65,6 @@ class FTRegistrationConfirmPasswordInputField @JvmOverloads constructor(
         description.style(res)
     }
 
-    private fun validatePassword(passwordField: TextView, password: String): Boolean {
-        return when {
-            password != FTAuth.registerPasswordInputField!!.value -> {
-                passwordField.setInputError(
-                    description,
-                    context!!.getString(R.string.ft_auth_passwords_must_be_same_error),
-                    context!!
-                )
-                false
-            }
-            password.length < 8 -> {
-                passwordField.setInputError(
-                    description,
-                    context!!.getString(R.string.ft_auth_confirm_password_error),
-                    context!!
-                )
-                false
-            }
-            else -> {
-                passwordField.setInputSuccess(description, context!!)
-                true
-            }
-        }
-    }
-
     private fun init(attrs: AttributeSet?) {
         View.inflate(context, R.layout.layout_confirm_password_input_field, this)
         description = findViewById(R.id.text_error_password)
@@ -121,5 +96,30 @@ class FTRegistrationConfirmPasswordInputField @JvmOverloads constructor(
                 isPasswordValid = validatePassword(textView, text)
             }
         })
+    }
+
+    private fun validatePassword(passwordField: TextView, password: String): Boolean {
+        return when {
+            password != FTAuth.registerPasswordInputField!!.value -> {
+                passwordField.setInputError(
+                    description,
+                    context!!.getString(R.string.ft_auth_passwords_must_be_same_error),
+                    context!!
+                )
+                false
+            }
+            password.length < 8 -> {
+                passwordField.setInputError(
+                    description,
+                    context!!.getString(R.string.ft_auth_confirm_password_error),
+                    context!!
+                )
+                false
+            }
+            else -> {
+                passwordField.setInputSuccess(description, context!!)
+                true
+            }
+        }
     }
 }

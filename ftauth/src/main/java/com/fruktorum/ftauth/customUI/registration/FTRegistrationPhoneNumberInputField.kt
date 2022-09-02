@@ -81,15 +81,6 @@ class FTRegistrationPhoneNumberInputField @JvmOverloads constructor(
         description.style(res)
     }
 
-    private fun setPhoneMaskToInputField(mask: PhoneMask) {
-        when (mask) {
-            is PhoneMask.CustomMask -> inputField.setMask(mask.mask.replace('X', '#'))
-            PhoneMask.NONE -> inputField.setMask("*".repeat(50))
-            PhoneMask.XX_XXX_XXX_XXXX -> inputField.setMask("+## (###) ###-####")
-            PhoneMask.X_XXX_XXX_XXXX -> inputField.setMask("+# (###) ###-####")
-        }
-    }
-
     private fun init(attrs: AttributeSet?) {
         View.inflate(context, R.layout.layout_phone_number_input_field, this)
         description = findViewById(R.id.text_error_phone_number)
@@ -101,11 +92,13 @@ class FTRegistrationPhoneNumberInputField @JvmOverloads constructor(
             0, 0
         ).apply {
             try {
-                val inputStyle = getResourceId(R.styleable.FTAuthInputField_inputFieldStyle, -1)
+                val inputStyle =
+                    getResourceId(R.styleable.FTAuthInputField_inputFieldStyle, -1)
                 if (inputStyle != -1) setInputFieldStyle(inputStyle)
+
                 val descriptionStyle =
                     getResourceId(R.styleable.FTAuthInputField_descriptionStyle, -1)
-                if (descriptionStyle != -1) setDescriptionStyle(inputStyle)
+                if (descriptionStyle != -1) setDescriptionStyle(descriptionStyle)
             } finally {
                 recycle()
             }
@@ -120,6 +113,15 @@ class FTRegistrationPhoneNumberInputField @JvmOverloads constructor(
                 isPhoneValid = validatePhoneNumber(textView as MaskedEditText)
             }
         })
+    }
+
+    private fun setPhoneMaskToInputField(mask: PhoneMask) {
+        when (mask) {
+            is PhoneMask.CustomMask -> inputField.setMask(mask.mask.replace('X', '#'))
+            PhoneMask.NONE -> inputField.setMask("*".repeat(50))
+            PhoneMask.XX_XXX_XXX_XXXX -> inputField.setMask("+## (###) ###-####")
+            PhoneMask.X_XXX_XXX_XXXX -> inputField.setMask("+# (###) ###-####")
+        }
     }
 
     private fun validatePhoneNumber(phoneField: MaskedEditText): Boolean {

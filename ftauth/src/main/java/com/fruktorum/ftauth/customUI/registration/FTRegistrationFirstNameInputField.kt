@@ -65,20 +65,6 @@ class FTRegistrationFirstNameInputField @JvmOverloads constructor(
         description.style(res)
     }
 
-    private fun validateName(nameField: TextView, name: String): Boolean {
-        return if (name.isEmpty()) {
-            nameField.setInputError(
-                description,
-                context!!.getString(R.string.ft_auth_first_name_error),
-                context!!
-            )
-            false
-        } else {
-            nameField.setInputSuccess(description, context!!)
-            true
-        }
-    }
-
     private fun init(attrs: AttributeSet?) {
         View.inflate(context, R.layout.layout_first_name_input_field, this)
         description = findViewById(R.id.text_error_first_name)
@@ -110,5 +96,19 @@ class FTRegistrationFirstNameInputField @JvmOverloads constructor(
                 isFirstNameValid = validateName(textView, text)
             }
         })
+    }
+
+    private fun validateName(nameField: TextView, name: String): Boolean {
+        return if (name.isEmpty()) {
+            nameField.setInputError(
+                description,
+                context!!.getString(R.string.ft_auth_first_name_error),
+                context!!
+            )
+            false
+        } else {
+            nameField.setInputSuccess(description, context!!)
+            true
+        }
     }
 }

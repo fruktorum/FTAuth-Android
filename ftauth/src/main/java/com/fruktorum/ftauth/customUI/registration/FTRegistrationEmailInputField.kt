@@ -66,20 +66,6 @@ class FTRegistrationEmailInputField @JvmOverloads constructor(
         description.style(res)
     }
 
-    private fun validateEmail(emailField: TextView, email: String): Boolean {
-        return if (!email.isEmailValid() or email.isEmpty()) {
-            emailField.setInputError(
-                description,
-                context!!.getString(R.string.ft_auth_email_error),
-                context!!
-            )
-            false
-        } else {
-            emailField.setInputSuccess(description, context!!)
-            true
-        }
-    }
-
     private fun init(attrs: AttributeSet?) {
         View.inflate(context, R.layout.layout_email_input_field, this)
         description = findViewById(R.id.text_error_email)
@@ -111,5 +97,19 @@ class FTRegistrationEmailInputField @JvmOverloads constructor(
                 isEmailValid = validateEmail(textView, text.trim())
             }
         })
+    }
+
+    private fun validateEmail(emailField: TextView, email: String): Boolean {
+        return if (!email.isEmailValid() or email.isEmpty()) {
+            emailField.setInputError(
+                description,
+                context!!.getString(R.string.ft_auth_email_error),
+                context!!
+            )
+            false
+        } else {
+            emailField.setInputSuccess(description, context!!)
+            true
+        }
     }
 }
