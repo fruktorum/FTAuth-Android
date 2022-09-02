@@ -83,8 +83,7 @@ class App : DaggerApplication() {
     }
 ```
 
-Также каждый ***InputField*** имеет публичные методы ***setInputFieldStyle*** и ***
-setDescriptionStyle***, которые повзоляют применить стиль для полей ввода и вывода ошибок.
+Также каждый ***InputField*** имеет публичные методы ***setInputFieldStyle*** и ***setDescriptionStyle***, которые повзоляют применить стиль для полей ввода и вывода ошибок.
 
 **Пример:**
 
