@@ -39,7 +39,6 @@ internal class AuthRepository(
         return localDataProvider.saveTokens(sessionToken, providerToken)
     }
 
-
     fun getSessionTokenAsync(): Observable<String> {
         return Observable.fromCallable {
             localDataProvider.getSessionToken()
@@ -57,6 +56,4 @@ internal class AuthRepository(
     fun clearToken(): Observable<Boolean> {
         return localDataProvider.clearTokens()
     }
-
-
 }
