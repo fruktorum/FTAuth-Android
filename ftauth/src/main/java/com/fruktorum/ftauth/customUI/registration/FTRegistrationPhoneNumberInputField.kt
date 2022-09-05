@@ -120,7 +120,7 @@ class FTRegistrationPhoneNumberInputField @JvmOverloads constructor(
     private fun setPhoneMaskToInputField(mask: PhoneMask) {
         when (mask) {
             is PhoneMask.CustomMask -> inputField.setMask(mask.mask.replace('X', '#'))
-            PhoneMask.NONE -> inputField.setMask("*".repeat(50))
+            PhoneMask.NONE -> inputField.setMask("*".repeat(NONE_MASK_PHONE_MAX_SIZE_11))
             PhoneMask.XX_XXX_XXX_XXXX -> inputField.setMask("+## (###) ###-####")
             PhoneMask.X_XXX_XXX_XXXX -> inputField.setMask("+# (###) ###-####")
             PhoneMask.PLUS -> inputField.setMask("+####################")
@@ -136,7 +136,7 @@ class FTRegistrationPhoneNumberInputField @JvmOverloads constructor(
             }
             PhoneMask.XX_XXX_XXX_XXXX -> checkPhoneNumberSize(phoneField, PHONE_REQUIRED_SIZE_12)
             PhoneMask.X_XXX_XXX_XXXX -> checkPhoneNumberSize(phoneField, PHONE_REQUIRED_SIZE_11)
-            PhoneMask.PLUS -> checkPhoneNumberForPlusMask(phoneField, PHONE_MIN_SIZE_11, PHONE_MAX_SIZE_20)
+            PhoneMask.PLUS -> checkPhoneNumberForPlusMask(phoneField, PLUS_MASK_PHONE_MIN_SIZE_11, PLUS_MASK_PHONE_MAX_SIZE_20)
         }
     }
 
@@ -182,7 +182,8 @@ class FTRegistrationPhoneNumberInputField @JvmOverloads constructor(
     companion object {
         private const val PHONE_REQUIRED_SIZE_11 = 11
         private const val PHONE_REQUIRED_SIZE_12 = 12
-        private const val PHONE_MAX_SIZE_20 = 20
-        private const val PHONE_MIN_SIZE_11 = 11
+        private const val PLUS_MASK_PHONE_MAX_SIZE_20 = 20
+        private const val PLUS_MASK_PHONE_MIN_SIZE_11 = 11
+        private const val NONE_MASK_PHONE_MAX_SIZE_11 = 50
     }
 }
