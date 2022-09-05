@@ -120,7 +120,7 @@ class FTRegistrationPhoneNumberInputField @JvmOverloads constructor(
     private fun setPhoneMaskToInputField(mask: PhoneMask) {
         when (mask) {
             is PhoneMask.CustomMask -> inputField.setMask(mask.mask.replace('X', '#'))
-            PhoneMask.NONE -> inputField.setMask("*".repeat(NONE_MASK_PHONE_MAX_SIZE_11))
+            PhoneMask.NONE -> inputField.setMask("*".repeat(NONE_MASK_PHONE_MAX_SIZE_50))
             PhoneMask.XX_XXX_XXX_XXXX -> inputField.setMask("+## (###) ###-####")
             PhoneMask.X_XXX_XXX_XXXX -> inputField.setMask("+# (###) ###-####")
             PhoneMask.PLUS -> inputField.setMask("+####################")
@@ -184,6 +184,6 @@ class FTRegistrationPhoneNumberInputField @JvmOverloads constructor(
         private const val PHONE_REQUIRED_SIZE_12 = 12
         private const val PLUS_MASK_PHONE_MAX_SIZE_20 = 20
         private const val PLUS_MASK_PHONE_MIN_SIZE_11 = 11
-        private const val NONE_MASK_PHONE_MAX_SIZE_11 = 50
+        private const val NONE_MASK_PHONE_MAX_SIZE_50 = 50
     }
 }
