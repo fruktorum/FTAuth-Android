@@ -134,9 +134,9 @@ class FTRegistrationPhoneNumberInputField @JvmOverloads constructor(
                 val charsCount = (phoneMask as PhoneMask.CustomMask).mask.count { it == '#' }
                 checkPhoneNumberSize(phoneField, charsCount)
             }
-            PhoneMask.XX_XXX_XXX_XXXX -> checkPhoneNumberSize(phoneField, 12)
-            PhoneMask.X_XXX_XXX_XXXX -> checkPhoneNumberSize(phoneField, 11)
-            PhoneMask.PLUS -> checkPhoneNumberForPlusMask(phoneField, 11, 20)
+            PhoneMask.XX_XXX_XXX_XXXX -> checkPhoneNumberSize(phoneField, PHONE_REQUIRED_SIZE_12)
+            PhoneMask.X_XXX_XXX_XXXX -> checkPhoneNumberSize(phoneField, PHONE_REQUIRED_SIZE_11)
+            PhoneMask.PLUS -> checkPhoneNumberForPlusMask(phoneField, PHONE_MIN_SIZE_11, PHONE_MAX_SIZE_20)
         }
     }
 
@@ -177,5 +177,12 @@ class FTRegistrationPhoneNumberInputField @JvmOverloads constructor(
             )
             true
         }
+    }
+
+    companion object {
+        private const val PHONE_REQUIRED_SIZE_11 = 11
+        private const val PHONE_REQUIRED_SIZE_12 = 12
+        private const val PHONE_MAX_SIZE_20 = 20
+        private const val PHONE_MIN_SIZE_11 = 11
     }
 }
