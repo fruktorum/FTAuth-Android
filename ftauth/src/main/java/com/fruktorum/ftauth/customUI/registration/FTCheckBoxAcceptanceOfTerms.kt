@@ -28,7 +28,7 @@ class FTCheckBoxAcceptanceOfTerms(
 
         context.theme.obtainStyledAttributes(
             attrs,
-            R.styleable.FTAuthInputField,
+            R.styleable.FTCheckBoxField,
             0, 0
         ).apply {
             try {

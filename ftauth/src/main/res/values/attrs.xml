@@ -10,6 +10,4 @@
         <attr name="defaultFieldColor" format="color" />
         <attr name="errorFieldColor" format="color" />
     </declare-styleable>
-
-
 </resources>
