@@ -23,39 +23,62 @@ class FTRegistrationPhoneNumberInputField @JvmOverloads constructor(
 ) :
     ConstraintLayout(context, attrs, defStyleAttr), FTAuthUI {
 
-    init {
-        init(attrs)
-    }
-
-    var prefix: String = ""
     var isPhoneValid = false
-
     val value: String
         get() {
             return "${prefix}${inputField.unMaskedText}"
         }
-
-    lateinit var description: TextView
-    lateinit var inputField: MaskedEditText
-
+    /** Must be public. It allows to apply the phone mask by user */
     var phoneMask: PhoneMask = PhoneMask.NONE
         set(value) {
             field = value
             setPhoneMaskToInputField(value)
         }
 
+    /**
+     * Must be public.
+     * Prefix is intended to add special characters
+     * before the entered numbers before sending to the server.
+     * The value in the Prefix property is not taken during validation.
+     */
+    var prefix: String = ""
 
-    private fun setPhoneMaskToInputField(mask: PhoneMask) {
-        when (mask) {
-            is PhoneMask.CustomMask -> inputField.setMask(mask.mask.replace('X', '#'))
-            PhoneMask.NONE -> inputField.setMask("*".repeat(50))
-            PhoneMask.XX_XXX_XXX_XXXX -> inputField.setMask("+## (###) ###-####")
-            PhoneMask.X_XXX_XXX_XXXX -> inputField.setMask("+# (###) ###-####")
-        }
-    }
+    /** Must be public. It allows to apply the user style for input field */
+    lateinit var inputField: MaskedEditText
+    /** Must be public. It allows to apply the user style for errors field */
+    lateinit var description: TextView
 
     init {
+        init(attrs)
         FTAuth.registerPhoneNumberInputField = this
+    }
+
+    override fun onDetachedFromWindow() {
+        inputField.addTextChangedListener(null)
+        super.onDetachedFromWindow()
+    }
+
+    override fun validate() {
+        validatePhoneNumber(inputField)
+    }
+
+
+    override fun setErrorMessage(message: String) {
+        inputField.setInputError(
+            description,
+            message,
+            context!!
+        )
+    }
+
+    /** Must be public. It allows to apply the user style for input field */
+    fun setInputFieldStyle(@StyleRes res: Int) {
+        inputField.style(res)
+    }
+
+    /** Must be public. It allows to apply the user style for errors field */
+    fun setDescriptionStyle(@StyleRes res: Int) {
+        description.style(res)
     }
 
     private fun init(attrs: AttributeSet?) {
@@ -69,11 +92,13 @@ class FTRegistrationPhoneNumberInputField @JvmOverloads constructor(
             0, 0
         ).apply {
             try {
-                val inputStyle = getResourceId(R.styleable.FTAuthInputField_inputFieldStyle, -1)
+                val inputStyle =
+                    getResourceId(R.styleable.FTAuthInputField_inputFieldStyle, -1)
                 if (inputStyle != -1) setInputFieldStyle(inputStyle)
+
                 val descriptionStyle =
                     getResourceId(R.styleable.FTAuthInputField_descriptionStyle, -1)
-                if (descriptionStyle != -1) setDescriptionStyle(inputStyle)
+                if (descriptionStyle != -1) setDescriptionStyle(descriptionStyle)
             } finally {
                 recycle()
             }
@@ -90,20 +115,16 @@ class FTRegistrationPhoneNumberInputField @JvmOverloads constructor(
         })
     }
 
-    override fun validate() {
-        validatePhoneNumber(inputField)
+    private fun setPhoneMaskToInputField(mask: PhoneMask) {
+        when (mask) {
+            is PhoneMask.CustomMask -> inputField.setMask(mask.mask.replace('X', '#'))
+            PhoneMask.NONE -> inputField.setMask("*".repeat(50))
+            PhoneMask.XX_XXX_XXX_XXXX -> inputField.setMask("+## (###) ###-####")
+            PhoneMask.X_XXX_XXX_XXXX -> inputField.setMask("+# (###) ###-####")
+        }
     }
 
-
-    override fun setErrorMessage(message: String) {
-        inputField.setInputError(
-            description,
-            message,
-            context!!
-        )
-    }
-
-    fun validatePhoneNumber(phoneField: MaskedEditText): Boolean {
+    private fun validatePhoneNumber(phoneField: MaskedEditText): Boolean {
         return when (phoneMask) {
             PhoneMask.NONE -> true
             is PhoneMask.CustomMask -> {
@@ -116,7 +137,7 @@ class FTRegistrationPhoneNumberInputField @JvmOverloads constructor(
     }
 
     private fun checkPhoneNumberSize(phoneField: MaskedEditText, requiredSize: Int): Boolean {
-        return if (phoneField.unMaskedText?.length ?: 0 < requiredSize) {
+        return if ((phoneField.unMaskedText?.length ?: 0) < requiredSize) {
             phoneField.setInputError(
                 description,
                 context.getString(R.string.ft_auth_phone_number_error),
@@ -130,13 +151,5 @@ class FTRegistrationPhoneNumberInputField @JvmOverloads constructor(
             )
             true
         }
-    }
-
-    fun setInputFieldStyle(@StyleRes res: Int) {
-        inputField.style(res)
-    }
-
-    fun setDescriptionStyle(@StyleRes res: Int) {
-        description.style(res)
     }
 }

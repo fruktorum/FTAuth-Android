@@ -32,6 +32,10 @@ class FTCheckBoxAcceptanceOfTerms(
         super.onDetachedFromWindow()
     }
 
+    override fun setErrorMessage(message: String) {
+        
+    }
+
     fun set(checked: Boolean, image: Drawable) {
         this.isChecked = checked
         this.buttonDrawable = image
@@ -91,9 +95,5 @@ class FTCheckBoxAcceptanceOfTerms(
 
     private fun setDefaultTint() {
         buttonTintList = defaultTintList
-    }
-
-    override fun setErrorMessage(message: String) {
-
     }
 }

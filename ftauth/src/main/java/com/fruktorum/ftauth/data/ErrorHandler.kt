@@ -13,15 +13,6 @@ import retrofit2.HttpException
 
 class ErrorHandler {
 
-    private val gson =
-        GsonBuilder()
-            .registerTypeAdapter(
-                ErrorResponseModel::class.java,
-                ErrorModelDeserializer()
-            )
-            .create()
-
-
     fun handle(throwable: Throwable, methodType: MethodType) {
         if (throwable is HttpException) {
             try {
@@ -33,22 +24,22 @@ class ErrorHandler {
                     errorModel.error?.let { error ->
                         when (Error.getErrorType(error)) {
                             Error.EMAIL_EXISTS -> {
-                                FTAuth.registerEmailInputField?.setErrorMessage("Email existed")
+                                FTAuth.registerEmailInputField?.setErrorMessage(ERROR_MSG_EMAIL_EXISTED)
                             }
                             Error.EMAIL_INVALID -> {
                                 val fieldToShowError = if(methodType == MethodType.AUTH) FTAuth.authEmailInputField
                                 else FTAuth.authEmailInputField
-                                fieldToShowError?.setErrorMessage("Email is invalid")
+                                fieldToShowError?.setErrorMessage(ERROR_MSG_EMAIL_IS_INVALID)
                             }
                             Error.PASSWORD_INVALID -> {
                                 val fieldToShowError = if(methodType == MethodType.AUTH) FTAuth.authPasswordInputField
                                 else FTAuth.registerPasswordInputField
-                                fieldToShowError?.setErrorMessage("Password is invalid")
+                                fieldToShowError?.setErrorMessage(ERROR_MSG_PASSWORD_IS_INVALID)
                             }
                             Error.PASSWORD_TOO_SHORT -> {
                                 val fieldToShowError = if(methodType == MethodType.AUTH) FTAuth.authPasswordInputField
                                 else FTAuth.registerPasswordInputField
-                                fieldToShowError?.setErrorMessage("Password too short")
+                                fieldToShowError?.setErrorMessage(ERROR_MSG_PASSWORD_TOO_SHORT)
                             }
                             //TODO Добавить виды ошибок для Google/Facebook/Logout
                             else -> {
@@ -66,8 +57,22 @@ class ErrorHandler {
     }
 
     private fun handleUnknownTypeError(error: String?) {
-        // TODO продумать что делаем с ошибкой, допустим ошибка на сервере
+        // TODO продумать, что делаем с ошибкой, допустим ошибка на сервере
         // TODO Log.d(FTAuth.TAG, "Thrown error by: $error")
     }
 
+    private val gson =
+        GsonBuilder()
+            .registerTypeAdapter(
+                ErrorResponseModel::class.java,
+                ErrorModelDeserializer()
+            )
+            .create()
+
+    companion object {
+        const val ERROR_MSG_EMAIL_EXISTED = "Email existed"
+        const val ERROR_MSG_EMAIL_IS_INVALID = "Email is invalid"
+        const val ERROR_MSG_PASSWORD_IS_INVALID = "Password is invalid"
+        const val ERROR_MSG_PASSWORD_TOO_SHORT = "Password too short"
+    }
 }
