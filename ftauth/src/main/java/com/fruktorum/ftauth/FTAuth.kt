@@ -215,9 +215,12 @@ class FTAuth {
                         if (isValid) registerPhoneNumberInputField?.isPhoneValid
                             ?: false else isValid
                 }
-                TypeElement.ACCEPT -> isValid =
-                    if (isValid) checkBoxAcceptanceOfTerms?.isChecked
-                        ?: false else isValid
+                TypeElement.ACCEPT -> {
+                    checkBoxAcceptanceOfTerms?.validate()
+                    isValid =
+                        if (isValid) checkBoxAcceptanceOfTerms?.isChecked
+                            ?: false else isValid
+                }
             }
         }
         return isValid
