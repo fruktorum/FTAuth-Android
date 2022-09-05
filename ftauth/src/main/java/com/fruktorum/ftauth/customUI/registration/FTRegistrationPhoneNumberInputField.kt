@@ -28,6 +28,7 @@ class FTRegistrationPhoneNumberInputField @JvmOverloads constructor(
         get() {
             return "${prefix}${inputField.unMaskedText}"
         }
+
     /** Must be public. It allows to apply the phone mask by user */
     var phoneMask: PhoneMask = PhoneMask.NONE
         set(value) {
@@ -45,6 +46,7 @@ class FTRegistrationPhoneNumberInputField @JvmOverloads constructor(
 
     /** Must be public. It allows to apply the user style for input field */
     lateinit var inputField: MaskedEditText
+
     /** Must be public. It allows to apply the user style for errors field */
     lateinit var description: TextView
 
@@ -121,7 +123,7 @@ class FTRegistrationPhoneNumberInputField @JvmOverloads constructor(
             PhoneMask.NONE -> inputField.setMask("*".repeat(50))
             PhoneMask.XX_XXX_XXX_XXXX -> inputField.setMask("+## (###) ###-####")
             PhoneMask.X_XXX_XXX_XXXX -> inputField.setMask("+# (###) ###-####")
-            PhoneMask.PLUS -> inputField.setMask("+###########")
+            PhoneMask.PLUS -> inputField.setMask("+####################")
         }
     }
 
@@ -134,12 +136,34 @@ class FTRegistrationPhoneNumberInputField @JvmOverloads constructor(
             }
             PhoneMask.XX_XXX_XXX_XXXX -> checkPhoneNumberSize(phoneField, 12)
             PhoneMask.X_XXX_XXX_XXXX -> checkPhoneNumberSize(phoneField, 11)
-            PhoneMask.PLUS -> checkPhoneNumberSize(phoneField, 11)
+            PhoneMask.PLUS -> checkPhoneNumberForPlusMask(phoneField, 11, 20)
         }
     }
 
     private fun checkPhoneNumberSize(phoneField: MaskedEditText, requiredSize: Int): Boolean {
         return if ((phoneField.unMaskedText?.length ?: 0) < requiredSize) {
+            phoneField.setInputError(
+                description,
+                context.getString(R.string.ft_auth_phone_number_error),
+                context
+            )
+            false
+        } else {
+            phoneField.setInputSuccess(
+                description,
+                context
+            )
+            true
+        }
+    }
+
+    private fun checkPhoneNumberForPlusMask(
+        phoneField: MaskedEditText,
+        minSize: Int,
+        maxSize: Int
+    ): Boolean {
+        val fieldSize = (phoneField.unMaskedText?.length ?: 0)
+        return if (fieldSize < minSize || fieldSize > maxSize) {
             phoneField.setInputError(
                 description,
                 context.getString(R.string.ft_auth_phone_number_error),
