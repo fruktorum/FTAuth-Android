@@ -121,6 +121,7 @@ class FTRegistrationPhoneNumberInputField @JvmOverloads constructor(
             PhoneMask.NONE -> inputField.setMask("*".repeat(50))
             PhoneMask.XX_XXX_XXX_XXXX -> inputField.setMask("+## (###) ###-####")
             PhoneMask.X_XXX_XXX_XXXX -> inputField.setMask("+# (###) ###-####")
+            PhoneMask.PLUS -> inputField.setMask("+###########")
         }
     }
 
@@ -133,6 +134,7 @@ class FTRegistrationPhoneNumberInputField @JvmOverloads constructor(
             }
             PhoneMask.XX_XXX_XXX_XXXX -> checkPhoneNumberSize(phoneField, 12)
             PhoneMask.X_XXX_XXX_XXXX -> checkPhoneNumberSize(phoneField, 11)
+            PhoneMask.PLUS -> checkPhoneNumberSize(phoneField, 11)
         }
     }
 
