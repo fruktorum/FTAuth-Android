@@ -28,6 +28,7 @@ class FTRegistrationPhoneNumberInputField @JvmOverloads constructor(
         get() {
             return "${prefix}${inputField.unMaskedText}"
         }
+
     /** Must be public. It allows to apply the phone mask by user */
     var phoneMask: PhoneMask = PhoneMask.NONE
         set(value) {
@@ -45,6 +46,7 @@ class FTRegistrationPhoneNumberInputField @JvmOverloads constructor(
 
     /** Must be public. It allows to apply the user style for input field */
     lateinit var inputField: MaskedEditText
+
     /** Must be public. It allows to apply the user style for errors field */
     lateinit var description: TextView
 
@@ -118,9 +120,10 @@ class FTRegistrationPhoneNumberInputField @JvmOverloads constructor(
     private fun setPhoneMaskToInputField(mask: PhoneMask) {
         when (mask) {
             is PhoneMask.CustomMask -> inputField.setMask(mask.mask.replace('X', '#'))
-            PhoneMask.NONE -> inputField.setMask("*".repeat(50))
+            PhoneMask.NONE -> inputField.setMask("*".repeat(NONE_MASK_PHONE_MAX_SIZE_50))
             PhoneMask.XX_XXX_XXX_XXXX -> inputField.setMask("+## (###) ###-####")
             PhoneMask.X_XXX_XXX_XXXX -> inputField.setMask("+# (###) ###-####")
+            PhoneMask.PLUS -> inputField.setMask("+####################")
         }
     }
 
@@ -131,8 +134,9 @@ class FTRegistrationPhoneNumberInputField @JvmOverloads constructor(
                 val charsCount = (phoneMask as PhoneMask.CustomMask).mask.count { it == '#' }
                 checkPhoneNumberSize(phoneField, charsCount)
             }
-            PhoneMask.XX_XXX_XXX_XXXX -> checkPhoneNumberSize(phoneField, 12)
-            PhoneMask.X_XXX_XXX_XXXX -> checkPhoneNumberSize(phoneField, 11)
+            PhoneMask.XX_XXX_XXX_XXXX -> checkPhoneNumberSize(phoneField, PHONE_REQUIRED_SIZE_12)
+            PhoneMask.X_XXX_XXX_XXXX -> checkPhoneNumberSize(phoneField, PHONE_REQUIRED_SIZE_11)
+            PhoneMask.PLUS -> checkPhoneNumberForPlusMask(phoneField, PLUS_MASK_PHONE_MIN_SIZE_11, PLUS_MASK_PHONE_MAX_SIZE_20)
         }
     }
 
@@ -151,5 +155,35 @@ class FTRegistrationPhoneNumberInputField @JvmOverloads constructor(
             )
             true
         }
+    }
+
+    private fun checkPhoneNumberForPlusMask(
+        phoneField: MaskedEditText,
+        minSize: Int,
+        maxSize: Int
+    ): Boolean {
+        val fieldSize = (phoneField.unMaskedText?.length ?: 0)
+        return if (fieldSize < minSize || fieldSize > maxSize) {
+            phoneField.setInputError(
+                description,
+                context.getString(R.string.ft_auth_phone_number_error),
+                context
+            )
+            false
+        } else {
+            phoneField.setInputSuccess(
+                description,
+                context
+            )
+            true
+        }
+    }
+
+    companion object {
+        private const val PHONE_REQUIRED_SIZE_11 = 11
+        private const val PHONE_REQUIRED_SIZE_12 = 12
+        private const val PLUS_MASK_PHONE_MAX_SIZE_20 = 20
+        private const val PLUS_MASK_PHONE_MIN_SIZE_11 = 11
+        private const val NONE_MASK_PHONE_MAX_SIZE_50 = 50
     }
 }
