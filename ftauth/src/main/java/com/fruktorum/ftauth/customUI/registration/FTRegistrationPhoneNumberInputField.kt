@@ -94,6 +94,15 @@ class FTRegistrationPhoneNumberInputField @JvmOverloads constructor(
         validatePhoneNumber(inputField)
     }
 
+
+    override fun setErrorMessage(message: String) {
+        inputField.setInputError(
+            description,
+            message,
+            context!!
+        )
+    }
+
     fun validatePhoneNumber(phoneField: MaskedEditText): Boolean {
         return when (phoneMask) {
             PhoneMask.NONE -> true

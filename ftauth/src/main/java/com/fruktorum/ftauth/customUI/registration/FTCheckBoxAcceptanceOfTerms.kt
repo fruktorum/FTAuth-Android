@@ -89,4 +89,8 @@ class FTCheckBoxAcceptanceOfTerms(
             }
         }
     }
+
+    override fun setErrorMessage(message: String) {
+
+    }
 }

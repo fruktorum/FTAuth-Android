@@ -1,9 +1,11 @@
 package com.fruktorum.ftauth.data
 
 import android.util.Log
+import android.widget.Toast
 import com.fruktorum.ftauth.FTAuth
 import com.fruktorum.ftauth.data.base.ErrorModelDeserializer
 import com.fruktorum.ftauth.data.base.ErrorResponseModel
+import com.fruktorum.ftauth.data.base.MethodType
 import com.fruktorum.ftauth.data.error.Error
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonSyntaxException
@@ -20,7 +22,7 @@ class ErrorHandler {
             .create()
 
 
-    fun handle(throwable: Throwable) {
+    fun handle(throwable: Throwable, methodType: MethodType) {
         if (throwable is HttpException) {
             try {
                 val errorModel = gson.fromJson(
@@ -31,24 +33,41 @@ class ErrorHandler {
                     errorModel.error?.let { error ->
                         when (Error.getErrorType(error)) {
                             Error.EMAIL_EXISTS -> {
-                                Log.d("FTAuth", "email exist error")
                                 FTAuth.registerEmailInputField?.setErrorMessage("Email existed")
                             }
-                            Error.PASSWORD_INVALID -> {
-
+                            Error.EMAIL_INVALID -> {
+                                val fieldToShowError = if(methodType == MethodType.AUTH) FTAuth.authEmailInputField
+                                else FTAuth.authEmailInputField
+                                fieldToShowError?.setErrorMessage("Email is invalid")
                             }
+                            Error.PASSWORD_INVALID -> {
+                                val fieldToShowError = if(methodType == MethodType.AUTH) FTAuth.authPasswordInputField
+                                else FTAuth.registerPasswordInputField
+                                fieldToShowError?.setErrorMessage("Password is invalid")
+                            }
+                            Error.PASSWORD_TOO_SHORT -> {
+                                val fieldToShowError = if(methodType == MethodType.AUTH) FTAuth.authPasswordInputField
+                                else FTAuth.registerPasswordInputField
+                                fieldToShowError?.setErrorMessage("Password too short")
+                            }
+                            //TODO Добавить виды ошибок для Google/Facebook/Logout
                             else -> {
+                                handleUnknownTypeError(error.message)
                             }
                         }
                     }
                 } else {
-                    Log.d("FTAuth", "Messages are null")
+                    Log.d(FTAuth.TAG, "${methodType.name} error. Messages are null")
                 }
             } catch (ex: JsonSyntaxException) {
-                Log.d("FTAuth", ex.message.toString())
+                Log.d(FTAuth.TAG, ex.message.toString())
             }
         }
     }
 
+    private fun handleUnknownTypeError(error: String?) {
+        // TODO продумать что делаем с ошибкой, допустим ошибка на сервере
+        // TODO Log.d(FTAuth.TAG, "Thrown error by: $error")
+    }
 
 }

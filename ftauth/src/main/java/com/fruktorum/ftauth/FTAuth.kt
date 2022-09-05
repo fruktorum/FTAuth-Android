@@ -11,6 +11,7 @@ import com.fruktorum.ftauth.customUI.webView.WebViewActivity
 import com.fruktorum.ftauth.data.ErrorHandler
 import com.fruktorum.ftauth.data.auth.TypeElement
 import com.fruktorum.ftauth.data.auth.dataModel.RegisterUserDataModel
+import com.fruktorum.ftauth.data.base.MethodType
 import com.fruktorum.ftauth.network.AuthLocalDataProvider
 import com.fruktorum.ftauth.network.RetrofitHelper
 import com.fruktorum.ftauth.network.repository.AuthRepository
@@ -44,7 +45,6 @@ class FTAuth {
 
     private val errorHandler = ErrorHandler()
 
-    @SuppressLint("StaticFieldLeak")
     companion object {
         const val TAG = "FTAuth"
 
@@ -54,15 +54,24 @@ class FTAuth {
         var errorMessageColor: Int = R.color.colorError
 
         //Custom UI fields
+        @SuppressLint("StaticFieldLeak")
         var authEmailInputField: FTAuthEmailInputField? = null
+        @SuppressLint("StaticFieldLeak")
         var authPasswordInputField: FTAuthPasswordInputField? = null
 
+        @SuppressLint("StaticFieldLeak")
         var registerEmailInputField: FTRegistrationEmailInputField? = null
+        @SuppressLint("StaticFieldLeak")
         var registerPasswordInputField: FTRegistrationPasswordInputField? = null
+        @SuppressLint("StaticFieldLeak")
         var registerConfirmPasswordInputField: FTRegistrationConfirmPasswordInputField? = null
+        @SuppressLint("StaticFieldLeak")
         var registerFirstNameInputField: FTRegistrationFirstNameInputField? = null
+        @SuppressLint("StaticFieldLeak")
         var registerLastNameInputField: FTRegistrationLastNameInputField? = null
+        @SuppressLint("StaticFieldLeak")
         var registerNameInputField: FTRegistrationNameInputField? = null
+        @SuppressLint("StaticFieldLeak")
         var registerPhoneNumberInputField: FTRegistrationPhoneNumberInputField? = null
         var checkBoxAcceptanceOfTerms: FTCheckBoxAcceptanceOfTerms? = null
 
@@ -183,15 +192,15 @@ class FTAuth {
                 .subscribe({
                     onLoginSuccess?.invoke()
                 }, {
-                    handleError(it)
+                    handleError(it, MethodType.AUTH)
                     onLoginFailure?.invoke(it)
                 })
         )
 
     }
 
-    private fun handleError(throwable: Throwable) {
-        errorHandler.handle(throwable)
+    private fun handleError(throwable: Throwable, methodType: MethodType) {
+        errorHandler.handle(throwable, methodType)
     }
 
 
@@ -219,7 +228,7 @@ class FTAuth {
                     .subscribe({
                         onRegistrationSuccess?.invoke()
                     }, {
-                        errorHandler.handle(it)
+                        errorHandler.handle(it, MethodType.REGISTRATION)
                         onRegistrationFailure?.invoke(it)
                     })
             )
@@ -237,6 +246,7 @@ class FTAuth {
                         putExtra(WebViewActivity.WEB_VIEW_URL, it.url)
                     })
                 }, {
+                    errorHandler.handle(it, MethodType.AUTH_GOOGLE)
                     onLoginFailure?.invoke(it)
                 })
         )
@@ -252,6 +262,7 @@ class FTAuth {
                         putExtra(WebViewActivity.WEB_VIEW_URL, it.url)
                     })
                 }, {
+                    errorHandler.handle(it, MethodType.AUTH_FACEBOOK)
                     onLoginFailure?.invoke(it)
                 })
         )
@@ -265,6 +276,7 @@ class FTAuth {
                 .subscribe({
                     onLogOutSuccess?.invoke()
                 }, {
+                    errorHandler.handle(it, MethodType.LOGOUT)
                     onLogOutFailure?.invoke(it)
                 })
         )
@@ -273,6 +285,10 @@ class FTAuth {
     fun getSessionToken() = instance!!.authRepository!!.getSessionToken()
 
     fun getProviderToken() = instance!!.authRepository!!.getProviderToken()
+
+    fun setSessionToken(sessionToken: String) = instance?.authRepository?.setSessionToken(sessionToken)
+
+    fun setProviderToken(providerToken: String) = instance?.authRepository?.setProviderToken(providerToken)
 
     fun onStop() {
         if (!disposables.isDisposed) {

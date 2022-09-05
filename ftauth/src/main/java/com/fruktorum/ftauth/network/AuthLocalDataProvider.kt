@@ -33,5 +33,13 @@ constructor(private val prefs: SharedPreferences) {
         }
     }
 
+    fun setSessionToken(sessionToken: String) {
+        prefs[PrefsConstants.SESSION_TOKEN] = sessionToken
+    }
+
+    fun setProviderToken(providerToken: String) {
+        prefs[PrefsConstants.PROVIDER_TOKEN] = providerToken
+    }
+
 
 }
