@@ -23,6 +23,21 @@ class FTCheckBoxAcceptanceOfTerms(
         init(attrs)
     }
 
+    override fun validate() {
+        if (this.isChecked) setSuccessTint() else setErrorTint()
+    }
+
+    override fun onDetachedFromWindow() {
+        this.setOnCheckedChangeListener(null)
+        super.onDetachedFromWindow()
+    }
+
+    fun set(checked: Boolean, image: Drawable) {
+        this.isChecked = checked
+        this.buttonDrawable = image
+        setSuccessTint()
+    }
+
     private fun init(attrs: AttributeSet?) {
         FTAuth.checkBoxAcceptanceOfTerms = this
 
@@ -48,28 +63,26 @@ class FTCheckBoxAcceptanceOfTerms(
 
                 defaultTintList = ContextCompat.getColorStateList(
                     context,
-                    if (defaultColor == -1) R.color.colorDefault else defaultColor
+                    if (defaultColor == -1) R.color.colorSuccess else defaultColor
                 )
 
                 setDefaultTint()
+
             } finally {
                 recycle()
             }
         }
-    }
-
-    fun set(checked: Boolean, image: Drawable) {
-        this.isChecked = checked
-        this.buttonDrawable = image
-    }
-
-    override fun validate() {
-        if (this.isChecked) setSuccessTint() else setErrorTint()
+        this.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                setSuccessTint()
+            } else {
+                setErrorTint()
+            }
+        }
     }
 
     private fun setErrorTint() {
         buttonTintList = errorTintList
-        addUpdateAfterValidation()
     }
 
     private fun setSuccessTint() {
@@ -78,16 +91,6 @@ class FTCheckBoxAcceptanceOfTerms(
 
     private fun setDefaultTint() {
         buttonTintList = defaultTintList
-    }
-
-    //NOTE Убираем подсветку после нажатия чекбокса
-    private fun addUpdateAfterValidation() {
-        setOnCheckedChangeListener { compoundButton, b ->
-            if (b) {
-                setDefaultTint()
-                setOnCheckedChangeListener(null)
-            }
-        }
     }
 
     override fun setErrorMessage(message: String) {
