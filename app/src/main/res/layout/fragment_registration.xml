@@ -88,7 +88,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
-            android:text="@string/accept_terms_privacy_policy" />
+            android:text="@string/accept_terms_privacy_policy"
+            app:defaultFieldColor="@color/colorAccent"
+            app:errorFieldColor="@color/colorPrimary"
+            app:successFieldColor="@color/colorPrimaryDark" />
 
         <com.fruktorum.ftauth.customUI.registration.FTRegistrationButton
             android:id="@+id/btn_register"
