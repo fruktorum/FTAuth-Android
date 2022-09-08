@@ -15,6 +15,8 @@ class App : DaggerApplication() {
     override fun onCreate() {
         appComponent = DaggerAppComponent.builder().application(this).build()
         super.onCreate()
-        FTAuth.Companion.Builder(this).setServerUrl("http://204.155.154.249:3003 ").build()
+        FTAuth.Companion.Builder(this)
+            .setServerUrl("https://ft-auth-service-test.herokuapp.com")
+            .build()
     }
 }
