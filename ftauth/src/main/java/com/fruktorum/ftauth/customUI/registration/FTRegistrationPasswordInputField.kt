@@ -22,64 +22,25 @@ class FTRegistrationPasswordInputField @JvmOverloads constructor(
 ) :
     ConstraintLayout(context, attrs, defStyleAttr), FTAuthUI {
 
-    init {
-        init(attrs)
-    }
-
     var isPasswordValid = false
-
     val value: String
         get() {
             return inputField.text.toString()
         }
 
-    lateinit var description: TextView
+    /** Must be public. It allows to apply the user style for input field */
     lateinit var inputField: EditText
+    /** Must be public. It allows to apply the user style for errors field */
+    lateinit var description: TextView
 
-    private fun init(attrs: AttributeSet?) {
-        View.inflate(context, R.layout.layout_password_input_field, this)
-        description = findViewById(R.id.text_error_password)
-        inputField = findViewById(R.id.edt_input_password)
-
-        context.theme.obtainStyledAttributes(
-            attrs,
-            R.styleable.FTAuthInputField,
-            0, 0
-        ).apply {
-            try {
-                val inputStyle = getResourceId(R.styleable.FTAuthInputField_inputFieldStyle, -1)
-                if (inputStyle != -1) setInputFieldStyle(inputStyle)
-                val descriptionStyle =
-                    getResourceId(R.styleable.FTAuthInputField_descriptionStyle, -1)
-                if (descriptionStyle != -1) setDescriptionStyle(inputStyle)
-            } finally {
-                recycle()
-            }
-        }
-
-        inputField.addTextChangedListener(object : TextValidator(inputField) {
-            override fun validate(
-                textView: TextView,
-                text: String
-            ) {
-                isPasswordValid = validatePassword(textView, text)
-            }
-        })
+    init {
+        init(attrs)
         FTAuth.registerPasswordInputField = this
     }
 
-    fun validatePassword(passwordField: TextView, password: String): Boolean {
-        return if (password.length < 8) {
-            passwordField.setInputError(
-                description,
-                context!!.getString(R.string.ft_auth_password_error),
-                context!!
-            )
-            false
-        } else {
-            passwordField.setInputSuccess(description, context!!)
-            true
-        }
+    override fun onDetachedFromWindow() {
+        inputField.addTextChangedListener(null)
+        super.onDetachedFromWindow()
     }
 
     override fun validate() {
@@ -94,11 +55,60 @@ class FTRegistrationPasswordInputField @JvmOverloads constructor(
         )
     }
 
+    /** Must be public. It allows to apply the user style for input field */
     fun setInputFieldStyle(@StyleRes res: Int) {
         inputField.style(res)
     }
 
+    /** Must be public. It allows to apply the user style for errors field */
     fun setDescriptionStyle(@StyleRes res: Int) {
         description.style(res)
+    }
+
+    private fun init(attrs: AttributeSet?) {
+        View.inflate(context, R.layout.layout_password_input_field, this)
+        description = findViewById(R.id.text_error_password)
+        inputField = findViewById(R.id.edt_input_password)
+
+        context.theme.obtainStyledAttributes(
+            attrs,
+            R.styleable.FTAuthInputField,
+            0, 0
+        ).apply {
+            try {
+                val inputStyle =
+                    getResourceId(R.styleable.FTAuthInputField_inputFieldStyle, -1)
+                if (inputStyle != -1) setInputFieldStyle(inputStyle)
+
+                val descriptionStyle =
+                    getResourceId(R.styleable.FTAuthInputField_descriptionStyle, -1)
+                if (descriptionStyle != -1) setDescriptionStyle(descriptionStyle)
+            } finally {
+                recycle()
+            }
+        }
+
+        inputField.addTextChangedListener(object : TextValidator(inputField) {
+            override fun validate(
+                textView: TextView,
+                text: String
+            ) {
+                isPasswordValid = validatePassword(textView, text)
+            }
+        })
+    }
+
+    private fun validatePassword(passwordField: TextView, password: String): Boolean {
+        return if (password.length < 8) {
+            passwordField.setInputError(
+                description,
+                context!!.getString(R.string.ft_auth_password_error),
+                context!!
+            )
+            false
+        } else {
+            passwordField.setInputSuccess(description, context!!)
+            true
+        }
     }
 }

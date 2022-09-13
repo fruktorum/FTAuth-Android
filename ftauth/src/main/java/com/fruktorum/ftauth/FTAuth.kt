@@ -6,7 +6,14 @@ import android.content.Intent
 import androidx.annotation.ColorRes
 import com.fruktorum.ftauth.customUI.auth.FTAuthEmailInputField
 import com.fruktorum.ftauth.customUI.auth.FTAuthPasswordInputField
-import com.fruktorum.ftauth.customUI.registration.*
+import com.fruktorum.ftauth.customUI.registration.FTCheckBoxAcceptanceOfTerms
+import com.fruktorum.ftauth.customUI.registration.FTRegistrationConfirmPasswordInputField
+import com.fruktorum.ftauth.customUI.registration.FTRegistrationEmailInputField
+import com.fruktorum.ftauth.customUI.registration.FTRegistrationFirstNameInputField
+import com.fruktorum.ftauth.customUI.registration.FTRegistrationLastNameInputField
+import com.fruktorum.ftauth.customUI.registration.FTRegistrationNameInputField
+import com.fruktorum.ftauth.customUI.registration.FTRegistrationPasswordInputField
+import com.fruktorum.ftauth.customUI.registration.FTRegistrationPhoneNumberInputField
 import com.fruktorum.ftauth.customUI.webView.WebViewActivity
 import com.fruktorum.ftauth.data.ErrorHandler
 import com.fruktorum.ftauth.data.auth.TypeElement
@@ -15,15 +22,16 @@ import com.fruktorum.ftauth.data.base.MethodType
 import com.fruktorum.ftauth.network.AuthLocalDataProvider
 import com.fruktorum.ftauth.network.RetrofitHelper
 import com.fruktorum.ftauth.network.repository.AuthRepository
-import com.fruktorum.ftauth.network.usecase.*
+import com.fruktorum.ftauth.network.usecase.GetFacebookSignInUrlUseCase
+import com.fruktorum.ftauth.network.usecase.GetGoogleSignInUrlUseCase
+import com.fruktorum.ftauth.network.usecase.LogOutUserUseCase
+import com.fruktorum.ftauth.network.usecase.LoginUserUseCase
+import com.fruktorum.ftauth.network.usecase.RegisterUserUseCase
 import com.fruktorum.ftauth.util.constants.PrefsConstants
 import com.fruktorum.ftauth.util.extensions.async
 import io.reactivex.disposables.CompositeDisposable
-import java.util.*
 
 class FTAuth {
-
-    private var authRepository: AuthRepository? = null
 
     var onLoginSuccess: (() -> Unit?)? = null
     var onLoginFailure: ((Throwable) -> Unit?)? = null
@@ -42,138 +50,9 @@ class FTAuth {
 
     var disposables = CompositeDisposable()
 
-
     private val errorHandler = ErrorHandler()
 
-    companion object {
-        const val TAG = "FTAuth"
-
-        private var instance: FTAuth? = null
-
-        @ColorRes
-        var errorMessageColor: Int = R.color.colorError
-
-        //Custom UI fields
-        @SuppressLint("StaticFieldLeak")
-        var authEmailInputField: FTAuthEmailInputField? = null
-        @SuppressLint("StaticFieldLeak")
-        var authPasswordInputField: FTAuthPasswordInputField? = null
-
-        @SuppressLint("StaticFieldLeak")
-        var registerEmailInputField: FTRegistrationEmailInputField? = null
-        @SuppressLint("StaticFieldLeak")
-        var registerPasswordInputField: FTRegistrationPasswordInputField? = null
-        @SuppressLint("StaticFieldLeak")
-        var registerConfirmPasswordInputField: FTRegistrationConfirmPasswordInputField? = null
-        @SuppressLint("StaticFieldLeak")
-        var registerFirstNameInputField: FTRegistrationFirstNameInputField? = null
-        @SuppressLint("StaticFieldLeak")
-        var registerLastNameInputField: FTRegistrationLastNameInputField? = null
-        @SuppressLint("StaticFieldLeak")
-        var registerNameInputField: FTRegistrationNameInputField? = null
-        @SuppressLint("StaticFieldLeak")
-        var registerPhoneNumberInputField: FTRegistrationPhoneNumberInputField? = null
-        var checkBoxAcceptanceOfTerms: FTCheckBoxAcceptanceOfTerms? = null
-
-        @Synchronized
-        @JvmStatic
-        fun getInstance(): FTAuth {
-            return if (instance != null) instance!! else throw IllegalStateException(
-                "FTAuth was not initialized properly. Use FTAuth.Builder to init library."
-            )
-        }
-
-        class Builder(
-            private var context: Context
-        ) {
-
-            init {
-                instance = FTAuth()
-            }
-
-            @Throws(IllegalStateException::class)
-            fun build() {
-                if (instance!!.serverUrl.isNullOrEmpty()) throw IllegalStateException(
-                    "FTAuth server url is null or empty."
-                )
-                val retrofit = RetrofitHelper(instance!!.serverUrl!!)
-                instance!!.authRepository =
-                    AuthRepository(
-                        retrofit.authApi,
-                        AuthLocalDataProvider(
-                            context.getSharedPreferences(
-                                context.packageName!! + PrefsConstants.APP_NAME,
-                                Context.MODE_PRIVATE
-                            )
-                        )
-                    )
-
-
-            }
-
-            fun setServerUrl(serverUrl: String?): Builder {
-                instance!!.serverUrl = serverUrl
-                return this
-            }
-        }
-
-    }
-
-
-    private fun checkValidAllElements(): Boolean {
-        var isValid = true
-        getInstance().requiredElements.forEach {
-            when (it) {
-                TypeElement.NONE -> return@forEach
-                TypeElement.FIRST_NAME -> {
-                    registerFirstNameInputField?.validate()
-                    isValid =
-                        if (isValid) registerFirstNameInputField?.isFirstNameValid
-                            ?: false else isValid
-                }
-                TypeElement.LAST_NAME -> {
-                    registerLastNameInputField?.validate()
-                    isValid =
-                        if (isValid) registerLastNameInputField?.isLastNameValid
-                            ?: false else isValid
-                }
-                TypeElement.PASSWORD -> {
-                    registerPasswordInputField?.validate()
-                    isValid =
-                        if (isValid) registerPasswordInputField?.isPasswordValid
-                            ?: false else isValid
-                }
-                TypeElement.CONFIRM_PASSWORD -> {
-                    registerConfirmPasswordInputField?.validate()
-                    isValid =
-                        if (isValid) registerConfirmPasswordInputField?.isPasswordValid
-                            ?: false else isValid
-                }
-                TypeElement.EMAIL -> {
-                    registerEmailInputField?.validate()
-                    isValid =
-                        if (isValid) registerEmailInputField?.isEmailValid
-                            ?: false else isValid
-                }
-                TypeElement.NAME -> {
-                    registerNameInputField?.validate()
-                    isValid =
-                        if (isValid) registerNameInputField?.isNameValid
-                            ?: false else isValid
-                }
-                TypeElement.PHONE -> {
-                    registerPhoneNumberInputField?.validate()
-                    isValid =
-                        if (isValid) registerPhoneNumberInputField?.isPhoneValid
-                            ?: false else isValid
-                }
-                TypeElement.ACCEPT -> isValid =
-                    if (isValid) checkBoxAcceptanceOfTerms?.isChecked
-                        ?: false else isValid
-            }
-        }
-        return isValid
-    }
+    private var authRepository: AuthRepository? = null
 
     fun login() {
         authEmailInputField?.validate()
@@ -195,11 +74,6 @@ class FTAuth {
         )
 
     }
-
-    private fun handleError(throwable: Throwable, methodType: MethodType) {
-        errorHandler.handle(throwable, methodType)
-    }
-
 
     fun registration() {
         if (checkValidAllElements()) {
@@ -230,7 +104,6 @@ class FTAuth {
                     })
             )
         }
-
     }
 
     fun loginByGoogle(context: Context) {
@@ -283,9 +156,11 @@ class FTAuth {
 
     fun getProviderToken() = instance!!.authRepository!!.getProviderToken()
 
-    fun setSessionToken(sessionToken: String) = instance?.authRepository?.setSessionToken(sessionToken)
+    fun setSessionToken(sessionToken: String) =
+        instance?.authRepository?.setSessionToken(sessionToken)
 
-    fun setProviderToken(providerToken: String) = instance?.authRepository?.setProviderToken(providerToken)
+    fun setProviderToken(providerToken: String) =
+        instance?.authRepository?.setProviderToken(providerToken)
 
     fun onStop() {
         if (!disposables.isDisposed) {
@@ -293,4 +168,141 @@ class FTAuth {
         }
     }
 
+    private fun checkValidAllElements(): Boolean {
+        var isValid = true
+        getInstance().requiredElements.forEach {
+            when (it) {
+                TypeElement.NONE -> return@forEach
+                TypeElement.FIRST_NAME -> {
+                    registerFirstNameInputField?.validate()
+                    isValid =
+                        if (isValid) registerFirstNameInputField?.isFirstNameValid
+                            ?: false else isValid
+                }
+                TypeElement.LAST_NAME -> {
+                    registerLastNameInputField?.validate()
+                    isValid =
+                        if (isValid) registerLastNameInputField?.isLastNameValid
+                            ?: false else isValid
+                }
+                TypeElement.PASSWORD -> {
+                    registerPasswordInputField?.validate()
+                    isValid =
+                        if (isValid) registerPasswordInputField?.isPasswordValid
+                            ?: false else isValid
+                }
+                TypeElement.CONFIRM_PASSWORD -> {
+                    registerConfirmPasswordInputField?.validate()
+                    isValid =
+                        if (isValid) registerConfirmPasswordInputField?.isPasswordValid
+                            ?: false else isValid
+                }
+                TypeElement.EMAIL -> {
+                    registerEmailInputField?.validate()
+                    isValid =
+                        if (isValid) registerEmailInputField?.isEmailValid
+                            ?: false else isValid
+                }
+                TypeElement.NAME -> {
+                    registerNameInputField?.validate()
+                    isValid =
+                        if (isValid) registerNameInputField?.isNameValid
+                            ?: false else isValid
+                }
+                TypeElement.PHONE -> {
+                    registerPhoneNumberInputField?.validate()
+                    isValid =
+                        if (isValid) registerPhoneNumberInputField?.isPhoneValid
+                            ?: false else isValid
+                }
+                TypeElement.ACCEPT -> {
+                    checkBoxAcceptanceOfTerms?.validate()
+                    isValid =
+                        if (isValid) checkBoxAcceptanceOfTerms?.isChecked
+                            ?: false else isValid
+                }
+            }
+        }
+        return isValid
+    }
+
+    private fun handleError(throwable: Throwable, methodType: MethodType) {
+        errorHandler.handle(throwable, methodType)
+    }
+
+    companion object {
+        const val TAG = "FTAuth"
+        private const val FT_AUTH_GET_INSTANCE_ERROR_MSG =
+            "FTAuth was not initialized properly. Use FTAuth.Builder to init library."
+        private const val FT_AUTH_SERVER_URL_ERROR = "FTAuth server url is null or empty."
+
+        @ColorRes
+        var errorMessageColor: Int = R.color.colorError
+
+        // Custom UI fields
+        @SuppressLint("StaticFieldLeak")
+        var authEmailInputField: FTAuthEmailInputField? = null
+        @SuppressLint("StaticFieldLeak")
+        var authPasswordInputField: FTAuthPasswordInputField? = null
+
+        @SuppressLint("StaticFieldLeak")
+        var registerEmailInputField: FTRegistrationEmailInputField? = null
+        @SuppressLint("StaticFieldLeak")
+        var registerPasswordInputField: FTRegistrationPasswordInputField? = null
+        @SuppressLint("StaticFieldLeak")
+        var registerConfirmPasswordInputField: FTRegistrationConfirmPasswordInputField? = null
+        @SuppressLint("StaticFieldLeak")
+        var registerFirstNameInputField: FTRegistrationFirstNameInputField? = null
+        @SuppressLint("StaticFieldLeak")
+        var registerLastNameInputField: FTRegistrationLastNameInputField? = null
+        @SuppressLint("StaticFieldLeak")
+        var registerNameInputField: FTRegistrationNameInputField? = null
+        @SuppressLint("StaticFieldLeak")
+        var registerPhoneNumberInputField: FTRegistrationPhoneNumberInputField? = null
+        var checkBoxAcceptanceOfTerms: FTCheckBoxAcceptanceOfTerms? = null
+
+        private var instance: FTAuth? = null
+
+        @Synchronized
+        @JvmStatic
+        fun getInstance(): FTAuth {
+            return if (instance != null) {
+                instance!!
+            } else {
+                throw IllegalStateException(FT_AUTH_GET_INSTANCE_ERROR_MSG)
+            }
+        }
+
+        class Builder(
+            private var context: Context
+        ) {
+
+            init {
+                instance = FTAuth()
+            }
+
+            @Throws(IllegalStateException::class)
+            fun build() {
+                if (instance!!.serverUrl.isNullOrEmpty()) {
+                    throw IllegalStateException(FT_AUTH_SERVER_URL_ERROR)
+                }
+                val retrofit = RetrofitHelper(instance!!.serverUrl!!)
+                instance!!.authRepository =
+                    AuthRepository(
+                        retrofit.authApi,
+                        AuthLocalDataProvider(
+                            context.getSharedPreferences(
+                                context.packageName!! + PrefsConstants.APP_NAME,
+                                Context.MODE_PRIVATE
+                            )
+                        )
+                    )
+            }
+
+            fun setServerUrl(serverUrl: String?): Builder {
+                instance!!.serverUrl = serverUrl
+                return this
+            }
+        }
+    }
 }
