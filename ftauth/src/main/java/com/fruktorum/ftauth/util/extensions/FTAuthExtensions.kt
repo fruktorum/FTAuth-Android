@@ -13,7 +13,6 @@ internal fun String.isEmailValid(): Boolean = Patterns.EMAIL_ADDRESS.matcher(thi
 
 internal fun TextView.setInputError(textViewError: TextView, errorMsg: String, context: Context) {
     textViewError.text = errorMsg
-    textViewError.setTextColor(ContextCompat.getColor(context, FTAuth.errorMessageColor))
 }
 
 internal fun TextView.setInputSuccess(textViewError: TextView, context: Context) {
