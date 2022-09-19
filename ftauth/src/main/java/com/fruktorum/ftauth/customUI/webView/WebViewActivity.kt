@@ -40,6 +40,10 @@ internal class WebViewActivity : AppCompatActivity(R.layout.activity_webview) {
         initWebView()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        compositeDisposable.clear()
+    }
 
     @SuppressLint("SetJavaScriptEnabled")
     private fun initWebView() {
@@ -79,7 +83,6 @@ internal class WebViewActivity : AppCompatActivity(R.layout.activity_webview) {
                 finish()
             }
         }
-
     }
 
     private fun handleUri(url: Uri?): Boolean {
@@ -91,12 +94,6 @@ internal class WebViewActivity : AppCompatActivity(R.layout.activity_webview) {
             true
         } else false
     }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        compositeDisposable.clear()
-    }
-
 
     companion object {
         const val WEB_VIEW_URL = "webview_url"

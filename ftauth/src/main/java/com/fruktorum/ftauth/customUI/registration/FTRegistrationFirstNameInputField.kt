@@ -22,23 +22,47 @@ class FTRegistrationFirstNameInputField @JvmOverloads constructor(
 ) :
     ConstraintLayout(context, attrs, defStyleAttr), FTAuthUI {
 
-    init {
-        init(attrs)
-    }
-
     var isFirstNameValid = false
-
     val value: String
         get() {
             return inputField.text.toString()
         }
 
-    lateinit var description: TextView
+    /** Must be public. It allows to apply the user style for input field */
     lateinit var inputField: EditText
-
+    /** Must be public. It allows to apply the user style for errors field */
+    lateinit var description: TextView
 
     init {
+        init(attrs)
         FTAuth.registerFirstNameInputField = this
+    }
+
+    override fun onDetachedFromWindow() {
+        inputField.addTextChangedListener(null)
+        super.onDetachedFromWindow()
+    }
+
+    override fun validate() {
+        validateName(inputField, inputField.text.toString())
+    }
+
+    override fun setErrorMessage(message: String) {
+        inputField.setInputError(
+            description,
+            message,
+            context!!
+        )
+    }
+
+    /** Must be public. It allows to apply the user style for input field */
+    fun setInputFieldStyle(@StyleRes res: Int) {
+        inputField.style(res)
+    }
+
+    /** Must be public. It allows to apply the user style for errors field */
+    fun setDescriptionStyle(@StyleRes res: Int) {
+        description.style(res)
     }
 
     private fun init(attrs: AttributeSet?) {
@@ -52,11 +76,13 @@ class FTRegistrationFirstNameInputField @JvmOverloads constructor(
             0, 0
         ).apply {
             try {
-                val inputStyle = getResourceId(R.styleable.FTAuthInputField_inputFieldStyle, -1)
+                val inputStyle =
+                    getResourceId(R.styleable.FTAuthInputField_inputFieldStyle, -1)
                 if (inputStyle != -1) setInputFieldStyle(inputStyle)
+
                 val descriptionStyle =
                     getResourceId(R.styleable.FTAuthInputField_descriptionStyle, -1)
-                if (descriptionStyle != -1) setDescriptionStyle(inputStyle)
+                if (descriptionStyle != -1) setDescriptionStyle(descriptionStyle)
             } finally {
                 recycle()
             }
@@ -70,14 +96,9 @@ class FTRegistrationFirstNameInputField @JvmOverloads constructor(
                 isFirstNameValid = validateName(textView, text)
             }
         })
-
     }
 
-    override fun validate() {
-        validateName(inputField, inputField.text.toString())
-    }
-
-    fun validateName(nameField: TextView, name: String): Boolean {
+    private fun validateName(nameField: TextView, name: String): Boolean {
         return if (name.isEmpty()) {
             nameField.setInputError(
                 description,
@@ -89,13 +110,5 @@ class FTRegistrationFirstNameInputField @JvmOverloads constructor(
             nameField.setInputSuccess(description, context!!)
             true
         }
-    }
-
-    fun setInputFieldStyle(@StyleRes res: Int) {
-        inputField.style(res)
-    }
-
-    fun setDescriptionStyle(@StyleRes res: Int) {
-        description.style(res)
     }
 }

@@ -28,6 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginEnd="24dp"
+            app:descriptionStyle="@style/DescriptionField"
             app:inputFieldStyle="@style/InputField" />
 
         <com.fruktorum.ftauth.customUI.registration.FTRegistrationLastNameInputField
@@ -36,6 +37,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginEnd="24dp"
+            app:descriptionStyle="@style/DescriptionField"
             app:inputFieldStyle="@style/InputField" />
 
         <com.fruktorum.ftauth.customUI.registration.FTRegistrationNameInputField
@@ -43,6 +45,7 @@
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:layout_marginStart="24dp"
+            app:descriptionStyle="@style/DescriptionField"
             android:layout_marginEnd="24dp"
             app:inputFieldStyle="@style/InputField" />
 
@@ -53,9 +56,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginEnd="24dp"
-            app:inputFieldStyle="@style/InputField"
-
-            />
+            app:inputFieldStyle="@style/InputField" />
 
         <com.fruktorum.ftauth.customUI.registration.FTRegistrationPhoneNumberInputField
             android:id="@+id/phone_input_field"
@@ -82,13 +83,15 @@
             android:layout_marginEnd="24dp"
             app:inputFieldStyle="@style/InputField" />
 
-
         <com.fruktorum.ftauth.customUI.registration.FTCheckBoxAcceptanceOfTerms
             android:id="@+id/check_box_terms"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
-            android:text="@string/accept_terms_privacy_policy" />
+            android:text="@string/accept_terms_privacy_policy"
+            app:defaultFieldColor="@color/colorAccent"
+            app:errorFieldColor="@color/colorPrimary"
+            app:successFieldColor="@color/colorPrimaryDark" />
 
         <com.fruktorum.ftauth.customUI.registration.FTRegistrationButton
             android:id="@+id/btn_register"
