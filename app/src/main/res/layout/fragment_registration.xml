@@ -28,6 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginEnd="24dp"
+            app:descriptionStyle="@style/DescriptionField"
             app:inputFieldStyle="@style/InputField" />
 
         <com.fruktorum.ftauth.customUI.registration.FTRegistrationLastNameInputField
@@ -36,6 +37,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginEnd="24dp"
+            app:descriptionStyle="@style/DescriptionField"
             app:inputFieldStyle="@style/InputField" />
 
         <com.fruktorum.ftauth.customUI.registration.FTRegistrationNameInputField
@@ -43,6 +45,7 @@
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:layout_marginStart="24dp"
+            app:descriptionStyle="@style/DescriptionField"
             android:layout_marginEnd="24dp"
             app:inputFieldStyle="@style/InputField" />
 
