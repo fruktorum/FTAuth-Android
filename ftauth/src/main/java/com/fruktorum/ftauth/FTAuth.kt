@@ -112,7 +112,9 @@ class FTAuth {
             uc.createObservable()
                 .async()
                 .subscribe({
-                    context.startActivity(Intent(context, WebViewActivity::class.java).apply {
+                    val intent = Intent(context, WebViewActivity::class.java)
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    context.startActivity(intent.apply {
                         putExtra(WebViewActivity.WEB_VIEW_URL, it.url)
                     })
                 }, {
