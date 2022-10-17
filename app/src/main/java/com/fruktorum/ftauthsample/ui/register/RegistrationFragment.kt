@@ -51,7 +51,8 @@ class RegistrationFragment : Fragment(R.layout.fragment_registration) {
                 TypeElement.LAST_NAME,
                 TypeElement.FIRST_NAME,
                 TypeElement.PHONE,
-                TypeElement.ACCEPT
+                TypeElement.ACCEPT,
+                TypeElement.BIRTHDATE
             )
 
         binding.phoneInputField.phoneMask = PhoneMask.PLUS
