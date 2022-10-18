@@ -237,7 +237,8 @@ ACCEPT*). Обязательными могут быть все поля или 
   TypeElement.LAST_NAME,
   TypeElement.FIRST_NAME,
   TypeElement.PHONE,
-  TypeElement.ACCEPT
+  TypeElement.ACCEPT,
+  TypeElement.BIRTHDATE
 )
 ```
 

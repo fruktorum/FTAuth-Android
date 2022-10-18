@@ -45,8 +45,8 @@
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:layout_marginStart="24dp"
-            app:descriptionStyle="@style/DescriptionField"
             android:layout_marginEnd="24dp"
+            app:descriptionStyle="@style/DescriptionField"
             app:inputFieldStyle="@style/InputField" />
 
 
@@ -83,11 +83,20 @@
             android:layout_marginEnd="24dp"
             app:inputFieldStyle="@style/InputField" />
 
+        <com.fruktorum.ftauth.customUI.registration.FTRegistrationBirthdateField
+            android:id="@+id/birthdate_input_filed"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            app:inputFieldStyle="@style/InputField" />
+
         <com.fruktorum.ftauth.customUI.registration.FTCheckBoxAcceptanceOfTerms
             android:id="@+id/check_box_terms"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
+            android:layout_marginTop="50dp"
             android:text="@string/accept_terms_privacy_policy"
             app:defaultFieldColor="@color/colorAccent"
             app:errorFieldColor="@color/colorPrimary"

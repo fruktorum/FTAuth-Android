@@ -15,5 +15,7 @@
     <string name="ft_auth_name_hint">Name</string>
     <string name="ft_auth_phone_number_hint">Phone number</string>
     <string name="ft_auth_phone_number_error">Not a valid phone number</string>
+    <string name="ft_auth_birthdate_error">Birthdate can\'t be empty</string>
+    <string name="ft_auth_birthdate_hint">Birthdate</string>
 
 </resources>
