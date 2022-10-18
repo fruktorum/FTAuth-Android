@@ -57,6 +57,8 @@ class App : DaggerApplication() {
 | FTRegistrationPasswordInputField | Для ввода **пароля** при регистрации |
 | FTRegistrationConfirmPasswordInputField | Для **подтверждения пароля** при регистрации |
 | FTRegistrationPhoneNumberInputField | Для ввода **номера телефона** при регистрации |
+| FTRegistrationBirthdateField | Для ввода **даты рождения** при регистрации |
+
 
 **2. Подключение полей ввода**
 
