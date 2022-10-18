@@ -7,6 +7,7 @@ import androidx.annotation.ColorRes
 import com.fruktorum.ftauth.customUI.auth.FTAuthEmailInputField
 import com.fruktorum.ftauth.customUI.auth.FTAuthPasswordInputField
 import com.fruktorum.ftauth.customUI.registration.FTCheckBoxAcceptanceOfTerms
+import com.fruktorum.ftauth.customUI.registration.FTRegistrationBirthdateField
 import com.fruktorum.ftauth.customUI.registration.FTRegistrationConfirmPasswordInputField
 import com.fruktorum.ftauth.customUI.registration.FTRegistrationEmailInputField
 import com.fruktorum.ftauth.customUI.registration.FTRegistrationFirstNameInputField
@@ -211,6 +212,12 @@ class FTAuth {
                         if (isValid) registerNameInputField?.isNameValid
                             ?: false else isValid
                 }
+                TypeElement.BIRTHDATE -> {
+                    registerBirthdateInputField?.validate()
+                    isValid =
+                        if (isValid) registerBirthdateInputField?.isBirthdateValid
+                            ?: false else isValid
+                }
                 TypeElement.PHONE -> {
                     registerPhoneNumberInputField?.validate()
                     isValid =
@@ -244,23 +251,33 @@ class FTAuth {
         // Custom UI fields
         @SuppressLint("StaticFieldLeak")
         var authEmailInputField: FTAuthEmailInputField? = null
+
         @SuppressLint("StaticFieldLeak")
         var authPasswordInputField: FTAuthPasswordInputField? = null
 
         @SuppressLint("StaticFieldLeak")
         var registerEmailInputField: FTRegistrationEmailInputField? = null
+
         @SuppressLint("StaticFieldLeak")
         var registerPasswordInputField: FTRegistrationPasswordInputField? = null
+
         @SuppressLint("StaticFieldLeak")
         var registerConfirmPasswordInputField: FTRegistrationConfirmPasswordInputField? = null
+
         @SuppressLint("StaticFieldLeak")
         var registerFirstNameInputField: FTRegistrationFirstNameInputField? = null
+
         @SuppressLint("StaticFieldLeak")
         var registerLastNameInputField: FTRegistrationLastNameInputField? = null
+
         @SuppressLint("StaticFieldLeak")
         var registerNameInputField: FTRegistrationNameInputField? = null
+
         @SuppressLint("StaticFieldLeak")
         var registerPhoneNumberInputField: FTRegistrationPhoneNumberInputField? = null
+
+        @SuppressLint("StaticFieldLeak")
+        var registerBirthdateInputField: FTRegistrationBirthdateField? = null
         var checkBoxAcceptanceOfTerms: FTCheckBoxAcceptanceOfTerms? = null
 
         private var instance: FTAuth? = null

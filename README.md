@@ -177,6 +177,89 @@ class App : DaggerApplication() {
 | Для отмены можно просто нажать на кнопку 'Back' или смахнуть этот экран вправо. |
 | После авторизации пользователя в этом дополнительном окне, процесс авторизации на сервере произойдет автоматически. |
 
+## Дополнительные настройки FTAuth
+
+**1. FTAuth имеет следующие публичные элементы:**
+
+| Публичный элемент FTAuth | Описание |
+| ------ | ------ |
+| **Переменные** |
+| **requiredElements
+= [TypeElement]** | Список обязательный элементов для регистрации. Запрос на регистрацию не будет отправлен, если указанные в списке поля не будут заполнены валидными данными |
+| **additionalRegistrationPayload: HashMap<String, Any>
+?** | Список дополнительных данных, которые необходимо передать на сервер в запросе регистрации |
+| **Функции** |
+| **setServerUrl(serverUrl: String)** | Устанавка URL сервера авторизации |
+| **getSessionToken(): String?** | Возвращает текущий **session-token** |
+| **getProviderToken(): String?** | Возвращает текущий **provider-token** |
+| **setProviderToken(_ providerToken: String)** | Устанавка значения текущего **
+session-token**, если он был получен не через ***FTAuth*** |
+| **setSessionToken(_ sessionToken: String)** | Устанавка значения текущего **
+provider-token**, если он был получен не через ***FTAuth*** |
+| **Коллбэки** |
+| **onLoginSuccess (() -> Unit?)?** | Срабатывает при успешном ответе запроса авторизации |
+| **onLoginFailure: ((Throwable) -> Unit?)
+?** | Срабатывает при ошибке запроса авторизации. Содержит в себе объект типа Throwable |
+| **onRegistrationSuccess (() -> Unit?)?** | Срабатывает при успешном ответе запроса регистрации |
+| **onRegistrationFailure: ((Throwable) -> Unit?)
+?** | Срабатывает при ошибке запроса авторизации. Содержит в себе объект типа Throwable |
+| **onLogOutSuccess (() -> Unit?)?** | Срабатывает при успешном ответе запроса логаута |
+| **onLogOutFailure: ((Throwable) -> Unit?)
+?** | Срабатывает при ошибке запроса логаута. Содержит в себе объект типа Throwable |
+
+**2. Определение списка элементов, являющихся обязательными для процесса регистрации (
+requiredElements):**
+
+| Поле(тип) | Описание |
+| ------ | ------ |
+| ***requiredElements*** | Является массивом элементов типа ***TypeElement*** |
+| ***TypeElement*** | Перечисление всех типов полей для регистрации доступных в ***
+FTAuth***. Может принимать следующие значения: *NAME*, *FIRST_NAME*, *LAST_NAME*, *EMAIL*, *
+PASSWORD*, *CONFIRM_PASSWORD*,*PHONE*, *
+ACCEPT*). Обязательными могут быть все поля или только несколько полей. |
+
+**Пример использования requiredElements в случае, когда все используемые поля являются
+обязательными:**
+
+```kotlin
+    FTAuth.getInstance().requiredElements = listOf(
+  TypeElement.EMAIL,
+  TypeElement.PASSWORD,
+  TypeElement.CONFIRM_PASSWORD,
+  TypeElement.NAME,
+  TypeElement.LAST_NAME,
+  TypeElement.FIRST_NAME,
+  TypeElement.PHONE,
+  TypeElement.ACCEPT,
+  TypeElement.BIRTHDATE
+)
+```
+
+**3. Получение и установка токенов (getSessionToken, getProviderToken, setSessionToken, setProviderToken)**
+
+- Функция **getSessionToken(): String** возвращает строку с **session_token**, если он уже получен или пустую строку, если **session_token** не получен.
+
+```kotlin
+val sessionToken = FTAuth.getInstance().getSessionToken()
+```
+
+- Функция **getProviderToken(): String** возвращает строку с **provider_token**, если он уже получен или пустую строку, если **provider_token** не получен.
+
+```kotlin
+val providerToken = FTAuth.getInstance().getProviderToken()
+```
+
+- Функция **setSessionToken(sessionToken: String)** позволяет установить **session_token***, если они был получен за пределами ***FTAuth***.
+
+```kotlin
+FTAuth.getInstance().setSessionToken(sessionToken)
+```
+
+- Функция **setProviderToken(providerToken: String)** позволяет установить **provider_token***, если они был получен за пределами ***FTAuth***.
+
+```kotlin
+FTAuth.getInstance().setProviderToken(providerToken)
+```
 
 
 

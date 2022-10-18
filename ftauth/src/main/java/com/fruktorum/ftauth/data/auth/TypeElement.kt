@@ -9,5 +9,6 @@ enum class TypeElement {
     PASSWORD,
     CONFIRM_PASSWORD,
     ACCEPT,
+    BIRTHDATE,
     EMAIL
 }
