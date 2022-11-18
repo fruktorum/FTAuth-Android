@@ -28,6 +28,7 @@ class FTRegistrationBirthdateField @JvmOverloads constructor(
     ConstraintLayout(context, attrs, defStyleAttr), FTAuthUI {
 
     var isBirthdateValid = false
+
     val value: String
         get() {
             return inputField.text.toString()
@@ -60,7 +61,7 @@ class FTRegistrationBirthdateField @JvmOverloads constructor(
     }
 
     override fun validate() {
-        validateBirthdate(inputField, inputField.text.toString())
+        isBirthdateValid = validateBirthdate(inputField, inputField.text.toString())
     }
 
     override fun setErrorMessage(message: String) {
