@@ -14,6 +14,7 @@ import com.airbnb.paris.extensions.style
 import com.fruktorum.ftauth.FTAuth
 import com.fruktorum.ftauth.R
 import com.fruktorum.ftauth.customUI.common.FTAuthUI
+import com.fruktorum.ftauth.util.extensions.FORMAT_MM_DD_YYYY
 import com.fruktorum.ftauth.util.extensions.FORMAT_YYYY_MM_DD_T_HH_MM_SS
 import com.fruktorum.ftauth.util.extensions.setInputError
 import com.fruktorum.ftauth.util.extensions.setInputSuccess
@@ -32,6 +33,12 @@ class FTRegistrationBirthdateField @JvmOverloads constructor(
     val value: String
         get() {
             return inputField.text.toString()
+        }
+
+    val formattedValue: String
+        get() {
+            val dateFormat = SimpleDateFormat(FORMAT_YYYY_MM_DD_T_HH_MM_SS, Locale.US)
+            return dateFormat.format(calendar.time)
         }
 
     /** Must be public. It allows to apply the user style for input field */
@@ -122,7 +129,7 @@ class FTRegistrationBirthdateField @JvmOverloads constructor(
     }
 
     private fun updateLabel() {
-        val dateFormat = SimpleDateFormat(FORMAT_YYYY_MM_DD_T_HH_MM_SS, Locale.US)
+        val dateFormat = SimpleDateFormat(FORMAT_MM_DD_YYYY, Locale.US)
         inputField.setText(dateFormat.format(calendar.time))
     }
 
