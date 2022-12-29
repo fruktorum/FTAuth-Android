@@ -83,6 +83,7 @@ class FTAuth {
             payload["first_name"] = registerFirstNameInputField?.value
             payload["last_name"] = registerLastNameInputField?.value
             payload["username"] = registerNameInputField?.value
+            payload["birthdate"] = registerBirthdateInputField?.formattedValue
             if (additionalRegistrationPayload != null) {
                 additionalRegistrationPayload!!.forEach {
                     payload[it.key] = it.value
